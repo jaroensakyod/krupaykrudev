@@ -10,6 +10,8 @@ export function ProductGridCard({
   rating,
   reviewCount,
   price,
+  badge,
+  downloads,
 }: {
   id: string;
   title: string;
@@ -18,6 +20,8 @@ export function ProductGridCard({
   rating: number | null;
   reviewCount: number;
   price: number;
+  badge?: string;
+  downloads?: number;
 }) {
   return (
     <Link
@@ -25,6 +29,11 @@ export function ProductGridCard({
       className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group cursor-pointer flex flex-col h-full"
     >
       <div className="aspect-[4/3] relative overflow-hidden bg-gray-100">
+        {badge && (
+          <span className="absolute top-2 left-2 z-10 bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">
+            {badge}
+          </span>
+        )}
         {coverUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -56,6 +65,8 @@ export function ProductGridCard({
                 <span className="text-xs font-medium ml-1 text-text-main">{rating.toFixed(1)}</span>
                 <span className="text-[10px] text-text-muted ml-1">({reviewCount})</span>
               </div>
+            ) : downloads != null && downloads > 0 ? (
+              <span className="text-[10px] text-text-muted">ดาวน์โหลด {downloads.toLocaleString()} ครั้ง</span>
             ) : (
               <span className="text-[10px] text-text-muted">ร้านใหม่</span>
             )}
