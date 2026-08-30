@@ -1,26 +1,32 @@
 @import "tailwindcss";
 
 /*
- * krupay design tokens (base) — final visual system comes from Stitch designs.
- * Brand: education marketplace for Thai teachers. Indigo = trust/commerce,
- * amber = creator/energy accent.
+ * krupay (ครูเปย์ครู) design tokens — ตรงกับ DESIGN.md จาก Stitch
+ * Primary Deep Teal #0F766E · Accent Marigold #F59E0B
+ * Headings: Kanit · Body: Sarabun
  */
 @theme {
-  --font-sans: var(--font-noto-thai), "Noto Sans Thai", ui-sans-serif, system-ui,
-    sans-serif;
+  --font-sans: var(--font-sarabun), "Sarabun", "Noto Sans Thai", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-headline: var(--font-kanit), "Kanit", var(--font-sarabun), sans-serif;
 
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dbe6fe;
-  --color-brand-200: #bfd3fe;
-  --color-brand-300: #93b4fd;
-  --color-brand-400: #608cfa;
-  --color-brand-500: #3b66f6;
-  --color-brand-600: #2547eb;
-  --color-brand-700: #1d35d8;
-  --color-brand-800: #1e2eaf;
-  --color-brand-900: #1e2c8a;
+  --color-primary: #0f766e;
+  --color-primary-light: #14b8a6;
+  --color-primary-dark: #0f5132;
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-700: #115e59;
+  --color-primary-sidebar: #0b4f4a;
 
-  --color-accent-400: #fbbf24;
-  --color-accent-500: #f59e0b;
-  --color-accent-600: #d97706;
+  --color-accent: #f59e0b;
+  --color-accent-light: #fbbf24;
+
+  --color-background: #fafaf8;
+  --color-text-main: #1f2937;
+  --color-text-muted: #6b7280;
+
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+  --color-badge-gold: #d97706;
+  --color-badge-blue: #2563eb;
 }
