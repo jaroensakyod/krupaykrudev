@@ -6,6 +6,8 @@ import { z } from "zod";
 import { signIn, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
+import { headers } from "next/headers";
+import { rateLimit, ipKey } from "@/lib/rate-limit";
 
 export type AuthFormState = { error?: string };
 
@@ -20,6 +22,12 @@ export async function registerAction(
   _prev: AuthFormState,
   formData: FormData,
 ): Promise<AuthFormState> {
+  const h = await headers();
+  const rl = rateLimit(ipKey({ headers: h }, "register"), 5, 300); // 5 ครั้ง / 5 นาที / IP
+  if (!rl.allowed) {
+    return { error: `พยายามบ่อยเกินไป ลองใหม่ใน ${rl.retryAfterSec} วินาที` };
+  }
+
   const parsed = registerSchema.safeParse({
     displayName: formData.get("displayName"),
     email: formData.get("email"),
@@ -62,6 +70,11 @@ export async function loginAction(
   _prev: AuthFormState,
   formData: FormData,
 ): Promise<AuthFormState> {
+  const h = await headers();
+  const rl = rateLimit(ipKey({ headers: h }, "login"), 10, 300); // 10 ครั้ง / 5 นาที / IP
+  if (!rl.allowed) {
+    return { error: `พยายามบ่อยเกินไป ลองใหม่ใน ${rl.retryAfterSec} วินาที` };
+  }
   const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
 

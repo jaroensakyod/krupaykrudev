@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { storage } from "@/lib/storage";
 import { runAiTask, AiGatewayError } from "@/lib/ai/gateway";
 import { AI_TASKS } from "@/lib/ai/tasks";
+import { rateLimit } from "@/lib/rate-limit";
 
 const schema = z.object({
   productId: z.string().uuid(),
@@ -17,6 +18,10 @@ export async function POST(request: Request) {
   if (!session?.user) return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   const creator = await getCreatorByUserId(session.user.id);
   if (!creator) return NextResponse.json({ error: "FORBIDDEN" }, { status: 403 });
+  const rl = rateLimit(`ai:${session.user.id}`, 10, 300); // 10 calls / 5 นาที / คน
+  if (!rl.allowed) {
+    return NextResponse.json({ error: "RATE_LIMITED" }, { status: 429, headers: { "Retry-After": String(rl.retryAfterSec) } });
+  }
 
   const body = await request.json().catch(() => null);
   const parsed = schema.safeParse(body);
