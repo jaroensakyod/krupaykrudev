@@ -27,7 +27,7 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href="/register"
+                href="/login"
                 className="bg-primary text-white px-8 py-3.5 rounded-full font-headline font-semibold text-lg hover:bg-primary-dark transition-colors shadow-md hover:shadow-lg"
               >
                 เริ่มเลย ฟรี

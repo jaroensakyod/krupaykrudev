@@ -25,6 +25,13 @@ enum UserStatus {
   DELETED
 }
 
+enum CreatorVerificationStatus {
+  UNVERIFIED
+  BASIC
+  VERIFIED
+  RESTRICTED
+}
+
 model User {
   id            String     @id @default(uuid()) @db.Uuid
   email         String     @unique
@@ -42,8 +49,35 @@ model User {
   accounts Account[]
   sessions Session[]
 
+  creatorProfile CreatorProfile?
+
   @@index([status])
   @@map("users")
+}
+
+model CreatorProfile {
+  id                 String                    @id @default(uuid()) @db.Uuid
+  userId             String                    @unique @map("user_id") @db.Uuid
+  slug               String                    @unique
+  displayName        String                    @map("display_name")
+  bio                String?
+  profileImageUrl    String?                   @map("profile_image_url")
+  bannerUrl          String?                   @map("banner_url")
+  subjects           String[]                  @default([])
+  gradeLevels        String[]                  @map("grade_levels") @default([])
+  specialties        String[]                  @default([])
+  socialLinks        Json?                     @map("social_links")
+  verificationStatus CreatorVerificationStatus @default(UNVERIFIED) @map("verification_status")
+  trustLevel         Int                       @default(0) @map("trust_level")
+  termsAcceptedAt    DateTime?                 @map("terms_accepted_at")
+  termsVersion       String?                   @map("terms_version")
+  createdAt          DateTime                  @default(now()) @map("created_at")
+  updatedAt          DateTime                  @updatedAt @map("updated_at")
+  deletedAt          DateTime?                 @map("deleted_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("creator_profiles")
 }
 
 model Account {

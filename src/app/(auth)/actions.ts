@@ -13,6 +13,7 @@ const registerSchema = z.object({
   displayName: z.string().min(2).max(60),
   email: z.string().email(),
   password: z.string().min(8).max(128),
+  role: z.enum(["buyer", "seller"]).default("buyer"),
 });
 
 export async function registerAction(
@@ -23,12 +24,13 @@ export async function registerAction(
     displayName: formData.get("displayName"),
     email: formData.get("email"),
     password: formData.get("password"),
+    role: formData.get("role") ?? "buyer",
   });
   if (!parsed.success) {
     return { error: "กรุณากรอกข้อมูลให้ถูกต้อง (รหัสผ่านอย่างน้อย 8 ตัวอักษร)" };
   }
 
-  const { displayName, email, password } = parsed.data;
+  const { displayName, email, password, role } = parsed.data;
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     return { error: "อีเมลนี้ถูกใช้งานแล้ว" };
@@ -47,7 +49,12 @@ export async function registerAction(
     return { error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" };
   }
 
-  await signIn("credentials", { email, password, redirectTo: "/" });
+  // ผู้ขายพาไปตั้งค่าร้านค้าต่อ / ผู้ซื้อเข้าหน้าแรก
+  await signIn("credentials", {
+    email,
+    password,
+    redirectTo: role === "seller" ? "/sell/start" : "/",
+  });
   return {};
 }
 
