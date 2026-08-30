@@ -5,6 +5,8 @@ import { MaterialIcon } from "@/components/material-icon";
 import { getPublishedProduct, getRelatedProducts, coverUrlOf } from "@/lib/catalog";
 import { ProductGridCard } from "@/components/product-grid-card";
 import { addToCartAction } from "@/app/cart/actions";
+import { getProductReviews, getProductRating, toggleWishlist } from "@/lib/reviews";
+import { toggleWishlistAction } from "@/app/account/actions";
 import { trackEvent } from "@/lib/analytics";
 import { getSession } from "@/lib/session";
 
@@ -35,6 +37,10 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const viewSession = await getSession();
   void trackEvent({ eventType: "PRODUCT_VIEW", userId: viewSession?.user?.id, productId: product.id, creatorId: product.creatorId });
   const related = await getRelatedProducts(product.id, product.subjectId, product.primaryGradeId);
+  const [rating, reviews] = await Promise.all([
+    getProductRating(product.id),
+    getProductReviews(product.id),
+  ]);
   const cover = coverUrlOf(product);
   const mainFile = product.files.find((f) => f.fileRole === "ORIGINAL");
 
@@ -106,7 +112,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 ผู้ขายยังไม่แนบไฟล์
               </p>
             )}
-            <form action={addToCartAction}>
+            <div className="flex gap-3">
+            <form action={addToCartAction} className="flex-1">
               <input name="productId" type="hidden" value={product.id} />
               <button
                 className="w-full bg-primary hover:bg-primary-dark text-white font-headline font-semibold text-lg py-3.5 rounded-xl transition-colors shadow-md disabled:opacity-50"
@@ -115,6 +122,18 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                 {product.price.toNumber() === 0 ? "รับฟรี" : "ใส่ตะกร้า"}
               </button>
             </form>
+            <form action={toggleWishlistAction}>
+              <input name="productId" type="hidden" value={product.id} />
+              <input name="slug" type="hidden" value={product.slug} />
+              <button
+                aria-label="บันทึกในรายการโปรด"
+                className="border border-gray-200 hover:border-accent hover:text-accent text-gray-400 px-4 rounded-xl transition-colors h-full"
+                type="submit"
+              >
+                <MaterialIcon name="favorite" />
+              </button>
+            </form>
+            </div>
             <p className="mt-3 text-xs text-text-muted text-center">
               ดาวน์โหลดทันทีหลังชำระเงิน · โหลดซ้ำได้ตลอดจากคลังสื่อ
             </p>
@@ -147,6 +166,44 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </div>
+
+      {/* Reviews (TASK-091) */}
+      <section className="mt-12 max-w-3xl">
+        <h2 className="font-headline text-xl font-bold mb-4 flex items-center gap-3">
+          รีวิวจากผู้ซื้อจริง
+          {rating.count > 0 && (
+            <span className="flex items-center gap-1 text-accent text-lg">
+              <MaterialIcon name="star" filled />
+              <span className="font-headline font-bold text-text-main">{rating.avg}</span>
+              <span className="text-sm text-text-muted font-normal">({rating.count} รีวิว)</span>
+            </span>
+          )}
+        </h2>
+        {reviews.length === 0 ? (
+          <p className="text-sm text-text-muted bg-white rounded-xl border border-gray-100 p-6 text-center">
+            ยังไม่มีรีวิว — เป็นคนแรกที่ช่วยบอกต่อได้
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {reviews.map((r) => (
+              <div key={r.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="flex text-accent">
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <MaterialIcon key={i} name="star" className={i < r.rating ? "text-sm" : "text-sm text-gray-200"} filled={i < r.rating} />
+                    ))}
+                  </div>
+                  <span className="text-sm font-medium">{r.buyer.displayName}</span>
+                  <span className="text-xs text-text-muted">{r.createdAt.toLocaleDateString("th-TH")}</span>
+                  <span className="ml-auto text-[10px] text-success bg-green-50 border border-green-200 px-1.5 rounded">ซื้อจริง ✓</span>
+                </div>
+                {r.title && <p className="font-headline font-medium text-sm mb-1">{r.title}</p>}
+                {r.body && <p className="text-sm text-gray-700">{r.body}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* Related (TASK-067 rule-based) */}
       {related.length > 0 && (

@@ -185,6 +185,35 @@ export async function fulfillPaidPayment(providerPaymentId: string) {
     return created;
   });
 
+  // TASK-094: แจ้งเตือน — new sale ให้ creator + payment success ให้ buyer
+  const notifiedCreators = new Set<string>();
+  for (const item of payment.order.items) {
+    if (!notifiedCreators.has(item.creatorId)) {
+      notifiedCreators.add(item.creatorId);
+      const creatorProfile = await prisma.creatorProfile.findUnique({ where: { id: item.creatorId }, select: { userId: true } });
+      if (creatorProfile) {
+        const { notify } = await import("@/lib/notifications");
+        await notify({
+          userId: creatorProfile.userId,
+          type: "NEW_SALE",
+          title: "คุณมีการขายใหม่! 🎉",
+          body: item.title,
+          linkUrl: "/dashboard/earnings",
+        });
+      }
+    }
+  }
+  {
+    const { notify } = await import("@/lib/notifications");
+    await notify({
+      userId: payment.order.buyerId,
+      type: "PAYMENT_SUCCESS",
+      title: "ชำระเงินสำเร็จ",
+      body: "สื่อของคุณพร้อมดาวน์โหลดแล้ว",
+      linkUrl: "/account/downloads",
+    });
+  }
+
   // TASK-107: purchase attribution — ต่อ creator/product เพื่อ funnel analytics
   const { trackEvent } = await import("@/lib/analytics");
   for (const item of payment.order.items) {

@@ -128,6 +128,26 @@ export async function moderateProduct(
     return updatedProduct;
   });
 
+  // TASK-094: แจ้งผู้ขายผลตรวจ (PRD §71)
+  const creator = await prisma.creatorProfile.findUnique({ where: { id: updated.creatorId }, select: { userId: true } });
+  if (creator) {
+    const { notify } = await import("@/lib/notifications");
+    const labels: Record<ModerationDecision, { type: "PRODUCT_APPROVED" | "PRODUCT_REJECTED" | "PRODUCT_NEEDS_CHANGES"; title: string }> = {
+      APPROVE: { type: "PRODUCT_APPROVED", title: "สื่อของคุณผ่านการตรวจแล้ว 🎉" },
+      REJECT: { type: "PRODUCT_REJECTED", title: "สื่อของคุณไม่ผ่านการตรวจ" },
+      NEEDS_CHANGES: { type: "PRODUCT_NEEDS_CHANGES", title: "สื่อของคุณต้องแก้ไข" },
+      SUSPEND: { type: "PRODUCT_REJECTED", title: "สื่อของคุณถูกระงับ" },
+    };
+    const label = labels[decision];
+    await notify({
+      userId: creator.userId,
+      type: label.type,
+      title: label.title,
+      body: `${updated.title}${note ? ` — ${note}` : ""}`,
+      linkUrl: `/dashboard/products/${productId}`,
+    });
+  }
+
   logger.info("moderation_decision", { adminId, productId, decision });
   return updated;
 }

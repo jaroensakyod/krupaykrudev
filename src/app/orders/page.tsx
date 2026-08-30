@@ -3,18 +3,30 @@ import { redirect } from "next/navigation";
 import { MaterialIcon } from "@/components/material-icon";
 import { getSession } from "@/lib/session";
 import { listOrders } from "@/lib/commerce";
+import { getBuyerReviewableItems } from "@/lib/reviews";
+import { prisma } from "@/lib/prisma";
+import { createReviewAction } from "@/app/account/actions";
 
 export const metadata = { title: "คำสั่งซื้อของฉัน" };
 
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ paid?: string; error?: string }>;
+  searchParams: Promise<{ paid?: string; error?: string; reviewed?: string }>;
 }) {
-  const { paid, error } = await searchParams;
+  const { paid, error, reviewed } = await searchParams;
   const session = await getSession();
   if (!session?.user) redirect("/login");
   const orders = await listOrders(session.user.id);
+  const reviewable = await getBuyerReviewableItems(session.user.id);
+  const reviewedItemIds = new Set(
+    (
+      await prisma.review.findMany({
+        where: { buyerId: session.user.id },
+        select: { orderItemId: true },
+      })
+    ).map((r) => r.orderItemId),
+  );
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-12">
@@ -33,8 +45,57 @@ export default async function OrdersPage({
           </Link>
         </div>
       )}
-      {error && (
-        <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">ลายเซ็นยืนยันไม่ถูกต้อง</p>
+      {reviewed && (
+        <p className="mb-4 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">ขอบคุณสำหรับรีวิว!</p>
+      )}
+      {error === "already_reviewed" && (
+        <p className="mb-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700">คุณรีวิวรายการนี้ไปแล้ว</p>
+      )}
+      {error === "review_failed" && (
+        <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">ส่งรีวิวไม่สำเร็จ</p>
+      )}
+
+      {/* TASK-091: review prompts — verified purchase only */}
+      {reviewable.filter((i) => !reviewedItemIds.has(i.id)).length > 0 && (
+        <div className="mb-8 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+          <h2 className="font-headline font-bold mb-4">ให้คะแนนสื่อที่คุณซื้อ</h2>
+          <div className="space-y-4">
+            {reviewable
+              .filter((i) => !reviewedItemIds.has(i.id))
+              .map((item) => (
+                <form key={item.id} action={createReviewAction} className="border border-gray-100 rounded-lg p-4 space-y-3">
+                  <input name="orderItemId" type="hidden" value={item.id} />
+                  <p className="text-sm font-medium">{item.title}</p>
+                  <div className="flex gap-3">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <label key={star} className="cursor-pointer flex flex-col items-center text-xs text-text-muted">
+                        <input className="peer sr-only" type="radio" name="rating" value={star} required />
+                        <MaterialIcon name="star" className="text-2xl text-gray-300 peer-checked:text-accent" filled />
+                        {star}
+                      </label>
+                    ))}
+                  </div>
+                  <input
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    name="title"
+                    placeholder="หัวข้อรีวิว (ไม่บังคับ)"
+                    maxLength={100}
+                    type="text"
+                  />
+                  <textarea
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    name="body"
+                    placeholder="เล่าประสบการณ์ใช้งาน (ไม่บังคับ)"
+                    rows={2}
+                    maxLength={500}
+                  />
+                  <button className="bg-accent text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-accent/90" type="submit">
+                    ส่งรีวิว
+                  </button>
+                </form>
+              ))}
+          </div>
+        </div>
       )}
 
       {orders.length === 0 ? (

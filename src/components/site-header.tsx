@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { MaterialIcon } from "./material-icon";
+import { MaterialIcon } from "@/components/material-icon";
+import { auth } from "@/auth";
+import { getUnreadCount } from "@/lib/notifications";
 
 const NAV_LINKS = [
   { href: "/", label: "หน้าแรก", active: true },
@@ -7,7 +9,10 @@ const NAV_LINKS = [
   { href: "/categories", label: "หมวดหมู่" },
 ];
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const session = await auth();
+  const unread = session?.user ? await getUnreadCount(session.user.id) : 0;
+
   return (
     <nav className="bg-white sticky top-0 z-50 border-b border-gray-200/60 shadow-sm">
       <div className="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
@@ -49,28 +54,52 @@ export function SiteHeader() {
 
           {/* Icon Actions */}
           <div className="hidden sm:flex items-center gap-4 text-text-muted">
-            <Link href="/wishlist" aria-label="รายการโปรด" className="hover:text-primary transition-colors">
+            <Link href="/account/wishlist" aria-label="รายการโปรด" className="hover:text-primary transition-colors">
               <MaterialIcon name="favorite" />
             </Link>
             <Link href="/cart" aria-label="ตะกร้า" className="hover:text-primary transition-colors">
               <MaterialIcon name="shopping_cart" />
             </Link>
+            {session?.user && (
+              <Link href="/account/notifications" aria-label="การแจ้งเตือน" className="hover:text-primary transition-colors relative">
+                <MaterialIcon name="notifications" />
+                {unread > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-accent text-white text-[9px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
+                    {unread > 9 ? "9+" : unread}
+                  </span>
+                )}
+              </Link>
+            )}
           </div>
 
           {/* Profile & Auth Actions */}
           <div className="flex items-center gap-4 border-l border-gray-200 pl-4">
-            <Link
-              href="/login"
-              className="text-text-muted hover:text-primary transition-colors text-sm font-medium whitespace-nowrap"
-            >
-              เข้าสู่ระบบ
-            </Link>
-            <Link
-              href="/sell"
-              className="bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-dark transition-colors shadow-sm whitespace-nowrap"
-            >
-              เริ่มขายสื่อ
-            </Link>
+            {session?.user ? (
+              <>
+                <Link
+                  href="/account"
+                  aria-label="บัญชีของฉัน"
+                  className="w-9 h-9 rounded-full bg-primary-50 text-primary font-headline font-bold flex items-center justify-center text-sm"
+                >
+                  {(session.user.name ?? "?").charAt(0)}
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-text-muted hover:text-primary transition-colors text-sm font-medium whitespace-nowrap"
+                >
+                  เข้าสู่ระบบ
+                </Link>
+                <Link
+                  href="/sell"
+                  className="bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-dark transition-colors shadow-sm whitespace-nowrap"
+                >
+                  เริ่มขายสื่อ
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

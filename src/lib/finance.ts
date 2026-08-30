@@ -142,6 +142,14 @@ export async function completePayout(adminId: string, payoutId: string, referenc
   await writeAudit(adminId, "finance.payout_paid", "payout", payoutId, {
     metadata: { amount: payout.amount.toNumber(), reference },
   });
+  const { notify } = await import("@/lib/notifications");
+  await notify({
+    userId: payout.creatorUserId,
+    type: "PAYOUT_UPDATE",
+    title: "เงินถอนเข้าแล้ว 💰",
+    body: `ยอด ฿${payout.amount.toNumber().toLocaleString()} ถูกโอนแล้ว${reference ? ` (อ้างอิง ${reference})` : ""}`,
+    linkUrl: "/dashboard/earnings",
+  });
   return updated;
 }
 
