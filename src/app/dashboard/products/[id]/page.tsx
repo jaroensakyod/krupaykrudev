@@ -4,8 +4,10 @@ import { MaterialIcon } from "@/components/material-icon";
 import { requirePermission } from "@/lib/session";
 import { getCreatorByUserId } from "@/lib/creators";
 import { getOwnProduct, ProductError } from "@/lib/products";
+import { listProductFiles } from "@/lib/files";
 import { prisma } from "@/lib/prisma";
 import { EditorFields } from "./editor-fields";
+import { FilesSection } from "./files-section";
 import { submitForReviewAction } from "../actions";
 
 export const metadata = { title: "แก้ไขสื่อการสอน" };
@@ -43,6 +45,7 @@ export default async function EditProductPage({
   ]);
 
   const editable = ["DRAFT", "NEEDS_CHANGES", "REJECTED"].includes(product.status);
+  const productFiles = await listProductFiles(product.id);
 
   return (
     <div className="max-w-3xl">
@@ -54,24 +57,37 @@ export default async function EditProductPage({
         <span className="truncate">{product.title}</span>
       </div>
 
-      {/* Wizard steps (ตาม design เพิ่มผลงานใหม่) — ไฟล์/ปก/ตัวอย่างจะเปิดใน Phase 3 */}
+      {/* Wizard steps (ตาม design เพิ่มผลงานใหม่) — ตัวอย่างไฟล์จากไฟล์รูปอัตโนมัติ */}
       <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-sm">
-        <span className="text-gray-300 flex items-center gap-1">
-          <MaterialIcon name="cloud_upload" className="text-base" /> ไฟล์สื่อ (เร็ว ๆ นี้)
-        </span>
-        <span className="text-gray-300 flex items-center gap-1">
-          <MaterialIcon name="image" className="text-base" /> ปกสินค้า (เร็ว ๆ นี้)
-        </span>
-        <span className="text-gray-300 flex items-center gap-1">
-          <MaterialIcon name="visibility" className="text-base" /> ตัวอย่างไฟล์ (เร็ว ๆ นี้)
-        </span>
         <span className="text-primary font-bold flex items-center gap-1 border-b-2 border-primary">
-          <MaterialIcon name="description" className="text-base" filled /> รายละเอียด
+          <MaterialIcon name="cloud_upload" className="text-base" filled /> ไฟล์สื่อ
+        </span>
+        <span className="text-primary flex items-center gap-1">
+          <MaterialIcon name="image" className="text-base" /> ปกสินค้า
+        </span>
+        <span className="text-gray-300 flex items-center gap-1">
+          <MaterialIcon name="visibility" className="text-base" /> ตัวอย่างไฟล์ (อัตโนมัติจากรูป)
+        </span>
+        <span className="text-primary flex items-center gap-1">
+          <MaterialIcon name="description" className="text-base" /> รายละเอียด
         </span>
         <span className="text-primary flex items-center gap-1">
           <MaterialIcon name="payments" className="text-base" /> ราคาและเผยแพร่
         </span>
       </div>
+
+      <FilesSection
+        productId={product.id}
+        initialFiles={productFiles.map((f) => ({
+          id: f.id,
+          originalFilename: f.originalFilename,
+          mimeType: f.mimeType,
+          fileSize: f.fileSize,
+          fileRole: f.fileRole,
+          hasPreview: Boolean(f.preview),
+        }))}
+        disabled={!editable}
+      />
 
       {error && (
         <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{SUBMIT_ERRORS[error] ?? "เกิดข้อผิดพลาด"}</p>

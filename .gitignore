@@ -45,3 +45,4 @@ next-env.d.ts
 
 # Stitch design export zips
 *.zip
+.storage/

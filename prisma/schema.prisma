@@ -166,6 +166,7 @@ model Product {
   versions    ProductVersion[]
   tags        ProductTag[]
   copyrightDeclarations CopyrightDeclaration[]
+  files       ProductFile[]
 
   @@index([creatorId, status])
   @@index([status])
@@ -242,6 +243,75 @@ enum StrikeSeverity {
   LOW
   MEDIUM
   HIGH
+}
+
+// ── Files (Phase 3) ─────────────────────────────────────────────
+
+enum FileRole {
+  ORIGINAL
+  BONUS
+  ANSWER
+  SUPPORTING
+  COVER
+}
+
+enum ScanStatus {
+  PENDING
+  CLEAN
+  FAILED
+}
+
+// TASK-034: original files ห้าม public — เข้าถึงผ่าน signed URL เท่านั้น (PRD §13-14)
+model ProductFile {
+  id               String     @id @default(uuid()) @db.Uuid
+  productId        String     @map("product_id") @db.Uuid
+  storageKey       String     @map("storage_key")
+  originalFilename String     @map("original_filename")
+  mimeType         String     @map("mime_type")
+  fileSize         Int        @map("file_size")
+  sha256Hash       String     @map("sha256_hash")
+  fileRole         FileRole   @default(ORIGINAL) @map("file_role")
+  scanStatus       ScanStatus @default(PENDING) @map("scan_status")
+  createdAt        DateTime   @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  preview ProductPreview?
+
+  @@index([sha256Hash])
+  @@index([productId])
+  @@map("product_files")
+}
+
+// TASK-035: preview แยกจาก original — อยู่ public-safe path (PRD §16)
+model ProductPreview {
+  id               String   @id @default(uuid()) @db.Uuid
+  fileId           String   @unique @map("file_id") @db.Uuid
+  productId        String   @map("product_id") @db.Uuid
+  storageKey       String   @map("storage_key")
+  mimeType         String   @map("mime_type")
+  width            Int?
+  height           Int?
+  watermarkApplied Boolean  @default(false) @map("watermark_applied")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  file ProductFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_previews")
+}
+
+// TASK-038: log ทุกการดาวน์โหลด (PRD §42)
+model DownloadEvent {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String?  @map("user_id") @db.Uuid
+  fileId    String   @map("file_id") @db.Uuid
+  productId String   @map("product_id") @db.Uuid
+  orderId   String?  @map("order_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([productId])
+  @@index([userId])
+  @@map("download_events")
 }
 
 // TASK-050: ก่อน Submit Creator ต้องยืนยันสิทธิ์ (PRD §46)
