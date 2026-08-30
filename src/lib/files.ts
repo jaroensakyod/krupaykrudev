@@ -178,14 +178,18 @@ export async function authorizeDownload(fileId: string, userId: string | null) {
   });
   if (!file) throw new FileError("NOT_FOUND");
 
-  // Phase 7 จะเพิ่ม entitlement check — ตอนนี้: เจ้าของสินค้า + admin
+  // TASK-078: entitlement คือสิทธิ์หลักของผู้ซื้อ + เจ้าของสินค้า + admin (PRD §41)
   if (userId) {
-    const isOwner = await prisma.creatorProfile.findFirst({
-      where: { userId, id: file.product.creatorId, deletedAt: null },
-    }).then((r) => Boolean(r));
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const [entitled, creatorProfile, user] = await Promise.all([
+      prisma.entitlement.findFirst({ where: { buyerId: userId, productId: file.productId, revokedAt: null } }),
+      prisma.creatorProfile.findFirst({
+        where: { userId, id: file.product.creatorId, deletedAt: null },
+      }),
+      prisma.user.findUnique({ where: { id: userId }, select: { role: true } }),
+    ]);
+    const isOwner = Boolean(creatorProfile);
     const isAdmin = user?.role === "ADMIN";
-    if (!isOwner && !isAdmin) throw new FileError("FORBIDDEN");
+    if (!entitled && !isOwner && !isAdmin) throw new FileError("FORBIDDEN");
   } else {
     throw new FileError("FORBIDDEN");
   }

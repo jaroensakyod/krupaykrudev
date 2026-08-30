@@ -121,6 +121,12 @@ async function main() {
     });
   }
 
+  // Commission rule — default 15% (แก้ได้ผ่าน Admin ภายหลัง PRD §37)
+  const feeCount = await prisma.platformFeeRule.count({ where: { isActive: true } });
+  if (feeCount === 0) {
+    await prisma.platformFeeRule.create({ data: { name: "default", ratePct: 15 } });
+  }
+
   console.log("Seed complete:", {
     productTypes: PRODUCT_TYPES.length,
     subjects: SUBJECTS.length,

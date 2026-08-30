@@ -167,6 +167,8 @@ model Product {
   tags        ProductTag[]
   copyrightDeclarations CopyrightDeclaration[]
   files       ProductFile[]
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
 
   @@index([creatorId, status])
   @@index([status])
@@ -314,7 +316,139 @@ model DownloadEvent {
   @@map("download_events")
 }
 
-// ── AI (Phase 4) — ทุก call ผ่าน AI Gateway เท่านั้น (PRD §22) ──
+// ── Commerce (Phase 7) ──────────────────────────────────────────
+// (AI section ต่อด้านล่าง — ทุก AI call ผ่าน AI Gateway เท่านั้น PRD §22)
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum LicenseType {
+  PERSONAL
+}
+
+// TASK-070: cart ต่อผู้ใช้ (guest ซื้อไม่ได้ตาม PRD §5)
+model Cart {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String     @unique @map("user_id") @db.Uuid
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  items CartItem[]
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        String   @id @default(uuid()) @db.Uuid
+  cartId    String   @map("cart_id") @db.Uuid
+  productId String   @unique @map("product_id") @db.Uuid
+  addedAt   DateTime @default(now()) @map("added_at")
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@map("cart_items")
+}
+
+// TASK-072/073: order + snapshot — ห้าม mutate historical monetary snapshot (PRD §65)
+model Order {
+  id          String      @id @default(uuid()) @db.Uuid
+  buyerId     String      @map("buyer_id") @db.Uuid
+  status      OrderStatus @default(PENDING_PAYMENT)
+  subtotal    Decimal     @db.Decimal(10, 2)
+  discountTotal Decimal   @default(0) @map("discount_total") @db.Decimal(10, 2)
+  total       Decimal     @db.Decimal(10, 2)
+  currency    String      @default("THB")
+  paymentStatus String    @default("PENDING") @map("payment_status")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  paidAt      DateTime?   @map("paid_at")
+
+  items    OrderItem[]
+  payments Payment[]
+  buyer    User        @relation(fields: [buyerId], references: [id])
+
+  @@index([buyerId, status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id              String      @id @default(uuid()) @db.Uuid
+  orderId         String      @map("order_id") @db.Uuid
+  productId       String      @map("product_id") @db.Uuid
+  creatorId       String      @map("creator_id") @db.Uuid
+  title           String
+  unitPrice       Decimal     @map("unit_price") @db.Decimal(10, 2)
+  platformFee     Decimal     @map("platform_fee") @db.Decimal(10, 2)
+  creatorAmount   Decimal     @map("creator_amount") @db.Decimal(10, 2)
+  productVersionId String     @map("product_version_id") @db.Uuid
+  licenseType     LicenseType @default(PERSONAL) @map("license_type")
+
+  order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product        @relation(fields: [productId], references: [id])
+  creator     CreatorProfile @relation(fields: [creatorId], references: [id])
+  entitlement Entitlement?
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// TASK-074/076/077: payment — backend verify เท่านั้น ห้ามเชื่อ client redirect
+model Payment {
+  id                String        @id @default(uuid()) @db.Uuid
+  orderId           String        @map("order_id") @db.Uuid
+  provider          String        @default("mock")
+  providerPaymentId String        @unique @map("provider_payment_id")
+  amount            Decimal       @db.Decimal(10, 2)
+  currency          String        @default("THB")
+  status            PaymentStatus @default(PENDING)
+  paidAt            DateTime?     @map("paid_at")
+  rawReference      String?       @map("raw_reference")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@index([orderId])
+  @@map("payments")
+}
+
+// TASK-078: entitlement คือ source of truth ของสิทธิ์ดาวน์โหลด (PRD §41)
+model Entitlement {
+  id         String      @id @default(uuid()) @db.Uuid
+  buyerId    String      @map("buyer_id") @db.Uuid
+  orderItemId String     @unique @map("order_item_id") @db.Uuid
+  productId  String      @map("product_id") @db.Uuid
+  licenseType LicenseType @default(PERSONAL) @map("license_type")
+  grantedAt  DateTime    @default(now()) @map("granted_at")
+  revokedAt  DateTime?   @map("revoked_at")
+
+  orderItem OrderItem @relation(fields: [orderItemId], references: [id])
+  buyer     User      @relation(fields: [buyerId], references: [id])
+
+  @@unique([buyerId, productId])
+  @@index([buyerId])
+  @@map("entitlements")
+}
+
+// TASK-037 config: commission แก้ได้ ห้าม hard-code (PRD §37)
+model PlatformFeeRule {
+  id       Int     @id @default(autoincrement())
+  name     String
+  ratePct  Decimal @map("rate_pct") @db.Decimal(5, 2)
+  isActive Boolean @default(true) @map("is_active")
+
+  @@map("platform_fee_rules")
+}
 
 enum AiJobStatus {
   QUEUED
@@ -462,6 +596,9 @@ model User {
   sessions Session[]
 
   creatorProfile CreatorProfile?
+  cart           Cart?
+  orders         Order[]
+  entitlements   Entitlement[]
 
   @@index([status])
   @@map("users")
@@ -489,7 +626,8 @@ model CreatorProfile {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  products Product[]
+  products   Product[]
+  orderItems OrderItem[]
 
   @@map("creator_profiles")
 }
