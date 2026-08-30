@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/*
+ * krupay design tokens (base) — final visual system comes from Stitch designs.
+ * Brand: education marketplace for Thai teachers. Indigo = trust/commerce,
+ * amber = creator/energy accent.
+ */
+@theme {
+  --font-sans: var(--font-noto-thai), "Noto Sans Thai", ui-sans-serif, system-ui,
+    sans-serif;
+
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dbe6fe;
+  --color-brand-200: #bfd3fe;
+  --color-brand-300: #93b4fd;
+  --color-brand-400: #608cfa;
+  --color-brand-500: #3b66f6;
+  --color-brand-600: #2547eb;
+  --color-brand-700: #1d35d8;
+  --color-brand-800: #1e2eaf;
+  --color-brand-900: #1e2c8a;
+
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+}
