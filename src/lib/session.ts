@@ -12,7 +12,8 @@ export async function getSession() {
  * Server-side authorization guard for pages/actions.
  * Role is read from the database (source of truth) — the JWT role may be stale
  * after role upgrades (e.g. buyer becomes creator).
- * Throws for authenticated users lacking permission; redirects guests to login.
+ * Guests → /login; authenticated users lacking permission → /account?denied=1
+ * (server actions ที่ต้องการ throw ให้เรียก assertPermission แทน)
  */
 export async function requirePermission(permission: Permission) {
   const session = await getSession();
@@ -28,6 +29,25 @@ export async function requirePermission(permission: Permission) {
     redirect("/login");
   }
 
+  if (!can(user.role, permission)) {
+    redirect("/account?denied=1");
+  }
+  return session;
+}
+
+/** สำหรับ server actions — throw แทน redirect */
+export async function assertPermission(permission: Permission) {
+  const session = await getSession();
+  if (!session?.user) {
+    throw new Error("UNAUTHORIZED");
+  }
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { role: true, status: true, deletedAt: true },
+  });
+  if (!user || user.status !== "ACTIVE" || user.deletedAt) {
+    throw new Error("UNAUTHORIZED");
+  }
   if (!can(user.role, permission)) {
     throw new Error(`Forbidden: ${permission}`);
   }

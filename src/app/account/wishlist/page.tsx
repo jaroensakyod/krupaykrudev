@@ -37,7 +37,7 @@ export default async function WishlistPage() {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   alt={item.product.title}
-                  src={`/api/files/${item.product.files.find((f) => f.preview)!.preview!.id}/preview`}
+                  src={`/api/files/${item.product.files.find((f) => f.preview)!.id}/preview`}
                   className="w-14 h-14 object-cover rounded-lg"
                 />
               ) : (

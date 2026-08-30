@@ -110,7 +110,7 @@ export async function getPublishedProduct(slug: string) {
   });
 }
 
-export function coverUrlOf(product: { files: Array<{ fileRole: string; preview: { id: string } | null }> }): string | null {
+export function coverUrlOf(product: { files: Array<{ id: string; fileRole: string; preview: { id: string } | null }> }): string | null {
   const withPreview = product.files.find((f) => f.preview);
-  return withPreview?.preview ? `/api/files/${withPreview.preview.id}/preview` : null;
+  return withPreview?.preview ? `/api/files/${withPreview.id}/preview` : null;
 }

@@ -7,7 +7,12 @@ import { getCreatorByUserId } from "@/lib/creators";
 export const metadata = { title: "บัญชีของฉัน" };
 
 // TASK-093: account hub
-export default async function AccountPage() {
+export default async function AccountPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ denied?: string }>;
+}) {
+  const { denied } = await searchParams;
   const session = await getSession();
   if (!session?.user) redirect("/login");
   const creator = await getCreatorByUserId(session.user.id);
@@ -22,6 +27,11 @@ export default async function AccountPage() {
   return (
     <div className="max-w-2xl mx-auto px-6 py-12">
       <h1 className="font-headline text-2xl font-bold mb-8">บัญชีของฉัน</h1>
+      {denied && (
+        <p className="mb-6 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800">
+          หน้านั้นต้องการสิทธิ์ที่บัญชีของท่านยังไม่มี — หากสนใจขายสื่อ เปิดร้านได้ด้านล่าง
+        </p>
+      )}
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 mb-6 flex items-center gap-4">
         <div className="w-14 h-14 rounded-full bg-primary-50 flex items-center justify-center font-headline font-bold text-xl text-primary">

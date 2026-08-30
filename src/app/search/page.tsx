@@ -5,6 +5,7 @@ import { searchProducts } from "@/lib/catalog";
 import { normalizeQuery } from "@/lib/search/normalize";
 import { prisma } from "@/lib/prisma";
 import { ProductGridCard } from "@/components/product-grid-card";
+import { SearchFilters } from "./search-filters";
 import { trackSearch, trackEvent } from "@/lib/analytics";
 import { getSession } from "@/lib/session";
 
@@ -79,42 +80,16 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
-        {/* Filters */}
-        <aside className="space-y-6">
-          <form action="/search" className="space-y-5 bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-            <input defaultValue={q} name="q" type="hidden" />
-            <div>
-              <p className="text-sm font-bold mb-2">กลุ่มสาระ</p>
-              <select name="subject" defaultValue={subjectCode ?? ""} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                <option value="">ทั้งหมด</option>
-                {subjects.map((s) => (
-                  <option key={s.code} value={s.code}>{s.nameTh}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <p className="text-sm font-bold mb-2">ระดับชั้น</p>
-              <select name="grade" defaultValue={gradeCode ?? ""} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                <option value="">ทั้งหมด</option>
-                {grades.map((g) => (
-                  <option key={g.code} value={g.code}>{g.nameTh}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <p className="text-sm font-bold mb-2">ประเภทสื่อ</p>
-              <select name="type" defaultValue={typeCode ?? ""} className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                <option value="">ทั้งหมด</option>
-                {types.map((t) => (
-                  <option key={t.code} value={t.code}>{t.nameTh}</option>
-                ))}
-              </select>
-            </div>
-            <button className="w-full bg-primary text-white text-sm font-medium py-2.5 rounded-lg hover:bg-primary-dark" type="submit">
-              ใช้ตัวกรอง
-            </button>
-          </form>
-        </aside>
+        {/* Filters (TASK-065 — collapsible บนมือถือ) */}
+        <SearchFilters
+          q={q}
+          subjects={subjects.map((x) => ({ code: x.code, nameTh: x.nameTh }))}
+          grades={grades.map((x) => ({ code: x.code, nameTh: x.nameTh }))}
+          types={types.map((x) => ({ code: x.code, nameTh: x.nameTh }))}
+          subjectCode={subjectCode}
+          gradeCode={gradeCode}
+          typeCode={typeCode}
+        />
 
         {/* Results */}
         <div>
@@ -165,7 +140,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                     title={p.title}
                     coverUrl={
                       p.files.find((f) => f.preview)?.preview
-                        ? `/api/files/${p.files.find((f) => f.preview)!.preview!.id}/preview`
+                        ? `/api/files/${p.files.find((f) => f.preview)!.id}/preview`
                         : null
                     }
                     storeName={p.creator.displayName}
