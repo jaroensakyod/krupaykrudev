@@ -185,6 +185,18 @@ export async function fulfillPaidPayment(providerPaymentId: string) {
     return created;
   });
 
+  // TASK-107: purchase attribution — ต่อ creator/product เพื่อ funnel analytics
+  const { trackEvent } = await import("@/lib/analytics");
+  for (const item of payment.order.items) {
+    void trackEvent({
+      eventType: "PURCHASE",
+      userId: payment.order.buyerId,
+      productId: item.productId,
+      creatorId: item.creatorId,
+      properties: { orderId: payment.orderId, amount: item.unitPrice.toNumber() },
+    });
+  }
+
   logger.info("payment_fulfilled", { paymentId: payment.id, orderId: payment.orderId, entitlements: granted });
   return { alreadyPaid: false, orderId: payment.orderId, entitlements: granted };
 }

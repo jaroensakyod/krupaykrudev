@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin/moderation", icon: "fact_check", label: "คิวตรวจสอบสื่อ" },
   { href: "/admin/reports", icon: "report", label: "รายงานปัญหา" },
   { href: "/admin/finance", icon: "payments", label: "การเงิน" },
+  { href: "/admin/analytics", icon: "query_stats", label: "สถิติและ Funnel" },
 ];
 
 // TASK-053: Admin dashboard shell — sidebar จาก designs/admin-dashboard (Stitch)

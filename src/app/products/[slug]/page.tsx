@@ -5,6 +5,8 @@ import { MaterialIcon } from "@/components/material-icon";
 import { getPublishedProduct, getRelatedProducts, coverUrlOf } from "@/lib/catalog";
 import { ProductGridCard } from "@/components/product-grid-card";
 import { addToCartAction } from "@/app/cart/actions";
+import { trackEvent } from "@/lib/analytics";
+import { getSession } from "@/lib/session";
 
 // TASK-061: product detail page (PRD §32) — ห้าม expose original storage URL
 export async function generateMetadata({
@@ -29,6 +31,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const product = await getPublishedProduct(slug);
   if (!product) notFound();
 
+  // TASK-104
+  const viewSession = await getSession();
+  void trackEvent({ eventType: "PRODUCT_VIEW", userId: viewSession?.user?.id, productId: product.id, creatorId: product.creatorId });
   const related = await getRelatedProducts(product.id, product.subjectId, product.primaryGradeId);
   const cover = coverUrlOf(product);
   const mainFile = product.files.find((f) => f.fileRole === "ORIGINAL");

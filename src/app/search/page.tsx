@@ -5,6 +5,8 @@ import { searchProducts } from "@/lib/catalog";
 import { normalizeQuery } from "@/lib/search/normalize";
 import { prisma } from "@/lib/prisma";
 import { ProductGridCard } from "@/components/product-grid-card";
+import { trackSearch, trackEvent } from "@/lib/analytics";
+import { getSession } from "@/lib/session";
 
 type Params = {
   q?: string;
@@ -41,12 +43,26 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const sort = (sp.sort as "new" | "price-asc" | "price-desc" | undefined) ?? "new";
   const page = Number(sp.page ?? "1") || 1;
 
+  const session = await getSession();
   const [result, subjects, grades, types] = await Promise.all([
     searchProducts({ q, cleanedText: norm.cleanedText, subjectCode, gradeCode, typeCode, sort, page }),
     prisma.subject.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.grade.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.productType.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
   ]);
+
+  // TASK-102: เก็บทุก search — result_count=0 คือ demand gap signal (PRD §29)
+  void trackSearch({
+    userId: session?.user?.id,
+    rawQuery: q,
+    normalizedQuery: norm.cleanedText,
+    filters: { subject: subjectCode, grade: gradeCode, type: typeCode },
+    resultCount: result.total,
+  });
+  // TASK-103: impressions
+  for (const p of result.products) {
+    void trackEvent({ eventType: "PRODUCT_IMPRESSION", userId: session?.user?.id, productId: p.id, creatorId: p.creatorId });
+  }
 
   const activeSubject = subjects.find((s) => s.code === subjectCode);
   const activeGrade = grades.find((g) => g.code === gradeCode);

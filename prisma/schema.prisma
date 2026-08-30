@@ -544,6 +544,40 @@ model Refund {
   @@map("refunds")
 }
 
+// ── Analytics (Phase 10) — event-based, ไม่ใส่ PII (PRD §67) ────
+
+// TASK-102: ทุก search เก็บเสมอ — โดยเฉพาะ result_count=0 (demand gap signal, PRD §29)
+model SearchEvent {
+  id              String   @id @default(uuid()) @db.Uuid
+  sessionId       String   @map("session_id")
+  userId          String?  @map("user_id") @db.Uuid
+  rawQuery        String   @map("raw_query")
+  normalizedQuery String   @map("normalized_query")
+  filtersJson     Json?    @map("filters_json")
+  resultCount     Int      @map("result_count")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@index([createdAt])
+  @@index([resultCount])
+  @@map("search_events")
+}
+
+// TASK-103-107: product funnel events
+model AnalyticsEvent {
+  id         String   @id @default(uuid()) @db.Uuid
+  eventType  String   @map("event_type")
+  sessionId  String   @map("session_id")
+  userId     String?  @map("user_id") @db.Uuid
+  productId  String?  @map("product_id") @db.Uuid
+  creatorId  String?  @map("creator_id") @db.Uuid
+  properties Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([eventType, createdAt])
+  @@index([productId, eventType])
+  @@map("analytics_events")
+}
+
 enum AiJobStatus {
   QUEUED
   PROCESSING
