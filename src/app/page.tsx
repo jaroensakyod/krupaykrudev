@@ -156,30 +156,30 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Banner Strip (KruPass) */}
+      {/* Banner Strip — เชิญขายสื่อ (V1; KruPass รอ feature จริง ดู designs/krupass-*) */}
       <section className="max-w-7xl mx-auto px-6 py-8">
         <div className="bg-gradient-to-r from-primary to-emerald-500 rounded-2xl p-8 md:p-12 shadow-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
           <div className="absolute right-40 -bottom-20 w-48 h-48 bg-black/10 rounded-full blur-2xl" />
           <div className="relative z-10 text-white max-w-2xl text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
-              <MaterialIcon name="diamond" className="text-3xl" filled />
-              <h2 className="font-headline text-3xl md:text-4xl font-black tracking-tight">KruPass</h2>
+              <MaterialIcon name="storefront" className="text-3xl" filled />
+              <h2 className="font-headline text-3xl md:text-4xl font-black tracking-tight">เริ่มขายสื่อของคุณ</h2>
             </div>
             <h3 className="font-headline text-xl md:text-2xl font-bold mb-2">
-              โหลดสื่อไม่อั้น เริ่มต้น ฿99/เดือน
+              เปิดร้านฟรี ไม่มีค่ารายเดือน — AI ช่วยลงสินค้า
             </h3>
             <p className="text-white/90 text-sm md:text-base">
-              เข้าถึงสื่อการสอนระดับพรีเมียมหลายหมื่นรายการโดยไม่มีค่าใช้จ่ายเพิ่มเติม
-              ประหยัดเวลาเตรียมสอน ให้คุณโฟกัสกับการสอนได้อย่างเต็มที่
+              เปลี่ยนใบงาน แผนการสอน และสื่อที่คุณทำเอง ให้เป็นรายได้ประจำ
+              หักเฉพาะเมื่อขายได้ พร้อมระบบส่งไฟล์อัตโนมัติให้ผู้ซื้อตลอด 24 ชั่วโมง
             </p>
           </div>
           <div className="relative z-10 flex-shrink-0">
             <Link
-              href="/krupass"
+              href="/sell"
               className="bg-white text-primary px-8 py-4 rounded-full font-headline font-bold text-lg shadow-xl hover:bg-gray-50 hover:scale-105 transition-all duration-300 inline-block"
             >
-              สมัคร KruPass
+              เปิดร้านค้าฟรี
             </Link>
           </div>
         </div>
