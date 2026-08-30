@@ -36,6 +36,11 @@ export async function getOrCreateCart(userId: string) {
 }
 
 export async function addToCart(userId: string, productId: string) {
+  // ซื้อซ้ำไม่ได้ถ้ามีสิทธิ์อยู่แล้ว (PRD §41 entitlement)
+  const owned = await prisma.entitlement.findFirst({
+    where: { buyerId: userId, productId, revokedAt: null },
+  });
+  if (owned) throw new Error("ALREADY_OWNED");
   const product = await prisma.product.findFirst({
     where: { id: productId, deletedAt: null, status: "PUBLISHED", visibility: "PUBLIC" },
   });
@@ -155,17 +160,27 @@ export async function fulfillPaidPayment(providerPaymentId: string) {
     // Entitlement สร้างครั้งเดียวต่อ order item (unique constraint กันซ้ำระดับ DB)
     let created = 0;
     for (const item of payment.order.items) {
+      // upsert: สร้างใหม่ หรือ "ปลดล็อก" สิทธิ์เดิมที่ถูก revoke (กรณีซื้อซ้ำหลังคืนเงิน)
       const existing = await tx.entitlement.findUnique({ where: { orderItemId: item.id } });
-      if (!existing) {
-        await tx.entitlement.create({
-          data: {
-            buyerId: payment.order.buyerId,
-            orderItemId: item.id,
-            productId: item.productId,
-          },
-        });
-        created++;
-      }
+      if (existing) continue;
+      await tx.entitlement.upsert({
+        where: { buyerId_productId: { buyerId: payment.order.buyerId, productId: item.productId } },
+        update: { revokedAt: null, orderItemId: item.id },
+        create: {
+          buyerId: payment.order.buyerId,
+          orderItemId: item.id,
+          productId: item.productId,
+        },
+      });
+      created++;
+    }
+    // TASK-080: ledger บันทึกใน transaction เดียวกัน — ทุกบาท trace ได้ (PRD §110)
+    const { recordSaleLedger } = await import("@/lib/finance");
+    const alreadyLedgered = await tx.ledgerEntry.findFirst({
+      where: { transactionGroupId: `order:${payment.orderId}` },
+    });
+    if (!alreadyLedgered) {
+      await recordSaleLedger(tx, payment.order);
     }
     return created;
   });

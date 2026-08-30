@@ -450,6 +450,100 @@ model PlatformFeeRule {
   @@map("platform_fee_rules")
 }
 
+// ── Finance (Phase 8) ───────────────────────────────────────────
+
+enum LedgerEntryType {
+  SALE
+  PLATFORM_FEE
+  PAYMENT_FEE
+  CREATOR_EARNING
+  REFUND
+  PAYOUT
+  ADJUSTMENT
+}
+
+enum LedgerDirection {
+  DEBIT
+  CREDIT
+}
+
+// TASK-080: immutable ledger — ห้าม hard delete, ห้าม mutate (PRD §36, §65)
+// Balance derive จาก entries เสมอ — ห้ามคำนวณจาก Order ตรง ๆ (PRD §36)
+model LedgerEntry {
+  id                 String           @id @default(uuid()) @db.Uuid
+  transactionGroupId String           @map("transaction_group_id")
+  entryType          LedgerEntryType  @map("entry_type")
+  direction          LedgerDirection
+  accountType        String           @map("account_type") // CREATOR | PLATFORM
+  accountId          String           @map("account_id") // users.id หรือ "PLATFORM"
+  amount             Decimal          @db.Decimal(10, 2)
+  currency           String           @default("THB")
+  orderId            String?          @map("order_id") @db.Uuid
+  payoutId           String?          @map("payout_id") @db.Uuid
+  refundId           String?          @map("refund_id") @db.Uuid
+  // เงินเข้า pending ก่อน แล้วพร้อมถอนเมื่อครบ hold period
+  availableAt        DateTime?        @map("available_at")
+  createdAt          DateTime         @default(now()) @map("created_at")
+
+  payout Payout?  @relation(fields: [payoutId], references: [id])
+  refund Refund?  @relation(fields: [refundId], references: [id])
+
+  @@unique([transactionGroupId, entryType, accountId])
+  @@index([accountType, accountId])
+  @@map("ledger_entries")
+}
+
+// TASK-086/087
+enum PayoutStatus {
+  REQUESTED
+  REVIEWING
+  PROCESSING
+  PAID
+  FAILED
+  CANCELLED
+}
+
+model Payout {
+  id               String       @id @default(uuid()) @db.Uuid
+  creatorUserId    String       @map("creator_user_id") @db.Uuid
+  amount           Decimal      @db.Decimal(10, 2)
+  method           String       @default("manual_transfer")
+  status           PayoutStatus @default(REQUESTED)
+  requestedAt      DateTime     @default(now()) @map("requested_at")
+  processedAt      DateTime?    @map("processed_at")
+  processedBy      String?      @map("processed_by") @db.Uuid
+  providerReference String?     @map("provider_reference")
+
+  entries LedgerEntry[]
+
+  @@index([creatorUserId, status])
+  @@map("payouts")
+}
+
+// TASK-084
+enum RefundStatus {
+  REQUESTED
+  COMPLETED
+  REJECTED
+}
+
+model Refund {
+  id          String       @id @default(uuid()) @db.Uuid
+  orderId     String       @map("order_id") @db.Uuid
+  amount      Decimal      @db.Decimal(10, 2)
+  reason      String
+  status      RefundStatus @default(REQUESTED)
+  requestedBy String       @map("requested_by") @db.Uuid
+  reviewedBy  String?      @map("reviewed_by") @db.Uuid
+  createdAt   DateTime     @default(now()) @map("created_at")
+  completedAt DateTime?    @map("completed_at")
+
+  entries LedgerEntry[]
+
+  @@index([orderId])
+  @@map("refunds")
+}
+
 enum AiJobStatus {
   QUEUED
   PROCESSING
