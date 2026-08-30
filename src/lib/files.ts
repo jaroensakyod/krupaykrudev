@@ -71,13 +71,11 @@ export async function confirmUpload(input: {
   // key ต้องอยู่ใต้ product ของ creator เท่านั้น
   if (!input.key.startsWith(`products/${input.productId}/`)) throw new FileError("FORBIDDEN");
 
-  const head = await storage.head(input.key);
-  if (!head || head.size === 0) throw new FileError("UPLOAD_INCOMPLETE");
-  if (head.size > MAX_FILE_SIZE) throw new FileError("TOO_LARGE");
-
-  // SHA-256 จากไฟล์จริงใน storage (server-side)
+  // อ่านไฟล์จาก storage เพื่อตรวจขนาด + คำนวณ SHA-256 (server-side)
   const buffer = await storage.getBuffer(input.key);
-  if (!buffer) throw new FileError("UPLOAD_INCOMPLETE");
+  if (!buffer || buffer.length === 0) throw new FileError("UPLOAD_INCOMPLETE");
+  if (buffer.length > MAX_FILE_SIZE) throw new FileError("TOO_LARGE");
+  const fileSize = buffer.length;
   const sha256 = createHash("sha256").update(buffer).digest("hex");
 
   const file = await prisma.productFile.create({
@@ -86,7 +84,7 @@ export async function confirmUpload(input: {
       storageKey: input.key,
       originalFilename: sanitizeFilename(input.filename),
       mimeType: input.mimeType,
-      fileSize: head.size,
+      fileSize,
       sha256Hash: sha256,
       fileRole: input.role,
       scanStatus: "CLEAN",
@@ -131,7 +129,7 @@ export async function confirmUpload(input: {
   logger.info("file_confirmed", {
     fileId: file.id,
     productId: input.productId,
-    size: head.size,
+    size: fileSize,
     duplicateOf: duplicate?.productId ?? null,
     preview: previewInfo,
   });

@@ -62,11 +62,11 @@ export function FilesSection({
       const ticket = await res.json();
       if (!res.ok) throw new Error(ticket.error ?? "UPLOAD_FAILED");
 
-      // 2) PUT ตรงเข้า storage พร้อม progress
+      // 2) PUT ตรงเข้า storage พร้อม progress (r2 = presigned URL; r2api/local = signed app route)
       const uploadUrl =
-        ticket.driver === "local"
-          ? `${ticket.uploadUrl}?key=${encodeURIComponent(ticket.key)}&contentType=${encodeURIComponent(file.type)}&token=${encodeURIComponent(ticket.token)}`
-          : ticket.uploadUrl;
+        ticket.driver === "r2"
+          ? ticket.uploadUrl
+          : `${ticket.uploadUrl}?key=${encodeURIComponent(ticket.key)}&contentType=${encodeURIComponent(file.type)}&token=${encodeURIComponent(ticket.token)}`;
 
       await new Promise<void>((resolve, reject) => {
         const xhr = new XMLHttpRequest();
