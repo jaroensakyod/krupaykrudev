@@ -37,6 +37,14 @@ export default async function CartPage({
       {error === "own" && (
         <p className="mb-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700">ไม่สามารถซื้อสื่อของร้านตัวเองได้</p>
       )}
+      {error === "owned" && (
+        <p className="mb-4 rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-700">
+          คุณมีสื่อนี้อยู่แล้ว —{" "}
+          <Link href="/account/downloads" className="font-medium underline">
+            ไปที่คลังสื่อของฉัน
+          </Link>
+        </p>
+      )}
       {error === "unavailable" && (
         <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">มีสินค้าบางรายการไม่พร้อมขาย — ตะกร้าถูกอัปเดตแล้ว</p>
       )}

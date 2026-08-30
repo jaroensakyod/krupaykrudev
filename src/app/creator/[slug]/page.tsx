@@ -2,14 +2,28 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MaterialIcon } from "@/components/material-icon";
 import { getCreatorBySlug } from "@/lib/creators";
+import { prisma } from "@/lib/prisma";
+import { coverUrlOf } from "@/lib/catalog";
+import { ProductGridCard } from "@/components/product-grid-card";
 
 export const metadata = { title: "ร้านค้าครู" };
 
-// TASK-015: Creator public page /creator/[slug] — products จะแสดงเมื่อ Phase 2/6 เสร็จ
+// TASK-015/062: creator public page — แสดงสื่อที่ publish แล้วจริง
 export default async function CreatorPage({ params }: PageProps<"/creator/[slug]">) {
   const { slug } = await params;
   const profile = await getCreatorBySlug(slug);
   if (!profile) notFound();
+
+  const products = await prisma.product.findMany({
+    where: { creatorId: profile.id, status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
+    orderBy: { publishedAt: "desc" },
+    include: {
+      productType: true,
+      subject: true,
+      grade: true,
+      files: { where: { fileRole: { in: ["ORIGINAL", "COVER"] } }, include: { preview: true }, take: 1 },
+    },
+  });
 
   const verified = profile.verificationStatus === "VERIFIED";
 
@@ -64,14 +78,31 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
 
         {/* Products */}
         <section className="mb-16">
-          <h2 className="font-headline text-xl font-bold mb-6">สื่อการสอนของร้านนี้</h2>
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-10 text-center">
-            <MaterialIcon name="inventory_2" className="text-4xl text-gray-300 mb-3" />
-            <p className="text-sm text-text-muted">ยังไม่มีสื่อที่เผยแพร่ — กลับมาดูใหม่นะ</p>
-            <Link href="/search" className="mt-4 inline-block text-primary text-sm font-medium hover:underline">
-              ค้นหาสื่อจากครูท่านอื่น
-            </Link>
-          </div>
+          <h2 className="font-headline text-xl font-bold mb-6">สื่อการสอนของร้านนี้ ({products.length})</h2>
+          {products.length === 0 ? (
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-10 text-center">
+              <MaterialIcon name="inventory_2" className="text-4xl text-gray-300 mb-3" />
+              <p className="text-sm text-text-muted">ยังไม่มีสื่อที่เผยแพร่ — กลับมาดูใหม่นะ</p>
+              <Link href="/search" className="mt-4 inline-block text-primary text-sm font-medium hover:underline">
+                ค้นหาสื่อจากครูท่านอื่น
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {products.map((p) => (
+                <ProductGridCard
+                  key={p.id}
+                  id={p.slug}
+                  title={p.title}
+                  coverUrl={coverUrlOf(p)}
+                  storeName={profile.displayName}
+                  rating={null}
+                  reviewCount={0}
+                  price={p.price.toNumber()}
+                />
+              ))}
+            </div>
+          )}
         </section>
       </div>
     </div>

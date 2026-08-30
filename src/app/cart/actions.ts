@@ -12,6 +12,7 @@ export async function addToCartAction(formData: FormData) {
     await addToCart(session.user.id, productId);
   } catch (error) {
     if (String(error).includes("OWN_PRODUCT")) redirect("/cart?error=own");
+    if (String(error).includes("ALREADY_OWNED")) redirect("/cart?error=owned");
     redirect("/cart?error=unavailable");
   }
   redirect("/cart?added=1");

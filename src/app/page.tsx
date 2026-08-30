@@ -1,16 +1,24 @@
 import Link from "next/link";
 import { MaterialIcon } from "@/components/material-icon";
-import { ProductCard } from "@/components/product-card";
-import {
-  CATEGORIES,
-  GRADE_LEVELS,
-  NEW_PRODUCTS,
-  POPULAR_SEARCHES,
-  POPULAR_SELLERS,
-} from "@/lib/mock/home-data";
+import { ProductGridCard } from "@/components/product-grid-card";
+import { coverUrlOf } from "@/lib/catalog";
+import { prisma } from "@/lib/prisma";
+import { CATEGORIES, GRADE_LEVELS, POPULAR_SEARCHES, POPULAR_SELLERS } from "@/lib/mock/home-data";
 
-// หน้าแรก — แปลงจาก designs/home (Stitch) — Phase 6 (TASK-060) จะต่อข้อมูลจริง
-export default function HomePage() {
+// หน้าแรก — layout จาก designs/home (Stitch) · ส่วน "ผลงานมาใหม่" ต่อ DB จริง
+export default async function HomePage() {
+  const latest = await prisma.product.findMany({
+    where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
+    orderBy: { publishedAt: "desc" },
+    take: 4,
+    include: {
+      creator: { select: { displayName: true, slug: true } },
+      productType: true,
+      subject: true,
+      grade: true,
+      files: { where: { fileRole: { in: ["ORIGINAL", "COVER"] } }, include: { preview: true }, take: 1 },
+    },
+  });
   return (
     <>
       {/* Hero Section */}
@@ -133,8 +141,17 @@ export default function HomePage() {
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {NEW_PRODUCTS.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {latest.map((p) => (
+            <ProductGridCard
+              key={p.id}
+              id={p.slug}
+              title={p.title}
+              coverUrl={coverUrlOf(p)}
+              storeName={p.creator.displayName}
+              rating={null}
+              reviewCount={0}
+              price={p.price.toNumber()}
+            />
           ))}
         </div>
       </section>
