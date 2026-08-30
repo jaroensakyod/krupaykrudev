@@ -314,6 +314,54 @@ model DownloadEvent {
   @@map("download_events")
 }
 
+// ── AI (Phase 4) — ทุก call ผ่าน AI Gateway เท่านั้น (PRD §22) ──
+
+enum AiJobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum AiTaskType {
+  PRODUCT_METADATA
+  PRODUCT_SEO
+  PRODUCT_QUALITY
+  SUPPORT
+  MODERATION_ASSIST
+  SEARCH_ASSIST
+  DEMAND_ANALYSIS
+  CREATOR_ASSIST
+}
+
+// TASK-042/043: job log + cost/usage ต่อ call
+model AiJob {
+  id            String      @id @default(uuid()) @db.Uuid
+  taskType      AiTaskType  @map("task_type")
+  entityType    String      @map("entity_type")
+  entityId      String      @map("entity_id")
+  userId        String?     @map("user_id") @db.Uuid
+  provider      String      @default("gemini")
+  model         String
+  promptVersion String      @map("prompt_version")
+  inputHash     String      @map("input_hash")
+  status        AiJobStatus @default(QUEUED)
+  confidence    Float?
+  outputJson    Json?       @map("output_json")
+  error         String?
+  inputTokens   Int?        @map("input_tokens")
+  outputTokens  Int?        @map("output_tokens")
+  estimatedCost Decimal     @default(0) @map("estimated_cost") @db.Decimal(12, 8)
+  latencyMs     Int?        @map("latency_ms")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  completedAt   DateTime?   @map("completed_at")
+
+  @@index([inputHash, status])
+  @@index([taskType, createdAt])
+  @@map("ai_jobs")
+}
+
 // TASK-050: ก่อน Submit Creator ต้องยืนยันสิทธิ์ (PRD §46)
 model CopyrightDeclaration {
   id                 String   @id @default(uuid()) @db.Uuid

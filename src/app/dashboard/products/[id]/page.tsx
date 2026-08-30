@@ -107,9 +107,9 @@ export default async function EditProductPage({
           tags: product.tags.map((t) => t.tag.name).join(", "),
         }}
         options={{
-          productTypes: productTypes.map((t) => ({ id: t.id, name: t.nameTh })),
-          subjects: subjects.map((s) => ({ id: s.id, name: s.nameTh })),
-          grades: grades.map((g) => ({ id: g.id, name: g.nameTh, group: g.group })),
+          productTypes: productTypes.map((t) => ({ id: t.id, name: t.nameTh, code: t.code })),
+          subjects: subjects.map((s) => ({ id: s.id, name: s.nameTh, code: s.code })),
+          grades: grades.map((g) => ({ id: g.id, name: g.nameTh, group: g.group, code: g.code })),
           curricula: curricula.map((c) => ({ id: c.id, name: c.nameTh })),
         }}
         disabled={!editable}
