@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KruPayKru - หมวดหมู่สื่อการสอน</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Noto+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#b4c5ff",
+                      "on-secondary-container": "#684000",
+                      "error": "#ba1a1a",
+                      "success": "#16A34A",
+                      "secondary-fixed": "#ffddb8",
+                      "on-primary-fixed": "#00201d",
+                      "outline": "#6e7977",
+                      "surface-container-high": "#dee9fc",
+                      "on-tertiary-fixed": "#00174b",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container": "#e6eeff",
+                      "primary-fixed-dim": "#80d5cb",
+                      "background": "#f8f9ff",
+                      "on-primary-container": "#a3faef",
+                      "seller-gold": "#D97706",
+                      "outline-variant": "#bdc9c6",
+                      "on-tertiary-fixed-variant": "#003ea8",
+                      "surface-container-highest": "#d9e3f6",
+                      "muted-gray": "#6B7280",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#00504a",
+                      "tertiary-container": "#1e5fe7",
+                      "background-warm": "#FAFAF8",
+                      "on-surface": "#121c2a",
+                      "on-secondary-fixed": "#2a1700",
+                      "on-background": "#121c2a",
+                      "on-tertiary-container": "#e6e9ff",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "on-secondary-fixed-variant": "#653e00",
+                      "surface": "#f8f9ff",
+                      "danger": "#DC2626",
+                      "surface-dim": "#d0dbed",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#3e4947",
+                      "surface-tint": "#006a63",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#d9e3f6",
+                      "tertiary-fixed": "#dbe1ff",
+                      "inverse-surface": "#27313f",
+                      "primary-container": "#0f766e",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-primary": "#80d5cb",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#005c55",
+                      "primary-fixed": "#9cf2e8",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#fea619",
+                      "secondary": "#855300",
+                      "krupass-emerald": "#10B981",
+                      "tertiary": "#0047bf"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "32px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Noto Sans"
+                      ],
+                      "body-sm": [
+                              "Noto Sans"
+                      ],
+                      "label-md": [
+                              "Noto Sans"
+                      ],
+                      "headline-lg": [
+                              "IBM Plex Sans"
+                      ],
+                      "price-display": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-md": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-sm": [
+                              "IBM Plex Sans"
+                      ],
+                      "body-md": [
+                              "Noto Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "price-display": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #FAFAF8;
+        }
+        .krupass-gradient {
+            background: linear-gradient(135deg, #0F766E, #10B981);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-[#FAFAF8] sticky top-0 z-50 border-b border-[#6B7280]/10 shadow-sm w-full font-body text-charcoal">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-2xl font-headline font-black text-[#0F766E]" href="#">ครูเปย์ครู KruPayKru</a>
+<div class="hidden md:flex items-center bg-white border border-outline-variant rounded-full px-4 py-2 focus-within:border-primary-container focus-within:ring-1 focus-within:ring-primary-container transition-all">
+<span class="material-symbols-outlined text-muted-gray mr-2" style="font-variation-settings: 'FILL' 0;">search</span>
+<input class="bg-transparent border-none outline-none focus:ring-0 text-sm w-64 placeholder-muted-gray text-on-surface" placeholder="ค้นหาสื่อการสอน..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors font-body-md text-body-md" href="#">หน้าแรก</a>
+<a class="text-[#0F766E] font-bold border-b-2 border-[#0F766E] pb-1 font-body-md text-body-md" href="#">สื่อการสอน</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors font-body-md text-body-md" href="#">คอร์สเรียน</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors font-body-md text-body-md" href="#">บทความ</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="hidden lg:flex items-center gap-3">
+<button class="material-symbols-outlined text-muted-gray hover:text-primary-container hover:opacity-90 transition-opacity" style="font-variation-settings: 'FILL' 0;">favorite</button>
+<button class="material-symbols-outlined text-muted-gray hover:text-primary-container hover:opacity-90 transition-opacity" style="font-variation-settings: 'FILL' 0;">shopping_cart</button>
+<button class="material-symbols-outlined text-muted-gray hover:text-primary-container hover:opacity-90 transition-opacity" style="font-variation-settings: 'FILL' 0;">notifications</button>
+</div>
+<button class="hidden md:block px-5 py-2 rounded-full border-[1.5px] border-primary-container text-primary-container font-label-md text-label-md hover:bg-primary-container hover:text-white transition-colors">เข้าสู่ระบบ</button>
+<button class="px-5 py-2 rounded-full bg-primary-container text-white font-label-md text-label-md hover:bg-primary transition-colors">เริ่มขายสื่อ</button>
+<button class="md:hidden material-symbols-outlined text-on-surface" style="font-variation-settings: 'FILL' 0;">menu</button>
+</div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-6 py-8">
+<!-- Breadcrumb & Header -->
+<div class="mb-8">
+<nav aria-label="Breadcrumb" class="flex text-sm text-muted-gray mb-4 font-body-sm text-body-sm">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="inline-flex items-center hover:text-primary-container transition-colors" href="#">หน้าแรก</a>
+</li>
+<li>
+<div class="flex items-center">
+<span class="material-symbols-outlined mx-1 text-sm" style="font-variation-settings: 'FILL' 0;">chevron_right</span>
+<a class="hover:text-primary-container transition-colors" href="#">สื่อการสอน</a>
+</div>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<span class="material-symbols-outlined mx-1 text-sm" style="font-variation-settings: 'FILL' 0;">chevron_right</span>
+<span class="text-on-surface font-medium">มัธยมศึกษาตอนต้น</span>
+</div>
+</li>
+</ol>
+</nav>
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">มัธยมศึกษาตอนต้น (ม.1 - ม.3)</h1>
+<p class="font-body-md text-body-md text-muted-gray max-w-3xl">ค้นพบสื่อการสอนคุณภาพสูงสำหรับนักเรียนระดับมัธยมศึกษาตอนต้น ที่ออกแบบโดยครูผู้เชี่ยวชาญ ครอบคลุมทุกกลุ่มสาระการเรียนรู้</p>
+</div>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 flex-shrink-0">
+<div class="bg-white rounded-xl p-6 shadow-[0_4px_8px_rgba(15,118,110,0.08)] border border-outline-variant/30 sticky top-24">
+<div class="flex items-center justify-between mb-6 border-b border-outline-variant/30 pb-4">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">ตัวกรอง</h2>
+<button class="text-sm text-primary-container hover:underline font-label-md text-label-md">ล้างทั้งหมด</button>
+</div>
+<!-- Level Filter -->
+<div class="mb-6">
+<h3 class="font-label-md text-label-md font-bold text-on-surface mb-3 flex items-center justify-between cursor-pointer group">
+                            ระดับชั้น
+                            <span class="material-symbols-outlined text-muted-gray group-hover:text-primary-container transition-colors" style="font-variation-settings: 'FILL' 0;">expand_less</span>
+</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">อนุบาล (ปฐมวัย)</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">ประถมศึกษาตอนต้น</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">ประถมศึกษาตอนปลาย</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">มัธยมศึกษาตอนต้น</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">มัธยมศึกษาตอนปลาย</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">อุดมศึกษา / ทั่วไป</span>
+</label>
+</div>
+</div>
+<!-- Subject Filter -->
+<div class="mb-6">
+<h3 class="font-label-md text-label-md font-bold text-on-surface mb-3 flex items-center justify-between cursor-pointer group border-t border-outline-variant/30 pt-4">
+                            กลุ่มสาระการเรียนรู้
+                            <span class="material-symbols-outlined text-muted-gray group-hover:text-primary-container transition-colors" style="font-variation-settings: 'FILL' 0;">expand_less</span>
+</h3>
+<div class="space-y-2">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface font-medium">คณิตศาสตร์</span>
+<span class="ml-auto text-xs text-muted-gray bg-surface-variant px-2 py-0.5 rounded-full">142</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">วิทยาศาสตร์</span>
+<span class="ml-auto text-xs text-muted-gray bg-surface-variant px-2 py-0.5 rounded-full">98</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">ภาษาไทย</span>
+<span class="ml-auto text-xs text-muted-gray bg-surface-variant px-2 py-0.5 rounded-full">85</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">ภาษาต่างประเทศ</span>
+<span class="ml-auto text-xs text-muted-gray bg-surface-variant px-2 py-0.5 rounded-full">112</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">สังคมศึกษาฯ</span>
+<span class="ml-auto text-xs text-muted-gray bg-surface-variant px-2 py-0.5 rounded-full">64</span>
+</label>
+<button class="text-sm text-primary-container hover:underline font-label-md text-label-md mt-2 w-full text-left">ดูทั้งหมด +</button>
+</div>
+</div>
+<!-- Price Filter -->
+<div>
+<h3 class="font-label-md text-label-md font-bold text-on-surface mb-3 flex items-center justify-between cursor-pointer group border-t border-outline-variant/30 pt-4">
+                            ราคา
+                            <span class="material-symbols-outlined text-muted-gray group-hover:text-primary-container transition-colors" style="font-variation-settings: 'FILL' 0;">expand_less</span>
+</h3>
+<div class="space-y-4 mt-2">
+<div class="flex items-center gap-2">
+<input class="w-full rounded-lg border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary-container text-sm py-1.5 px-3" placeholder="ต่ำสุด" type="number"/>
+<span class="text-muted-gray">-</span>
+<input class="w-full rounded-lg border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary-container text-sm py-1.5 px-3" placeholder="สูงสุด" type="number"/>
+</div>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="rounded text-primary-container focus:ring-primary-container border-outline-variant w-4 h-4 cursor-pointer" type="checkbox"/>
+<span class="font-body-sm text-body-sm text-on-surface-variant group-hover:text-primary-container transition-colors">เฉพาะสินค้าฟรี</span>
+</label>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-grow">
+<!-- Toolbar -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+<p class="font-body-sm text-body-sm text-muted-gray">แสดงผล <span class="font-bold text-on-surface">1-12</span> จาก <span class="font-bold text-on-surface">142</span> รายการ</p>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<label class="font-body-sm text-body-sm text-muted-gray whitespace-nowrap">เรียงตาม:</label>
+<select class="rounded-lg border-outline-variant/50 text-sm focus:border-primary-container focus:ring-primary-container py-1.5 pl-3 pr-8 bg-white cursor-pointer shadow-sm">
+<option>ยอดนิยม</option>
+<option>มาใหม่ล่าสุด</option>
+<option>ราคา: ต่ำไปสูง</option>
+<option>ราคา: สูงไปต่ำ</option>
+</select>
+</div>
+<div class="hidden sm:flex border border-outline-variant/50 rounded-lg overflow-hidden bg-white shadow-sm">
+<button class="p-1.5 bg-surface-variant text-primary-container" title="มุมมองกริด">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+</button>
+<button class="p-1.5 text-muted-gray hover:bg-surface-variant/50 transition-colors" title="มุมมองรายการ">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 0;">view_list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-white rounded-[12px] shadow-[0_4px_8px_rgba(15,118,110,0.08)] hover:shadow-[0_8px_16px_rgba(15,118,110,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col group border border-outline-variant/20">
+<div class="relative aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern, high-quality digital mock-up of an interactive middle school math presentation slide deck, featuring colorful graphs and equations, displayed on an iPad screen lying on a clean white desk next to a stylus. Soft natural lighting, minimal and professional aesthetic, teal and white color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7x-XWIQYSRTAXhh2fX0QtnjtmXtYSaADZokZZojyfZfcrdAycgGQNHkhc211LfAQyjPkwayHaA9wHReLyIdp7qRjpAims9bF3OSDpXok5ATabGnb4ChjTH-W84Ibi8qSpvi3iBNMDnTYqVyy-rCGAe03KSJ8hXnMAphFRnhN6JvCp2kfltxqw7olzXk4QjQXmp3DDOJFTsw8LIZgVFyTIvni_86yBM6MxaSACWRD-3pfhhx2IuY0"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="krupass-gradient text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                                    KruPass
+                                </span>
+</div>
+<button class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-muted-gray hover:text-danger hover:bg-white transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="flex items-center gap-1 mb-2">
+<span class="material-symbols-outlined text-seller-gold text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium text-on-surface">4.9</span>
+<span class="text-xs text-muted-gray">(128)</span>
+</div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface line-clamp-2 mb-2 group-hover:text-primary-container transition-colors">เซ็ตสไลด์สอนคณิตศาสตร์ ม.1 เรื่องสมการเชิงเส้นตัวแปรเดียว (Interactive PPT)</h3>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-6 h-6 rounded-full bg-primary-fixed-dim flex items-center justify-center text-on-primary-fixed-variant text-xs font-bold">มค</div>
+<span class="text-xs text-muted-gray truncate">MathKruChannel</span>
+<span class="material-symbols-outlined text-tertiary-container text-[14px]" style="font-variation-settings: 'FILL' 1;" title="Verified Teacher">verified</span>
+</div>
+<div class="flex items-end justify-between border-t border-outline-variant/30 pt-3">
+<div class="font-price-display text-price-display text-primary-container">฿150</div>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary-container hover:text-white text-primary-container flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-[12px] shadow-[0_4px_8px_rgba(15,118,110,0.08)] hover:shadow-[0_8px_16px_rgba(15,118,110,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col group border border-outline-variant/20">
+<div class="relative aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A beautifully designed, printable PDF worksheet for middle school science focusing on the solar system. The document features high-contrast illustrations of planets and clear typography, laid out on a light wooden table top setting to suggest print-readiness. Bright, clean lighting, educational boutique aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd61z5ir1IY4aKQmFbb8QSU8tWoJQuCY-uQLBQNOgnGWNzVPdNxnHEH-9YKBsfPJV9_8h4Kk-7yZOWu9zjoeaiLKfJO6mgwOhWxE3i04PjPqOYW09EaeGJkYoxoKiUuV1uyvgf9NRTB8s5WN9VygfLeNit4lKGORHXNAtZLT8m235hyTKGrrqDRkFwsfSJn-LcAlhB1IxhDYBTAxZMffHAzzPrx-SZWSFMTCAbmlmLEwMgvEDyRUI"/>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="flex items-center gap-1 mb-2">
+<span class="material-symbols-outlined text-seller-gold text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium text-on-surface">4.8</span>
+<span class="text-xs text-muted-gray">(85)</span>
+</div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface line-clamp-2 mb-2 group-hover:text-primary-container transition-colors">ใบงานวิทยาศาสตร์ ม.2 ระบบสุริยะและอวกาศ (PDF พร้อมเฉลย)</h3>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-6 h-6 rounded-full bg-secondary-fixed-dim flex items-center justify-center text-on-secondary-fixed-variant text-xs font-bold">สว</div>
+<span class="text-xs text-muted-gray truncate">Science World</span>
+</div>
+<div class="flex items-end justify-between border-t border-outline-variant/30 pt-3">
+<div class="font-price-display text-price-display text-primary-container">฿89</div>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary-container hover:text-white text-primary-container flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-[12px] shadow-[0_4px_8px_rgba(15,118,110,0.08)] hover:shadow-[0_8px_16px_rgba(15,118,110,0.12)] hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col group border border-outline-variant/20">
+<div class="relative aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An engaging Canva template mock-up for Thai language learning, displayed on a sleek laptop monitor. The design features elegant Thai script, traditional patterns mixed with modern layout techniques. The setting is a cozy, softly lit study room with a cup of coffee nearby. Warm, inviting, and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRflfVLDOYTLc-lEoNx3yPo3CjpPLeGqQkMK5Nx8jwNzzPvkMF4JoLC0urrbbAKa5lqu0Erw9yvDEtVswWaHcU2AEuL3Hzt6EtWeFGJFPajsbTemzNsoOiMheDNG2HShlFMvPoGnvP5gtYinVi6DTzPizqLROeYcyd8XNS60LVnKDVm0Omfpn7OHqA3D28gqdT45FLRORde3OrISPYp1Kv7uNdxU3soLrYL8R1Lj5m4sHs0SYOcgQ"/>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-seller-gold text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm uppercase tracking-wider">
+                                    SALE 20%
+                                </span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-grow">
+<div class="flex items-center gap-1 mb-2">
+<span class="material-symbols-outlined text-seller-gold text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium text-on-surface">5.0</span>
+<span class="text-xs text-muted-gray">(42)</span>
+</div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface line-clamp-2 mb-2 group-hover:text-primary-container transition-colors">แม่แบบ Canva สรุปหลักภาษาไทย ม.3 เรื่องคำประสมและคำซ้อน</h3>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-6 h-6 rounded-full bg-tertiary-fixed-dim flex items-center justify-center text-on-tertiary-fixed-variant text-xs font-bold">คท</div>
+<span class="text-xs text-muted-gray truncate">ครูไทยใจดี Studio</span>
+<span class="material-symbols-outlined text-seller-gold text-[14px]" style="font-variation-settings: 'FILL' 1;" title="Gold Seller">workspace_premium</span>
+</div>
+<div class="flex items-end justify-between border-t border-outline-variant/30 pt-3">
+<div>
+<span class="text-xs text-muted-gray line-through mr-1">฿120</span>
+<span class="font-price-display text-price-display text-primary-container">฿96</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container hover:bg-primary-container hover:text-white text-primary-container flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex justify-center items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-muted-gray hover:bg-surface-variant transition-colors disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-primary-container text-white font-medium flex items-center justify-center shadow-sm">1</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-variant text-on-surface font-medium flex items-center justify-center transition-colors">2</button>
+<button class="w-10 h-10 rounded-full hover:bg-surface-variant text-on-surface font-medium flex items-center justify-center transition-colors">3</button>
+<span class="text-muted-gray">...</span>
+<button class="w-10 h-10 rounded-full hover:bg-surface-variant text-on-surface font-medium flex items-center justify-center transition-colors">12</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#FFFFFF] border-t border-[#6B7280]/10 mt-auto font-body text-sm text-[#6B7280]">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 py-12 max-w-7xl mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-headline font-bold text-[#0F766E] mb-4">ครูเปย์ครู KruPayKru</div>
+<p class="mb-4">แพลตฟอร์มเพื่อครูไทยโดยครูไทย แบ่งปันและสร้างรายได้จากสื่อการสอนของคุณ</p>
+<div class="flex gap-4">
+<a class="text-muted-gray hover:text-primary-container transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-muted-gray hover:text-primary-container transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+<div class="col-span-1">
+<h4 class="font-bold text-on-surface mb-4">ลิงก์ที่เกี่ยวข้อง</h4>
+<ul class="space-y-2 flex flex-col">
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">เกี่ยวกับเรา</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">ศูนย์ช่วยเหลือ</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">ติดต่อเรา</a>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-bold text-on-surface mb-4">นโยบายและเงื่อนไข</h4>
+<ul class="space-y-2 flex flex-col">
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">ข้อกำหนดเงื่อนไข</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">นโยบายความเป็นส่วนตัว</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">นโยบายการคืนเงิน</a>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-bold text-on-surface mb-4">รับข่าวสาร</h4>
+<p class="mb-4 text-xs">ติดตามอัปเดตสื่อการสอนใหม่ๆ และโปรโมชั่นพิเศษ</p>
+<div class="flex gap-2">
+<input class="w-full rounded-lg border-outline-variant/50 focus:border-primary-container focus:ring-1 focus:ring-primary-container text-sm py-2 px-3" placeholder="อีเมลของคุณ" type="email"/>
+<button class="bg-primary-container text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary transition-colors">ติดตาม</button>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/20 py-6 text-center text-xs">
+            © 2024 KruPayKru. แพลตฟอร์มเพื่อครูไทยโดยครูไทย
+        </div>
+</footer>
+</body></html>

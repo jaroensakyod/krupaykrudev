@@ -1,0 +1,474 @@
+<!DOCTYPE html><html class="light" lang="th"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KruPass - KruPayKru</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            50: '#F0FDFA',
+                            100: '#CCFBF1',
+                            200: '#99F6E4',
+                            300: '#5EEAD4',
+                            400: '#2DD4BF',
+                            500: '#14B8A6',
+                            600: '#0D9488',
+                            700: '#0F766E',
+                            800: '#115E59',
+                            900: '#134E4A',
+                            950: '#042F2E',
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                        },
+                        success: {
+                            DEFAULT: '#16A34A',
+                        },
+                        danger: {
+                            DEFAULT: '#DC2626',
+                        },
+                        surface: {
+                            DEFAULT: '#FAFAF8', // Warm White
+                            card: '#FFFFFF',
+                        },
+                        text: {
+                            DEFAULT: '#1F2937', // Charcoal
+                            muted: '#6B7280', // Muted Gray
+                        },
+                        gold: '#D97706',
+                        verified: '#2563EB',
+                    },
+                    borderRadius: {
+                        "DEFAULT": "12px",
+                        "lg": "16px",
+                        "xl": "24px",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        "body": ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #FAFAF8;
+            color: #1F2937;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Kanit', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .krupass-gradient {
+            background: linear-gradient(135deg, #0F766E 0%, #10B981 100%);
+        }
+        .krupass-text-gradient {
+            background: linear-gradient(135deg, #0F766E 0%, #10B981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="border-b border-[#6B7280]/20 bg-[#FAFAF8] dark:bg-gray-900 shadow-sm docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<div class="flex items-center gap-8">
+<a class="text-2xl font-black text-[#0F766E] font-headline tracking-tight" href="#">ครูเปย์ครู KruPayKru</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors font-headline font-medium text-lg" href="{{DATA:SCREEN:SCREEN_31}}">หน้าแรก</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors font-headline font-medium text-lg" href="{{DATA:SCREEN:SCREEN_25}}">สื่อการสอน</a>
+<a class="text-[#0F766E] font-bold border-b-2 border-[#0F766E] pb-1 font-headline text-lg" href="#">KruPass</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors font-headline font-medium text-lg" href="#">เกี่ยวกับเรา</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 w-64 text-sm font-body" placeholder="ค้นหาสื่อการสอน..." type="text">
+</div>
+<button aria-label="shopping_cart" class="p-2 text-[#6B7280] hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button aria-label="notifications" class="p-2 text-[#6B7280] hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full overflow-hidden border-2 border-transparent hover:border-primary-500 transition-colors shrink-0">
+<img alt="รูปโปรไฟล์ผู้ใช้" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHUTs-GkujjqiMHBW40ztM_531Q_HSrOdjL4rZG586Ea6JkvMpvWIjb-vQtEA6R80CHztMwGPbMx6EIcIc4TRsnndQ5pIiaM-JCYBGa3FiXH0J2UBMo9ynEtfvAR3nEZNaiXyg57lZEiJ9N28lNMGqZKzo5lwn-cixAEg5abaVfmP0-B6ez93nma5ppcyAzX7tY4kLCxsTTouVu1GSwDQxPx0h8Uskm61QlxmhlhJhsi3xVoUKbjxKk5qtj2evy1ibILB2aHOIPw">
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- HERO SECTION -->
+<section class="krupass-gradient text-white py-20 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=')] bg-repeat"></div>
+<div class="max-w-4xl mx-auto px-6 text-center relative z-10 flex flex-col items-center">
+<span class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6 border border-white/30 font-headline">สมาชิกพรีเมียม</span>
+<h1 class="text-4xl md:text-5xl font-bold font-headline mb-8 leading-tight">KruPass — โหลดสื่อการสอนไม่อั้น</h1>
+<div class="flex flex-wrap justify-center gap-6 text-sm md:text-base font-body text-primary-50">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white">check_circle</span>
+<span class="">ไม่มีขั้นต่ำ</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white">check_circle</span>
+<span class="">ยกเลิกฟรี</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-white">check_circle</span>
+<span class="">คืนเงินภายใน 7 วัน</span>
+</div>
+</div>
+</div>
+</section>
+<!-- PRICING GRID -->
+<section class="py-20 px-6 max-w-7xl mx-auto -mt-10 relative z-20">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
+<!-- CARD 1: 14-Day Pass -->
+<div class="bg-gray-50 rounded-[16px] p-8 shadow-sm border border-gray-200 flex flex-col h-full">
+<h3 class="text-xl font-bold font-headline text-text mb-2">14-Day Pass</h3>
+<div class="mb-6">
+<span class="text-3xl font-bold font-headline text-text">฿99</span>
+<span class="text-text-muted font-body"> / 14 วัน</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow font-body text-text-muted text-sm">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">โหลดไม่อั้น 14 วัน (fair-use)</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">เหมาะช่วงเปิดเทอม</span>
+</li>
+</ul>
+<a href="{{DATA:SCREEN:SCREEN_10}}" class="w-full py-3 px-4 rounded-full border-2 border-gray-300 text-text font-medium font-headline hover:bg-gray-100 transition-colors text-center">ซื้อ 14-Day Pass</a>
+</div>
+<!-- CARD 2: Lite -->
+<div class="bg-white rounded-[16px] p-8 shadow-md border border-gray-100 flex flex-col h-full">
+<h3 class="text-xl font-bold font-headline text-text mb-2">Lite</h3>
+<div class="mb-6">
+<span class="text-3xl font-bold font-headline text-text">฿199</span>
+<span class="text-text-muted font-body">/เดือน</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow font-body text-text-muted text-sm">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">โหลด 10 ครั้ง/วัน</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">ไม่เห็นโฆษณา</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">สมทบกองโบนัสครู</span>
+</li>
+</ul>
+<a href="{{DATA:SCREEN:SCREEN_10}}" class="w-full py-3 px-4 rounded-full border-2 border-primary text-primary font-medium font-headline hover:bg-primary-50 transition-colors text-center">เริ่ม Lite</a>
+</div>
+<!-- CARD 3: Plus (Highlighted) -->
+<div class="bg-white rounded-[16px] p-8 shadow-xl border-4 border-primary flex flex-col h-full relative transform md:-translate-y-4">
+<div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full font-headline font-bold text-sm shadow-md whitespace-nowrap">ยอดนิยม</div>
+<h3 class="text-2xl font-bold font-headline text-primary mb-2">Plus</h3>
+<div class="mb-6">
+<span class="text-4xl font-bold font-headline text-text">฿249</span>
+<span class="text-text-muted font-body">/เดือน</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow font-body text-text text-sm">
+<li class="flex gap-3 font-medium">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check_circle</span>
+<span class="">โหลด 30 ครั้ง/วัน</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">ไม่เห็นโฆษณา</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">ส่วนลดซื้อเหมา 5%</span>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl shrink-0">check</span>
+<span class="">สมทบกองโบนัสครู</span>
+</li>
+</ul>
+<a href="{{DATA:SCREEN:SCREEN_10}}" class="w-full py-3 px-4 rounded-full bg-primary text-white font-medium font-headline hover:bg-primary-800 transition-colors shadow-lg shadow-primary/30 text-center">เริ่ม Plus</a>
+</div>
+<!-- CARD 4: Unlimited -->
+<div class="bg-white rounded-[16px] p-8 shadow-md border-2 border-gold flex flex-col h-full relative">
+<div class="absolute top-4 right-4 bg-gold/10 text-gold border border-gold px-3 py-1 rounded-full font-headline font-semibold text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">workspace_premium</span> ครู VIP
+                    </div>
+<h3 class="text-xl font-bold font-headline text-text mb-2">Unlimited</h3>
+<div class="mb-6">
+<span class="text-3xl font-bold font-headline text-text">฿349</span>
+<span class="text-text-muted font-body">/เดือน</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow font-body text-text-muted text-sm">
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-gold text-xl shrink-0">star</span>
+<strong class="text-text">โหลดไม่จำกัด (fair-use)</strong>
+</li>
+<li class="flex gap-3">
+<span class="material-symbols-outlined text-gold text-xl shrink-0">check</span>
+<span class="">ส่วนลดซื้อเหมา 10%</span>
+</li>
+</ul>
+<a href="{{DATA:SCREEN:SCREEN_10}}" class="w-full py-3 px-4 rounded-full bg-gold text-white font-medium font-headline hover:bg-yellow-600 transition-colors shadow-md text-center">เริ่ม Unlimited</a>
+</div>
+</div>
+<p class="text-center text-text-muted font-body text-sm mt-10">ทุกแพ็กเกจสมทบ 100 บาท เข้ากองโบนัสครูผู้สร้างผลงาน</p>
+</section>
+<!-- HOW IT WORKS -->
+<section class="py-16 bg-white border-y border-gray-100">
+<div class="max-w-5xl mx-auto px-6">
+<h2 class="text-3xl font-bold font-headline text-center text-text mb-12">ใช้ยังไง</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+<div class="flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-full bg-primary-50 flex items-center justify-center mb-6 shadow-inner">
+<span class="material-symbols-outlined text-4xl text-primary">person_add</span>
+</div>
+<h3 class="text-xl font-bold font-headline text-text mb-2">สมัครสมาชิก</h3>
+<p class="text-text-muted font-body text-sm">เลือกแพ็กเกจที่เหมาะกับการใช้งานของคุณ</p>
+</div>
+<div class="flex flex-col items-center text-center relative">
+<div class="hidden md:block absolute top-10 -left-1/2 w-full h-[2px] bg-dashed border-t-2 border-dashed border-gray-200 z-0"></div>
+<div class="w-20 h-20 rounded-full bg-primary-50 flex items-center justify-center mb-6 shadow-inner relative z-10">
+<span class="material-symbols-outlined text-4xl text-primary">content_copy</span>
+</div>
+<h3 class="text-xl font-bold font-headline text-text mb-2">เลือกสื่อที่มีป้าย KruPass</h3>
+<p class="text-text-muted font-body text-sm">ค้นหาสื่อการสอนกว่า 10,000+ รายการที่ร่วมรายการ</p>
+</div>
+<div class="flex flex-col items-center text-center relative">
+<div class="hidden md:block absolute top-10 -left-1/2 w-full h-[2px] bg-dashed border-t-2 border-dashed border-gray-200 z-0"></div>
+<div class="w-20 h-20 rounded-full krupass-gradient flex items-center justify-center mb-6 shadow-lg relative z-10 text-white">
+<span class="material-symbols-outlined text-4xl">download</span>
+</div>
+<h3 class="text-xl font-bold font-headline text-text mb-2">กดดาวน์โหลดได้ทันที</h3>
+<p class="text-text-muted font-body text-sm">นำไปใช้สอนได้เลย ประหยัดเวลาเตรียมการสอน</p>
+</div>
+</div>
+</div>
+</section>
+<!-- LIBRARY SHOWCASE -->
+<section class="py-20 px-6 max-w-7xl mx-auto">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold font-headline text-text mb-3">คลังสื่อแบบ KruPass</h2>
+<p class="text-text-muted font-body">ตัวอย่างคุณภาพที่รวมอยู่ในแพ็กเกจ</p>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Repeatable Product Card -->
+<div class="bg-white rounded-[12px] overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+<div class="absolute top-2 left-2 z-10 krupass-gradient text-white text-[10px] font-bold px-2 py-0.5 rounded-full font-headline shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">star</span> KruPass
+                        </div>
+<img alt="Worksheet cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A brightly colored educational worksheet cover designed for elementary students, featuring cartoon animals and bold Thai typography for a math lesson, well-lit studio photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyqpnelfNauHOJW_Z_lEx2_u_PHHpM4ZEQiVIzo5_MzHLDlvZR70k-maAeggB666ATL924zl6P4N7E9FC8A8pfnmxBUZ9xdrLU7gNzgkGBiySeSG9cJfk6wkh4mohOr3NgFBGcGzp1ovd_1QAzUyA8bWA_y1vjmz_4sf1gYXcM-7iN7b0EaFJ2korTfi9m0WFVZuGnCQS9OdhHJskukLnhRpY_fJa8O85i_bspPPH7kHRUjsiwU5tT-6l53ZbfGyVZuS7JRGcUXQ">
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h4 class="font-headline font-medium text-text text-sm line-clamp-2 mb-2 leading-tight">ใบงานคณิตศาสตร์ ป.1 บวกลบเลขแสนสนุก สีสันสดใส</h4>
+<div class="mt-auto">
+<div class="flex items-center gap-1 mb-1">
+<span class="text-xs font-body text-text-muted truncate">ครูใจดี สตูดิโอ</span>
+<span class="material-symbols-outlined text-verified text-[14px]">verified</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-accent text-[14px] fill-current">star</span>
+<span class="text-xs font-body text-text-muted">4.9</span>
+</div>
+<span class="font-headline font-bold text-primary line-through opacity-50 text-xs">฿49</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[12px] overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+<div class="absolute top-2 left-2 z-10 krupass-gradient text-white text-[10px] font-bold px-2 py-0.5 rounded-full font-headline shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">star</span> KruPass
+                        </div>
+<img alt="Worksheet cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A clean, minimalist high school science worksheet cover showing a stylized atom diagram and bold Thai typography for a physics lesson, bright professional lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3xwPR9rhX14SHKfkcOQvKa9nm7KG-ipIBzN8pYtolGYuiu4_7d0veJFZrKyk2GpjuMoDJVq7crAblBSOCELL8HzqsG5v8UbJJdtmSyGBLN5gPFXo6P-W8B-65GeuZS7B2WI5LcC2fji64mBNdnJ9gvnUIbTJafWxIlDwz_k0p_YsnvixlY88kUHQAoNHP_MjBcVVtLEgSJmhT4bC-f58-g8eXsEDCSRJXT2-5PJAm4DCRZnp_pPQGCEhysDJcgsJYv06gpWPO2g">
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h4 class="font-headline font-medium text-text text-sm line-clamp-2 mb-2 leading-tight">สรุปฟิสิกส์ ม.4 เทอม 1 พร้อมโจทย์เตรียมสอบ</h4>
+<div class="mt-auto">
+<div class="flex items-center gap-1 mb-1">
+<span class="text-xs font-body text-text-muted truncate">ScienceHub</span>
+<span class="material-symbols-outlined text-gray-400 text-[14px]">account_balance</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-accent text-[14px] fill-current">star</span>
+<span class="text-xs font-body text-text-muted">5.0</span>
+</div>
+<span class="font-headline font-bold text-primary line-through opacity-50 text-xs">฿89</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[12px] overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer flex flex-col hidden md:flex">
+<div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+<div class="absolute top-2 left-2 z-10 krupass-gradient text-white text-[10px] font-bold px-2 py-0.5 rounded-full font-headline shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">star</span> KruPass
+                        </div>
+<img alt="Worksheet cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="An engaging English language learning worksheet cover for middle school, featuring colorful illustrations of everyday objects and bold Thai and English typography, bright engaging aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6K-uM6N19sTSijVCjqQBMEaq5Q8BMTjv7_T-N7R062AhOQ51j17qmCR2eQHVo-ssVShXpCmUgu0DRIHrei81UrrRucRGCTzVHZ5M0UdZ1NW-qbd9Eh_i4GnLI4e3GBqYe2LWsooyt0uEUWCQXY1-7v_BBxLrsK09eacM62US64PQmkZVbbosCU5-_rrFQ-59GoG9oaNVonpEIooj8g27cTVhAST1TamdC2jCT7eYXpKx86haqLXtL6xlSCy5W9KAJcdhVdBMk5Q">
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h4 class="font-headline font-medium text-text text-sm line-clamp-2 mb-2 leading-tight">Flashcards คำศัพท์ภาษาอังกฤษ ป.4-6 หมวดอาหาร</h4>
+<div class="mt-auto">
+<div class="flex items-center gap-1 mb-1">
+<span class="text-xs font-body text-text-muted truncate">Teacher Ann</span>
+<span class="border border-gold text-gold text-[8px] px-1 rounded-sm font-headline">ครูตัวจริง</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-accent text-[14px] fill-current">star</span>
+<span class="text-xs font-body text-text-muted">4.8</span>
+</div>
+<span class="font-headline font-bold text-primary line-through opacity-50 text-xs">฿39</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-[12px] overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 group cursor-pointer flex flex-col hidden md:flex">
+<div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
+<div class="absolute top-2 left-2 z-10 krupass-gradient text-white text-[10px] font-bold px-2 py-0.5 rounded-full font-headline shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">star</span> KruPass
+                        </div>
+<img alt="Worksheet cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A beautiful Thai history presentation template cover, featuring elegant traditional Thai patterns in gold and deep blue, clear Thai typography for social studies class, premium educational design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6xX_jg5f8DRSnliyrhnZV5J2CqFBxx2EG7r1n6nTysrmDcPT_QUruZNntDfHVz5xCJXgPJTP80fprMeAtbC2sBkIfTfOGgok4Mi7J59Y0j_G7n544GEiOAxfGB_380w9nD1yBhoclDsJJ6bTtUkJgyxlOAheIuIZlzrukpztDIhYglhbkE3W_OBr4sP5zYoZs4eg2U1jwhaeEAaxFguXnRoLBF4CBlSWGcXcO1H2znw9DGloOnL8YRWUd6-hnfZ35NJX6zdjxEg">
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h4 class="font-headline font-medium text-text text-sm line-clamp-2 mb-2 leading-tight">สไลด์นำเสนอ ประวัติศาสตร์ชาติไทย ม.2 (Canva)</h4>
+<div class="mt-auto">
+<div class="flex items-center gap-1 mb-1">
+<span class="text-xs font-body text-text-muted truncate">Kru Slide</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-accent text-[14px] fill-current">star</span>
+<span class="text-xs font-body text-text-muted">4.9</span>
+</div>
+<span class="font-headline font-bold text-primary line-through opacity-50 text-xs">฿120</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center mt-10">
+<button class="inline-flex items-center gap-2 text-primary font-headline font-medium hover:underline">
+                    ดูสื่อ KruPass ทั้งหมด <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- FAQ -->
+<section class="py-16 bg-surface">
+<div class="max-w-3xl mx-auto px-6">
+<h2 class="text-3xl font-bold font-headline text-center text-text mb-10">คำถามที่พบบ่อย</h2>
+<div class="space-y-4">
+<!-- Accordion Item 1 -->
+<details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden" open="">
+<summary class="flex justify-between items-center font-headline font-medium cursor-pointer list-none p-5 text-text hover:text-primary transition-colors">
+<span class="">สามารถยกเลิกแพ็กเกจได้เมื่อไหร่?</span>
+<span class="transition group-open:rotate-180 material-symbols-outlined">expand_more</span>
+</summary>
+<div class="text-text-muted font-body p-5 pt-0 border-t border-gray-100 mt-2 text-sm leading-relaxed">
+                            คุณสามารถยกเลิกแพ็กเกจได้ตลอดเวลาผ่านหน้าการตั้งค่าบัญชี โดยระบบจะไม่มีการเรียกเก็บเงินในรอบบิลถัดไป และคุณยังสามารถใช้งาน KruPass ได้จนกว่าจะหมดรอบบิลปัจจุบัน
+                        </div>
+</details>
+<!-- Accordion Item 2 -->
+<details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+<summary class="flex justify-between items-center font-headline font-medium cursor-pointer list-none p-5 text-text hover:text-primary transition-colors">
+<span class="">นโยบายโหลดไม่จำกัด (Fair-use) คืออะไร?</span>
+<span class="transition group-open:rotate-180 material-symbols-outlined">expand_more</span>
+</summary>
+<div class="text-text-muted font-body p-5 pt-0 border-t border-gray-100 mt-2 text-sm leading-relaxed">
+                            เพื่อป้องกันการละเมิดลิขสิทธิ์และการดึงข้อมูลอัตโนมัติ (Bot) เราจำกัดการดาวน์โหลดที่ 150 ไฟล์ต่อวันสำหรับแพ็กเกจ Unlimited ซึ่งเพียงพอสำหรับการใช้งานปกติของครู 1 ท่านในการเตรียมการสอน
+                        </div>
+</details>
+<!-- Accordion Item 3 -->
+<details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+<summary class="flex justify-between items-center font-headline font-medium cursor-pointer list-none p-5 text-text hover:text-primary transition-colors">
+<span class="">ครูผู้สร้างสื่อจะได้รายได้จาก KruPass อย่างไร?</span>
+<span class="transition group-open:rotate-180 material-symbols-outlined">expand_more</span>
+</summary>
+<div class="text-text-muted font-body p-5 pt-0 border-t border-gray-100 mt-2 text-sm leading-relaxed">
+                            เรามี "กองทุนโบนัสครู" ซึ่งหัก 100 บาทจากทุกแพ็กเกจที่ขายได้ นำมารวมกันและปันผลให้กับผู้สร้างสื่อตามสัดส่วนยอดดาวน์โหลดจากผู้ใช้ KruPass ในแต่ละเดือน ทำให้มั่นใจได้ว่าผู้สร้างสรรค์จะได้รับผลตอบแทนที่เป็นธรรม
+                        </div>
+</details>
+<!-- Accordion Item 4 -->
+<details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+<summary class="flex justify-between items-center font-headline font-medium cursor-pointer list-none p-5 text-text hover:text-primary transition-colors">
+<span class="">นโยบายการคืนเงินภายใน 7 วัน มีเงื่อนไขอย่างไร?</span>
+<span class="transition group-open:rotate-180 material-symbols-outlined">expand_more</span>
+</summary>
+<div class="text-text-muted font-body p-5 pt-0 border-t border-gray-100 mt-2 text-sm leading-relaxed">
+                            หากคุณสมัครแล้วพบว่าสื่อไม่ตอบโจทย์ สามารถกดขอคืนเงินได้ภายใน 7 วันแรกของการสมัครครั้งแรก โดยมีเงื่อนไขว่าต้องดาวน์โหลดสื่อไปไม่เกิน 5 ไฟล์ เราจะคืนเงินเต็มจำนวนโดยไม่มีคำถามเพิ่มเติม
+                        </div>
+</details>
+<!-- Accordion Item 5 -->
+<details class="group bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+<summary class="flex justify-between items-center font-headline font-medium cursor-pointer list-none p-5 text-text hover:text-primary transition-colors">
+<span class="">ข้อมูลการดาวน์โหลดของฉันปลอดภัยไหม? (PDPA)</span>
+<span class="transition group-open:rotate-180 material-symbols-outlined">expand_more</span>
+</summary>
+<div class="text-text-muted font-body p-5 pt-0 border-t border-gray-100 mt-2 text-sm leading-relaxed">
+                            ปลอดภัย 100% เราปฏิบัติตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA) อย่างเคร่งครัด ข้อมูลประวัติการดาวน์โหลดจะถูกเข้ารหัสและใช้เพื่อการคำนวณส่วนแบ่งรายได้ให้ผู้สร้างเท่านั้น ไม่มีการนำไปขายต่อให้บุคคลที่สาม
+                        </div>
+</details>
+</div>
+</div>
+</section>
+<!-- BOTTOM CTA -->
+<section class="krupass-gradient py-16 text-center px-6">
+<h2 class="text-3xl md:text-4xl font-bold font-headline text-white mb-8">พร้อมประหยัดเวลาเตรียมสอน?</h2>
+<a href="{{DATA:SCREEN:SCREEN_10}}" class="bg-white text-primary px-8 py-4 rounded-full font-headline font-bold text-lg hover:bg-gray-50 transition-colors shadow-xl hover:scale-105 transform duration-200 inline-block">สมัคร KruPass วันนี้</a>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full mt-auto border-t border-[#6B7280]/10 bg-[#FFFFFF] dark:bg-gray-950">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 py-12 max-w-7xl mx-auto">
+<div class="col-span-1">
+<div class="text-xl font-bold text-[#0F766E] mb-4 font-headline">ครูเปย์ครู KruPayKru</div>
+<p class="font-body text-sm text-[#6B7280] mb-4">ตลาดกลางสื่อการสอนสำหรับครูไทย ซื้อขาย แบ่งปัน ไอเดียการสอน เพื่อการศึกษาไทยที่ดีขึ้น</p>
+<div class="font-body text-sm text-[#6B7280]">
+                    © 2024 KruPayKru ครูเปย์ครู - ตลาดกลางสื่อการสอนสำหรับครูไทย
+                </div>
+</div>
+<div class="col-span-1">
+<h4 class="font-headline font-bold text-text mb-4">เมนูลัด</h4>
+<ul class="space-y-2">
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">หน้าแรก</a></li>
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">สื่อการสอนทั้งหมด</a></li>
+<li class=""><a class="text-[#0F766E] underline font-body text-sm hover:underline transition-all cursor-pointer" href="#">สมัคร KruPass</a></li>
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">เปิดร้านขายสื่อ</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-headline font-bold text-text mb-4">ช่วยเหลือและนโยบาย</h4>
+<ul class="space-y-2">
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">เงื่อนไขการใช้งาน</a></li>
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">นโยบายความเป็นส่วนตัว</a></li>
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">ติดต่อเรา</a></li>
+<li class=""><a class="text-[#6B7280] hover:text-[#0F766E] font-body text-sm hover:underline transition-all cursor-pointer" href="#">ช่วยเหลือ</a></li>
+</ul>
+</div>
+</div>
+</footer>
+
+
+</body></html>

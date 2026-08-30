@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ครูเปย์ครู KruPayKru - Store Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&amp;family=Noto+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#b4c5ff",
+                      "on-secondary-container": "#684000",
+                      "error": "#ba1a1a",
+                      "success": "#16A34A",
+                      "secondary-fixed": "#ffddb8",
+                      "on-primary-fixed": "#00201d",
+                      "outline": "#6e7977",
+                      "surface-container-high": "#dee9fc",
+                      "on-tertiary-fixed": "#00174b",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container": "#e6eeff",
+                      "primary-fixed-dim": "#80d5cb",
+                      "background": "#f8f9ff",
+                      "on-primary-container": "#a3faef",
+                      "seller-gold": "#D97706",
+                      "outline-variant": "#bdc9c6",
+                      "on-tertiary-fixed-variant": "#003ea8",
+                      "surface-container-highest": "#d9e3f6",
+                      "muted-gray": "#6B7280",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#00504a",
+                      "tertiary-container": "#1e5fe7",
+                      "background-warm": "#FAFAF8",
+                      "on-surface": "#121c2a",
+                      "on-secondary-fixed": "#2a1700",
+                      "on-background": "#121c2a",
+                      "on-tertiary-container": "#e6e9ff",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "on-secondary-fixed-variant": "#653e00",
+                      "surface": "#f8f9ff",
+                      "danger": "#DC2626",
+                      "surface-dim": "#d0dbed",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#3e4947",
+                      "surface-tint": "#006a63",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#d9e3f6",
+                      "tertiary-fixed": "#dbe1ff",
+                      "inverse-surface": "#27313f",
+                      "primary-container": "#0f766e",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-primary": "#80d5cb",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#005c55",
+                      "primary-fixed": "#9cf2e8",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#fea619",
+                      "secondary": "#855300",
+                      "krupass-emerald": "#10B981",
+                      "tertiary": "#0047bf"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "32px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Noto Sans"
+                      ],
+                      "body-sm": [
+                              "Noto Sans"
+                      ],
+                      "label-md": [
+                              "Noto Sans"
+                      ],
+                      "headline-lg": [
+                              "IBM Plex Sans"
+                      ],
+                      "price-display": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-md": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-sm": [
+                              "IBM Plex Sans"
+                      ],
+                      "body-md": [
+                              "Noto Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "price-display": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .shadow-lifted {
+            box-shadow: 0 4px 8px rgba(0, 92, 85, 0.12);
+        }
+        
+        .shadow-hover {
+            box-shadow: 0 8px 16px rgba(0, 92, 85, 0.16);
+        }
+        
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Hide scrollbar for clean horizontal scrolling */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-warm text-on-surface font-body-md text-body-md antialiased min-h-screen pb-20 md:pb-0">
+<!-- TopNavBar (Web) -->
+<header class="hidden md:flex bg-surface-container-lowest shadow-sm docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center px-margin-desktop py-4 w-full max-w-container-max mx-auto">
+<!-- Brand -->
+<a class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-2" href="#">
+<span class="material-symbols-outlined filled text-primary" style="font-size: 28px;">school</span>
+                ครูเปย์ครู KruPayKru
+            </a>
+<!-- Search (Center) -->
+<div class="flex-1 max-w-xl mx-8 relative">
+<input class="w-full h-12 pl-12 pr-4 rounded-xl border border-outline-variant bg-surface-bright focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="ค้นหาสื่อการสอน..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted-gray">search</span>
+<button class="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-on-primary p-1.5 rounded-lg hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">arrow_forward</span>
+</button>
+</div>
+<!-- Navigation Links -->
+<nav class="flex items-center gap-6 mr-6">
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md transition-colors active:scale-95 duration-200" href="#">Marketplace</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors font-label-md text-label-md active:scale-95 duration-200" href="#">Library</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors font-label-md text-label-md active:scale-95 duration-200" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-primary-container transition-colors font-label-md text-label-md active:scale-95 duration-200" href="#">Admin</a>
+</nav>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4 border-l border-outline-variant pl-6">
+<button class="bg-primary text-on-primary px-5 py-2 rounded-full font-label-md text-label-md font-semibold hover:bg-primary/90 transition-colors shadow-sm">
+                    Upload
+                </button>
+<button class="text-on-surface-variant hover:text-primary-container transition-colors relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary-container transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary-container transition-colors">
+<span class="material-symbols-outlined" style="font-size: 32px;">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Mobile Header (Simplified for Store Profile) -->
+<header class="md:hidden bg-surface-container-lowest shadow-sm sticky top-0 z-50 flex items-center justify-between px-margin-mobile py-3">
+<button class="text-on-surface p-1">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex items-center gap-3">
+<button class="text-on-surface p-1">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-on-surface p-1 relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="text-on-surface p-1">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</header>
+<main class="max-w-container-max mx-auto md:px-margin-desktop w-full">
+<!-- Store Hero Section -->
+<section class="relative bg-surface-container-lowest md:rounded-b-2xl md:shadow-sm overflow-hidden mb-8 md:mb-12">
+<!-- Banner Image -->
+<div class="h-32 md:h-64 w-full bg-surface-variant relative overflow-hidden" data-alt="A stylized banner image for a science teacher's digital store, featuring abstract molecular structures and glowing atom diagrams on a deep teal and light blue gradient background, modern and educational aesthetic, high quality design" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCpfNSM452HyDTNbdExha81CDOrsT9cVZQZm777v02Ufjv92Px98ZRdd_uQhhpDXhjE1ytxYw38-R6TYm56_eEl6KoLXpKXqkRvUDwz55ywtF3N-EhFEmgdGUo2xBqEmO_oyhpFzt6sM3N8v-_MKmGjYQ19vnRlF9nKNXz9GC_Mwc0jYkIBPhm_SJQE9Tmj1qZbnz57u8LNXkQeGzWqCJ496yhkKcKmfSyznjw6railXvynqWFq9vg')">
+<!-- Optional Overlay for contrast -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+</div>
+<!-- Profile Info Container -->
+<div class="px-margin-mobile md:px-8 pb-6 md:pb-8 relative -mt-12 md:-mt-16 flex flex-col md:flex-row md:items-end gap-4 md:gap-6">
+<!-- Avatar -->
+<div class="relative w-24 h-24 md:w-32 md:h-32 shrink-0">
+<div class="w-full h-full rounded-full border-4 border-surface-container-lowest bg-surface overflow-hidden shadow-md">
+<img class="w-full h-full object-cover" data-alt="A professional portrait illustration of a male science teacher with glasses, smiling, wearing a casual shirt, modern flat vector style, set against a soft teal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUXOBESDoEzgcTbX2U_ZTJy4dsYoVAMnarkHusggu3GBvPJBZ0dNyv-BHYTOplflVt_dS6kd_PiAd7SdIpVHCRxgZNpV7G477xE8FVXgqwutLdugpvjtN-wOHY2xeXSwl5T2EVmk5Y_Wvky-qlJM7OXv0aetLPQI-vpJYK4_6vkZ7BabW992ZNfkyiJnRds4-Fu7fWB8EnuL7iT3GTdbnsl32SS36h1ZCwzn-bJFTAf_MZqdOzzLE"/>
+</div>
+<!-- Verified Badge -->
+<div class="absolute bottom-1 right-1 bg-surface-container-lowest rounded-full p-0.5 shadow-sm" title="Verified Teacher">
+<span class="material-symbols-outlined filled text-seller-gold" style="font-size: 24px;">verified</span>
+</div>
+</div>
+<!-- Store Details -->
+<div class="flex-1 mt-2 md:mt-0 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+<div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-1 flex items-center gap-2">
+                            ครูก้อง Science Store
+                        </h1>
+<p class="font-body-sm text-body-sm text-muted-gray mb-3 md:mb-4 max-w-xl">
+                            แบ่งปันสื่อการสอนวิทยาศาสตร์ที่เข้าใจง่าย สนุก และใช้ได้จริงในห้องเรียน เหมาะสำหรับคุณครูวิทย์ยุคใหม่
+                        </p>
+<div class="flex items-center gap-4 font-label-md text-label-md text-on-surface-variant">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-secondary-container" style="font-size: 18px;">star</span>
+<span class="font-bold text-on-surface">4.9</span>
+<span class="text-muted-gray">(128 รีวิว)</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-outline-variant"></div>
+<div>
+<span class="font-bold text-on-surface">1,204</span> ผู้ติดตาม
+                            </div>
+<div class="w-1 h-1 rounded-full bg-outline-variant hidden md:block"></div>
+<div class="hidden md:flex items-center gap-1">
+<span class="material-symbols-outlined text-muted-gray" style="font-size: 18px;">local_shipping</span>
+                                ไฟล์ดิจิทัล 100%
+                            </div>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full md:w-auto bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md font-semibold hover:bg-primary/90 transition-colors shadow-sm flex justify-center items-center gap-2 shrink-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">person_add</span>
+                        ติดตามร้าน
+                    </button>
+</div>
+</div>
+</section>
+<!-- Tab Navigation -->
+<section class="mb-8 px-margin-mobile md:px-0">
+<div class="flex gap-8 border-b border-outline-variant/30 overflow-x-auto hide-scrollbar">
+<a class="pb-3 text-primary font-bold border-b-2 border-primary whitespace-nowrap font-label-md text-label-md" href="#">
+                    สื่อการสอนทั้งหมด (45)
+                </a>
+<a class="pb-3 text-on-surface-variant font-medium hover:text-primary transition-colors whitespace-nowrap font-label-md text-label-md" href="#">
+                    คอร์สเรียน (3)
+                </a>
+<a class="pb-3 text-on-surface-variant font-medium hover:text-primary transition-colors whitespace-nowrap font-label-md text-label-md flex items-center gap-1" href="#">
+                    รีวิว <span class="bg-surface-variant text-on-surface-variant px-1.5 py-0.5 rounded text-xs">128</span>
+</a>
+<a class="pb-3 text-on-surface-variant font-medium hover:text-primary transition-colors whitespace-nowrap font-label-md text-label-md hidden md:block" href="#">
+                    เกี่ยวกับร้าน
+                </a>
+</div>
+</section>
+<!-- Products Grid (Bento/Masonry lite inspired) -->
+<section class="px-margin-mobile md:px-0 mb-16">
+<!-- Filter & Sort Header -->
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold hidden md:block">สื่อวิทยาศาสตร์ล่าสุด</h2>
+<div class="flex gap-2 w-full md:w-auto overflow-x-auto hide-scrollbar pb-1">
+<button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 transition-colors whitespace-nowrap">
+                        ล่าสุด
+                    </button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 transition-colors whitespace-nowrap">
+                        ขายดี
+                    </button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant bg-surface-container-lowest text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 transition-colors whitespace-nowrap flex items-center gap-1">
+                        ระดับชั้น <span class="material-symbols-outlined" style="font-size: 16px;">arrow_drop_down</span>
+</button>
+</div>
+</div>
+<!-- The Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Product Card 1 (Featured/Large) -->
+<div class="lg:col-span-2 sm:col-span-2 group cursor-pointer bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-hover transition-all duration-300 border border-transparent hover:border-primary/20 flex flex-col">
+<div class="relative w-full aspect-[2/1] md:aspect-[5/2] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A vibrant, engaging presentation slide cover for a high school biology lesson on cell structures, featuring a 3D rendered animal cell with bright colors on a clean white background, modern educational design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6IFKrM45tKZzACk5hHWrqzQvLUBVFtOdpRRtMKIvLRdUARmIGv7V-J5HKgyHbpluW2ss66lo11kNDFEuAC7fROdVB297cjyB1g2AtY3D_e6BcUgB3P7lS0ACUumyNvpsFSzKOgmie_r5hIU0JP5Q10iRpo5uF1DoK-qJlTgedkAEG2wg0XxW1vLdg840--U2VV4bKnf4Y9jfNWLaEZzBkfoht_HL891S89SOL8DwSKmrM0lRd-Ug"/>
+<div class="absolute top-3 right-3 bg-surface-container-lowest/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-bold text-primary flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 14px;">star</span> 4.9
+                        </div>
+<!-- Best Seller Tag -->
+<div class="absolute top-3 left-3 bg-seller-gold text-white px-2 py-1 rounded text-xs font-bold shadow-sm">
+                            Best Seller
+                        </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-xs text-primary font-semibold mb-1">มัธยมศึกษาตอนต้น • ชีววิทยา</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                            Bundle Set: สื่อนำเสนอเรื่องเซลล์ (Cell Structure) พร้อมใบงานและเฉลย
+                        </h3>
+<p class="font-body-sm text-body-sm text-muted-gray mb-4 line-clamp-2">ชุดสไลด์นำเสนอเรื่ององค์ประกอบของเซลล์สัตว์และเซลล์พืช เข้าใจง่ายด้วยภาพ 3D กราฟิกสวยงาม ดึงดูดความสนใจนักเรียน พร้อมใบงาน PDF</p>
+<div class="mt-auto flex items-center justify-between pt-3 border-t border-outline-variant/30">
+<div class="font-price-display text-price-display text-on-surface">฿150</div>
+<button class="bg-primary/10 text-primary p-2 rounded-lg hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">add_shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group cursor-pointer bg-surface-container-lowest rounded-[12px] overflow-hidden shadow-lifted hover:shadow-hover transition-all duration-300 border border-transparent hover:border-primary/20 flex flex-col">
+<div class="relative w-full aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A digital worksheet preview for a chemistry class focusing on the periodic table, colorful element blocks, clean typography, educational graphic design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtjntfZu-8uKMeRWSmo8KrxaF6eeVW-vj1Kv5zjdgGtfICb4UraDCS2A-shXh_qAnXXtEvm0d3Gx7OebbNNf4jKbSiu5K7m_0_9FllkFZ68R0qdAfHxqt2IZwPvQ3hUfF8SFyfLY7VCYq4U7vvDby0VSkto_fbxL_RKhDWBKbxY96WHIRkBK0fJyDWUc_wjHrd_PymHy3ACNAqi7jOPagRf3ZQM1Yuq3Kw_OoJtTmcIc80RJKjsZU"/>
+<div class="absolute top-2 right-2 bg-secondary-container text-secondary-fixed px-2 py-1 rounded text-xs font-bold shadow-sm">
+                            Sale 20%
+                        </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-xs text-primary font-semibold mb-1">มัธยมศึกษาตอนปลาย • เคมี</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface mb-1 line-clamp-2 group-hover:text-primary transition-colors">
+                            ใบงานตารางธาตุจำง่าย (Periodic Table Worksheets)
+                        </h3>
+<div class="mt-auto flex flex-col gap-1 pt-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-secondary-container" style="font-size: 14px;">star</span>
+<span class="text-xs text-muted-gray">4.8 (32)</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="flex items-baseline gap-2">
+<span class="font-price-display text-price-display text-on-surface text-lg">฿79</span>
+<span class="text-sm text-muted-gray line-through">฿99</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group cursor-pointer bg-surface-container-lowest rounded-[12px] overflow-hidden shadow-lifted hover:shadow-hover transition-all duration-300 border border-transparent hover:border-primary/20 flex flex-col">
+<div class="relative w-full aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An educational flashcard deck preview about the solar system and planets, featuring cute illustrations of planets in space, dark blue background with stars, kid friendly design" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl74k4taEe05wZmY2uyVgPa5ajAMDMbNWR5zXBqMteqKfKUHAmpVtRiZShHoUtHmEnTv0d0mXJqbAQGNBySBTd0hIXouL93BGxygm4aXjwWqweyxj5FaBFuLeTu7nMF7e4IPr_YrERaPfeGwgCkdsqm11kFaaCIz45b03VeJcXdFnxYSEYYCiVs455ZqIcp9XIVCHHDY7GOyQl8BUuX88gDCTanOJV01c48Y190hNxVxQDkgOU9sQ"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-xs text-primary font-semibold mb-1">ประถมศึกษา • ดาราศาสตร์</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface mb-1 line-clamp-2 group-hover:text-primary transition-colors">
+                            แฟลชการ์ดระบบสุริยะจักรวาล (Solar System Flashcards)
+                        </h3>
+<div class="mt-auto flex flex-col gap-1 pt-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-secondary-container" style="font-size: 14px;">star</span>
+<span class="text-xs text-muted-gray">5.0 (15)</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="font-price-display text-price-display text-on-surface text-lg">฿45</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group cursor-pointer bg-surface-container-lowest rounded-[12px] overflow-hidden shadow-lifted hover:shadow-hover transition-all duration-300 border border-transparent hover:border-primary/20 flex flex-col">
+<div class="relative w-full aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A template preview for a science lab report notebook, showing clean layout, graph paper background, experiment steps clearly marked, professional and academic aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3u-tOR9PppIXiz3AnzKxseptocRhscFfbCEO4ogZo2d8YIiDg8ZMWDUYQ0wJGaDxvjMigGIQ_ggHeIEnlhmqlouTvFqd7SGcd8lgj-wpc5W3JGj26Xi-hvJlsHMYtIjMTvC1RYEPEjlk9We6WV0A_jQyUYFf-rZH9gFLK4KMsa7WyZg8BtFKKNRJf-uEkgiqNhNTlmeh40BIY9Ft2PNBwkR9rWPHPsAGFoh66C6TRk9L-eFpdsp0"/>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-xs text-primary font-semibold mb-1">ทุกระดับชั้น • ทั่วไป</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface mb-1 line-clamp-2 group-hover:text-primary transition-colors">
+                            Template รายงานการทดลองวิทยาศาสตร์ (Lab Report Template)
+                        </h3>
+<div class="mt-auto flex flex-col gap-1 pt-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-secondary-container" style="font-size: 14px;">star</span>
+<span class="text-xs text-muted-gray">4.7 (42)</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="font-price-display text-price-display text-on-surface text-lg">฿35</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="group cursor-pointer bg-surface-container-lowest rounded-[12px] overflow-hidden shadow-lifted hover:shadow-hover transition-all duration-300 border border-transparent hover:border-primary/20 flex flex-col">
+<div class="relative w-full aspect-[4/3] bg-surface-variant overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A digital poster showing the human digestive system, detailed anatomical illustrations with clear labeling, professional yet approachable medical style, high contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCG6QHb9xlKsqC3_W6JKatrjL6Ie75vMFiXb3oST-14a92BIheaI9vbFIwn1O3s3qYp3OfJtS9V6Me3eX1VbR9cplpmJBPpEfTj3ww63yTiCEJ4mJIH3MItPZq5xwp7he99UFb8OEJuuPKfJxVlDkgA13XBQaFlX0HZ1iSV7LyOwl0zp6FfHL8hXcoeKg_8ES0BI6UsgPoiquxuRVjgyeoGEK2_jGIreEVA_TwU1z8MMC8ned4XfsI"/>
+<div class="absolute top-2 left-2 bg-gradient-to-r from-teal-500 to-emerald-500 text-white px-2 py-1 rounded text-[10px] font-bold shadow-sm uppercase tracking-wider">
+                            KruPass
+                        </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="text-xs text-primary font-semibold mb-1">มัธยมศึกษาตอนต้น • ชีววิทยา</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface mb-1 line-clamp-2 group-hover:text-primary transition-colors">
+                            โปสเตอร์ระบบย่อยอาหารของมนุษย์ (Digestive System Poster)
+                        </h3>
+<div class="mt-auto flex flex-col gap-1 pt-3">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined filled text-secondary-container" style="font-size: 14px;">star</span>
+<span class="text-xs text-muted-gray">4.9 (8)</span>
+</div>
+<div class="flex items-center justify-between mt-1">
+<div class="font-price-display text-price-display text-on-surface text-lg">฿55</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More -->
+<div class="mt-10 flex justify-center">
+<button class="px-8 py-2.5 rounded-full border-[1.5px] border-primary text-primary font-label-md text-label-md font-semibold hover:bg-primary/5 transition-colors">
+                    ดูผลงานเพิ่มเติม
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="md:hidden bg-surface-container-lowest shadow-[0_-2px_10px_rgba(0,0,0,0.05)] docked full-width bottom-0 rounded-t-xl fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-safe h-16">
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 active:scale-90 transition-transform w-16 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 active:scale-90 transition-transform w-16 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="text-[10px]">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-2xl px-4 py-1 font-label-md text-label-md hover:bg-surface-variant/50 active:scale-90 transition-transform w-16" href="#">
+<span class="material-symbols-outlined mb-1">shopping_basket</span>
+<span class="text-[10px]">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 active:scale-90 transition-transform w-16 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">auto_stories</span>
+<span class="text-[10px]">Library</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/50 active:scale-90 transition-transform w-16 py-1 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="text-[10px]">Profile</span>
+</a>
+</nav>
+</body></html>

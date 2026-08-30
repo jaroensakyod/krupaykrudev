@@ -1,0 +1,414 @@
+<!DOCTYPE html><html lang="th"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>เปลี่ยนสื่อที่คุณทำเอง ให้เป็นรายได้ | KruPayKru</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0F766E",
+                        "primary-dark": "#0B4F4A",
+                        accent: "#F59E0B",
+                        success: "#16A34A",
+                        danger: "#DC2626",
+                        background: "#FAFAF8",
+                        surface: "#FFFFFF",
+                        text: "#1F2937",
+                        muted: "#6B7280",
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem", // 12px for cards as per DS
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px" // Pill shape as per DS
+                    },
+                    fontFamily: {
+                        headline: ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        body: ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                    },
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #FAFAF8;
+            color: #1F2937;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Kanit', sans-serif;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+<!-- Shared Component: TopNavBar -->
+<nav class="bg-white dark:bg-zinc-900 shadow-sm border-b border-gray-100 docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<!-- Logo & Brand -->
+<div class="flex items-center gap-2"><a href="#" class="text-xl font-bold text-[#0F766E] dark:text-emerald-500 font-headline tracking-tight">ครูเปย์ครู KruPayKru</a></div>
+<!-- Search Bar (on_left configuration) -->
+<div class="hidden md:flex flex-1 max-w-xl mx-8">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-full focus:ring-2 focus:ring-[#0F766E] text-sm font-body" placeholder="ค้นหาสื่อการสอน, ใบงาน..." type="text">
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="hidden lg:flex items-center gap-6">
+<a class="font-headline font-semibold text-[#6B7280] hover:text-[#0F766E] transition-colors duration-200" href="#">หน้าแรก</a>
+<a class="font-headline font-semibold text-[#6B7280] hover:text-[#0F766E] transition-colors duration-200" href="#">สื่อการสอน</a>
+<a class="font-headline font-semibold text-[#6B7280] hover:text-[#0F766E] transition-colors duration-200" href="#">KruPass</a>
+<a class="font-headline font-semibold text-[#0F766E] border-b-2 border-[#0F766E] pb-1 transition-colors duration-200" href="#">วิธีขาย</a>
+<a class="font-headline font-semibold text-[#6B7280] hover:text-[#0F766E] transition-colors duration-200" href="#">ติดต่อเรา</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-3">
+<button class="text-gray-500 hover:text-[#0F766E] transition-colors active:scale-95 transition-transform"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-gray-500 hover:text-[#0F766E] transition-colors active:scale-95 transition-transform"><span class="material-symbols-outlined">shopping_cart</span></button>
+<button class="text-gray-500 hover:text-[#0F766E] transition-colors active:scale-95 transition-transform"><span class="material-symbols-outlined">account_circle</span></button>
+</div>
+<a class="hidden sm:inline-flex items-center justify-center px-4 py-2 bg-primary text-white font-headline font-medium rounded-full hover:bg-primary-dark transition-colors active:scale-95" href="#">
+                    สมัครเป็นผู้ขาย
+                </a>
+<!-- Mobile Menu Button -->
+<button class="lg:hidden text-gray-500"><span class="material-symbols-outlined">menu</span></button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative bg-white overflow-hidden py-16 lg:py-24">
+<div class="max-w-7xl mx-auto px-6 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-teal-50 text-primary rounded-full text-sm font-medium">
+<span class="material-symbols-outlined text-sm">storefront</span>
+                            เริ่มต้นธุรกิจสื่อการสอนของคุณ
+                        </div>
+<h1 class="text-4xl md:text-5xl lg:text-6xl font-headline font-bold text-text leading-tight">
+                            เปลี่ยนสื่อที่คุณทำเอง <br>
+<span class="text-primary">ให้เป็นรายได้</span>
+</h1>
+<p class="text-lg text-muted font-body max-w-xl">
+                            เปิดร้านฟรีตลอดชีพ ไม่มีค่าสมัคร แบ่งปันไอเดียการสอนของคุณให้กับครูทั่วประเทศ พร้อมรับรายได้เสริมอย่างยั่งยืน
+                        </p>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<a class="inline-flex justify-center items-center px-8 py-3 bg-primary text-white font-headline font-medium text-lg rounded-full hover:bg-primary-dark transition-all hover:shadow-lg active:scale-95" href="#">
+                                เปิดร้านฟรี 5 นาที
+                            </a>
+<a class="inline-flex justify-center items-center px-8 py-3 bg-white text-text border border-gray-200 font-headline font-medium text-lg rounded-full hover:bg-gray-50 transition-all" href="#how-it-works">
+                                ดูวิธีขาย
+                            </a>
+</div>
+<div class="flex items-center gap-4 text-sm text-muted font-body pt-4">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-success text-lg">check_circle</span> ไม่มีข้อผูกมัด</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-success text-lg">check_circle</span> ถอนเงินได้ทุกสัปดาห์</div>
+</div>
+</div>
+<div class="relative w-full h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl bg-teal-50">
+<!-- Graphic/Illustration area -->
+<img alt="Illustration of a happy teacher showing her digital teaching materials on a tablet, surrounded by floating gold coins, symbolizing earning money from selling educational resources." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLl2-FLXlgSAYtUa34tscwbsEdTN9_buBBt9b6Z8tvXMWF0BuxK2ym_SGxlQbnT_XYBHMEvCBCi6kkz5HHGfQtEA-e7uxw1JkTDcBC6eI_5iVk8FpA9DKgwvaJ8NKExwEGyO0hXbIUruCCOR2HIQh0xM2zCNPC-eeT6mgoYiZnU_L9QbV4h8d-K1Jfwi_OaIrtwk7H9mh3SwnGV731psO29Cd0a-9rdvNOfHFJMH87wUe8rrSSzudmadQ_0410ncaluALKmHEG-w">
+<!-- Decorative elements to embed it better -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent mix-blend-multiply pointer-events-none"></div>
+</div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute top-0 right-0 -translate-y-12 translate-x-1/3 w-[800px] h-[800px] bg-teal-50/50 rounded-full blur-3xl pointer-events-none"></div>
+</section>
+<!-- Steps Section (Bento Grid approach) -->
+<section class="py-20 bg-background" id="how-it-works">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-3xl font-headline font-bold text-text mb-4">เริ่มขายใน 4 ขั้นตอน</h2>
+<p class="text-muted font-body max-w-2xl mx-auto">กระบวนการง่ายๆ ที่ออกแบบมาเพื่อครูไทยโดยเฉพาะ ไม่ต้องมีความรู้เรื่องเทคนิคก็ทำได้</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Step 1 -->
+<div class="bg-surface p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="w-14 h-14 bg-teal-50 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">person_add</span>
+</div>
+<h3 class="text-xl font-headline font-semibold text-text mb-2">1. สมัคร</h3>
+<p class="text-muted font-body text-sm">ใช้เวลาเพียง 5 นาที กรอกข้อมูลพื้นฐานและยืนยันตัวตนด้วยบัตรข้าราชการครูหรือบัตรประชาชน</p>
+<div class="absolute -right-4 -bottom-4 text-gray-50/50 text-8xl font-headline font-bold pointer-events-none">1</div>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="w-14 h-14 bg-teal-50 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">card_giftcard</span>
+</div>
+<h3 class="text-xl font-headline font-semibold text-text mb-2">2. แจกผลงานฟรี 2 ชิ้น</h3>
+<p class="text-muted font-body text-sm">เพื่อเป็นการเริ่มต้นและสร้างความน่าเชื่อถือ ให้คุณอัปโหลดผลงานคุณภาพแจกฟรี 2 ชิ้น (ปลดล็อกการขาย)</p>
+<div class="absolute -right-4 -bottom-4 text-gray-50/50 text-8xl font-headline font-bold pointer-events-none">2</div>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="w-14 h-14 bg-teal-50 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">cloud_upload</span>
+</div>
+<h3 class="text-xl font-headline font-semibold text-text mb-2">3. อัปโหลดผลงาน</h3>
+<p class="text-muted font-body text-sm">อัปโหลดไฟล์ PDF, PowerPoint, Word หรืออื่นๆ ตั้งราคา ใส่รายละเอียดและรูปปกให้น่าสนใจ</p>
+<div class="absolute -right-4 -bottom-4 text-gray-50/50 text-8xl font-headline font-bold pointer-events-none">3</div>
+</div>
+<!-- Step 4 -->
+<div class="bg-surface p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="w-14 h-14 bg-teal-50 text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">account_balance_wallet</span>
+</div>
+<h3 class="text-xl font-headline font-semibold text-text mb-2">4. รับเงินเข้าบัญชี</h3>
+<p class="text-muted font-body text-sm">เมื่อมีผู้ซื้อ ระบบจะทำการโอนเงินเข้าบัญชีธนาคารของคุณโดยอัตโนมัติตามรอบบิลที่กำหนด</p>
+<div class="absolute -right-4 -bottom-4 text-gray-50/50 text-8xl font-headline font-bold pointer-events-none">4</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-20 bg-white">
+<div class="max-w-5xl mx-auto px-6">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-headline font-bold text-text mb-4">เลือกแพ็กเกจที่เหมาะกับคุณ</h2>
+<p class="text-muted font-body">เริ่มต้นฟรี ไม่มีค่าใช้จ่ายแอบแฝง อัปเกรดเมื่อคุณพร้อม</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<!-- Free Plan -->
+<div class="bg-surface rounded-3xl p-8 border border-gray-200 shadow-sm">
+<h3 class="text-2xl font-headline font-bold text-text mb-2">ฟรีตลอดชีพ</h3>
+<p class="text-muted font-body mb-6">สำหรับผู้เริ่มต้นทดลองขาย</p>
+<div class="text-4xl font-headline font-bold text-text mb-8">฿0 <span class="text-lg text-muted font-normal font-body">/เดือน</span></div>
+<ul class="space-y-4 mb-8 font-body text-sm text-text">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-gray-400 text-xl shrink-0">check</span>
+<span class="">ค่าธรรมเนียมแพลตฟอร์ม 12%</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-gray-400 text-xl shrink-0">check</span>
+<span class="">จำกัดการลงผลงาน 15 ชิ้น</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-gray-400 text-xl shrink-0">check</span>
+<span class="">Analytics พื้นฐาน</span>
+</li>
+<li class="flex items-start gap-3 text-muted">
+<span class="material-symbols-outlined text-gray-300 text-xl shrink-0">close</span>
+<span class="">ไม่มีป้าย PRO</span>
+</li>
+</ul>
+<a href="#" class="w-full py-3 px-6 rounded-full border-2 border-primary text-primary font-headline font-semibold hover:bg-teal-50 transition-colors inline-block text-center">เริ่มเลย</a>
+</div>
+<!-- Pro Plan (Highlighted) -->
+<div class="bg-primary rounded-3xl p-8 shadow-xl text-white relative overflow-hidden transform md:scale-105">
+<div class="absolute top-0 right-0 bg-accent text-white text-xs font-bold px-3 py-1 rounded-bl-lg font-headline">ยอดนิยม</div>
+<h3 class="text-2xl font-headline font-bold mb-2">PRO</h3>
+<p class="text-teal-100 font-body mb-6">สำหรับผู้ขายมืออาชีพที่ต้องการเติบโต</p>
+<div class="text-4xl font-headline font-bold mb-8">฿790 <span class="text-lg text-teal-200 font-normal font-body">/ปี</span></div>
+<ul class="space-y-4 mb-8 font-body text-sm text-white">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-teal-300 text-xl shrink-0">check_circle</span>
+<span class="">ค่าธรรมเนียมแพลตฟอร์มเพียง 8%</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-teal-300 text-xl shrink-0">check_circle</span>
+<span class="">ลงผลงานได้ถึง 200 ชิ้น</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-teal-300 text-xl shrink-0">check_circle</span>
+<span class="">Keyword Analytics เต็มรูปแบบ</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-teal-300 text-xl shrink-0">check_circle</span>
+<span class="">ได้รับ Badge <span class="inline-block bg-white text-primary text-[10px] font-bold px-1.5 py-0.5 rounded ml-1 border border-primary">PRO</span> สีโดดเด่น</span>
+</li>
+</ul>
+<a href="#" class="w-full py-3 px-6 rounded-full bg-white text-primary font-headline font-bold hover:bg-gray-50 transition-colors shadow-md inline-block text-center">สมัคร PRO</a>
+</div>
+</div>
+<div class="text-center mt-8 text-sm text-muted font-body">
+<span class="inline-block p-1 bg-teal-50 rounded-full mr-2"><span class="material-symbols-outlined text-primary text-sm align-middle">volunteer_activism</span></span>
+                    ทุกออเดอร์สมทบ 2% เข้ากองภารกิจ KruMissions เพื่อพัฒนาการศึกษาไทย
+                </div>
+</div>
+</section>
+<!-- KruMissions Section -->
+<section class="py-16 bg-background">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+<div>
+<h2 class="text-2xl md:text-3xl font-headline font-bold text-text mb-2 flex items-center gap-2">
+                            KruMissions — รับโบนัสจากภารกิจ
+                        </h2>
+<p class="text-muted font-body">ทำภารกิจสำเร็จ รับเหรียญทองหรือสิทธิพิเศษเพิ่มเติม</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-surface rounded-2xl p-6 shadow-sm border border-amber-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+<div class="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center shrink-0 border border-amber-200">
+<span class="material-symbols-outlined text-accent text-2xl" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+</div>
+<div>
+<h4 class="font-headline font-semibold text-text mb-1">ยอดดาวน์โหลดสูง</h4>
+<p class="text-sm text-muted font-body">เมื่อผลงานมียอดดาวน์โหลดครบ 100 ครั้ง รับโบนัสพิเศษและดันโพสต์ฟรี</p>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-sm border border-amber-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+<div class="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center shrink-0 border border-amber-200">
+<span class="material-symbols-outlined text-accent text-2xl" style="font-variation-settings: 'FILL' 1;">stars</span>
+</div>
+<div>
+<h4 class="font-headline font-semibold text-text mb-1">ผลงานใหม่ผ่าน QA</h4>
+<p class="text-sm text-muted font-body">สร้างผลงานคุณภาพที่ผ่านการคัดเลือกเป็น 'ผลงานแนะนำ' รับแต้มคูณสอง</p>
+</div>
+</div>
+<div class="bg-surface rounded-2xl p-6 shadow-sm border border-amber-100 flex items-start gap-4 hover:-translate-y-1 transition-transform">
+<div class="w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center shrink-0 border border-amber-200">
+<span class="material-symbols-outlined text-accent text-2xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div>
+<h4 class="font-headline font-semibold text-text mb-1">ครูแห่งเดือน</h4>
+<p class="text-sm text-muted font-body">ติดอันดับ Top 10 ผู้ขายรายเดือน รับ Badge พิเศษและส่วนแบ่งรายได้เพิ่ม 1%</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Promo/Feature Banners (Asymmetric Layout) -->
+<section class="py-16 bg-white">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-5 gap-6">
+<!-- KruBoost Banner -->
+<div class="lg:col-span-2 bg-slate-900 rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden text-white shadow-lg group">
+<div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-600/20 mix-blend-overlay"></div>
+<div class="absolute right-0 top-0 w-32 h-32 bg-blue-500/30 blur-3xl rounded-full"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-blue-400">rocket_launch</span>
+<span class="font-headline font-bold text-blue-400 tracking-wider text-sm">KRUBOOST</span>
+</div>
+<h3 class="text-2xl md:text-3xl font-headline font-bold mb-3 leading-tight">โฆษณาสินค้าของคุณ<br>เริ่ม ฿50/วัน</h3>
+<p class="text-gray-400 font-body text-sm mb-8">เข้าถึงครูที่กำลังค้นหาสื่อการสอนได้ตรงกลุ่มเป้าหมาย</p>
+</div>
+<div class="relative z-10">
+<button class="px-6 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur border border-white/20 rounded-full font-headline font-medium text-sm transition-colors flex items-center gap-2 w-fit">
+                            เรียนรู้เพิ่ม
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- School License Card -->
+<div class="lg:col-span-3 bg-gradient-to-r from-teal-50 to-emerald-50 rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 border border-teal-100 shadow-sm">
+<div class="flex-1">
+<div class="inline-flex items-center gap-1.5 px-3 py-1 bg-white text-gray-700 text-xs font-bold rounded-md border border-gray-200 mb-4 font-headline shadow-sm">
+<span class="material-symbols-outlined text-[14px]">account_balance</span> องค์กร/โรงเรียน
+                        </div>
+<h3 class="text-2xl md:text-3xl font-headline font-bold text-text mb-3">ขายเหมาโรงเรียนได้</h3>
+<p class="text-gray-600 font-body mb-6">เปิดโอกาสทางรายได้ที่มากขึ้นด้วยสิทธิ์ใช้งานแบบกลุ่ม</p>
+<div class="flex flex-col gap-3 font-body text-sm text-gray-700 mb-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                School License ×5 ฝ่าย หรือ ×18 ทั้งโรงเรียน
+                            </div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                                ระบบออกใบกำกับภาษีให้อัตโนมัติ ลดงานเอกสาร
+                            </div>
+</div>
+<button class="text-primary font-headline font-semibold hover:underline flex items-center gap-1 text-sm">
+                            ตั้งค่า License อย่างไร <span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+<div class="w-full md:w-1/3 aspect-square bg-white rounded-2xl shadow-inner border border-teal-100 flex items-center justify-center p-6 relative">
+<span class="material-symbols-outlined text-6xl text-teal-200">domain</span>
+<div class="absolute bottom-4 right-4 bg-primary text-white p-2 rounded-lg shadow-md transform rotate-6">
+<span class="material-symbols-outlined text-xl">receipt_long</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-20 bg-background">
+<div class="max-w-3xl mx-auto px-6">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-headline font-bold text-text mb-4">คำถามที่พบบ่อย (FAQ)</h2>
+</div>
+<div class="space-y-4 font-body">
+<!-- FAQ 1 -->
+<details class="bg-surface rounded-2xl border border-gray-200 shadow-sm group [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-6 cursor-pointer font-headline font-medium text-text">
+                            การหักภาษี ณ ที่จ่าย (ภ.ง.ด.3) จัดการอย่างไร?
+                            <span class="material-symbols-outlined transition duration-300 group-open:-rotate-180 text-gray-400">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-muted text-sm border-t border-gray-100 pt-4">
+                            แพลตฟอร์ม KruPayKru จะทำการหักภาษี ณ ที่จ่าย 3% อัตโนมัติตามกฎหมายกำหนดสำหรับรายได้จากการขายสื่อ และคุณสามารถดาวน์โหลดหนังสือรับรองการหักภาษี (50 ทวิ) ได้จากระบบหลังบ้านเพื่อนำไปยื่นภาษีประจำปีได้สะดวก
+                        </div>
+</details>
+<!-- FAQ 2 -->
+<details class="bg-surface rounded-2xl border border-gray-200 shadow-sm group [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-6 cursor-pointer font-headline font-medium text-text">
+                            เรื่องลิขสิทธิ์ของผลงานที่นำมาขาย?
+                            <span class="material-symbols-outlined transition duration-300 group-open:-rotate-180 text-gray-400">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-muted text-sm border-t border-gray-100 pt-4">
+                            คุณต้องเป็นเจ้าของลิขสิทธิ์หรือมีสิทธิ์ในการนำภาพ ฟอนต์ หรือเนื้อหาต่างๆ มาใช้ในเชิงพาณิชย์ ไม่อนุญาตให้นำผลงานของผู้อื่นมาขายซ้ำ หากพบการละเมิดบัญชีจะถูกระงับและริบรายได้
+                        </div>
+</details>
+<!-- FAQ 3 -->
+<details class="bg-surface rounded-2xl border border-gray-200 shadow-sm group [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-6 cursor-pointer font-headline font-medium text-text">
+                            นโยบายเกี่ยวกับสื่อที่ใช้ AI สร้าง (AI Policy)?
+                            <span class="material-symbols-outlined transition duration-300 group-open:-rotate-180 text-gray-400">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-muted text-sm border-t border-gray-100 pt-4">
+                            คุณสามารถใช้ AI ช่วยสร้างภาพหรือเนื้อหาได้ แต่ต้องระบุให้ชัดเจนในรายละเอียดสินค้าโดยติ๊กเลือกป้าย <span class="inline-block px-2 py-0.5 border border-gray-300 rounded text-xs text-gray-600 bg-white">มีส่วนผสม AI</span> เพื่อความโปร่งใสต่อผู้ซื้อ
+                        </div>
+</details>
+<!-- FAQ 4 -->
+<details class="bg-surface rounded-2xl border border-gray-200 shadow-sm group [&amp;_summary::-webkit-details-marker]:hidden">
+<summary class="flex items-center justify-between p-6 cursor-pointer font-headline font-medium text-text">
+                            การถอนเงินและรอบการโอนเงิน?
+                            <span class="material-symbols-outlined transition duration-300 group-open:-rotate-180 text-gray-400">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-muted text-sm border-t border-gray-100 pt-4">
+                            ยอดเงินขั้นต่ำในการถอนคือ 500 บาท โดยระบบจะสรุปยอดทุกวันอาทิตย์ และโอนเงินเข้าบัญชีธนาคารที่คุณผูกไว้ภายในวันพุธของสัปดาห์ถัดไป
+                        </div>
+</details>
+</div>
+</div>
+</section>
+</main>
+<!-- Shared Component: Footer -->
+<footer class="bg-[#FAFAF8] dark:bg-zinc-950 w-full mt-auto border-t border-gray-200">
+<div class="w-full py-12 px-6 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="md:col-span-1">
+<div class="text-lg font-bold text-[#0F766E] font-headline mb-4">ครูเปย์ครู KruPayKru</div>
+<p class="font-body text-sm text-[#6B7280] mb-4">แหล่งรวมสื่อการสอนคุณภาพจากครูไทย เพื่อครูไทย</p>
+</div>
+<div class="md:col-span-3 flex flex-wrap gap-x-8 gap-y-4 justify-start md:justify-end">
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] underline underline-offset-4 transition-all duration-300" href="#">ศูนย์ช่วยเหลือ</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] underline underline-offset-4 transition-all duration-300" href="#">ข้อกำหนดและเงื่อนไข</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] underline underline-offset-4 transition-all duration-300" href="#">นโยบายความเป็นส่วนตัว</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] underline underline-offset-4 transition-all duration-300" href="#">ร่วมงานกับเรา</a>
+<a class="font-body text-sm text-[#0F766E] font-medium hover:text-[#0F766E] underline underline-offset-4 transition-all duration-300" href="#">คู่มือผู้ขาย</a>
+</div>
+<div class="col-span-1 md:col-span-4 mt-8 pt-8 border-t border-gray-200 text-center md:text-left">
+<p class="font-body text-sm text-[#6B7280]">© 2024 KruPayKru. All rights reserved. สำหรับครูไทย โดยครูไทย</p>
+</div>
+</div>
+</footer>
+
+
+</body></html>

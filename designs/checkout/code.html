@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ชำระเงิน - ครูเปย์ครู KruPayKru</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=IBM+Plex+Sans:wght@300;400;500;600;700&amp;family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            hover: '#115E59',
+                            light: '#CCFBF1'
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                        },
+                        success: {
+                            DEFAULT: '#16A34A', // Green
+                        },
+                        danger: {
+                            DEFAULT: '#DC2626', // Red
+                        },
+                        background: {
+                            DEFAULT: '#FAFAF8', // Warm White
+                        },
+                        surface: {
+                            DEFAULT: '#FFFFFF', // Cards
+                        },
+                        text: {
+                            DEFAULT: '#1F2937', // Charcoal
+                            muted: '#6B7280', // Muted Gray
+                        },
+                        badge: {
+                            gold: '#D97706',
+                            verified: '#2563EB'
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["IBM Plex Sans Thai", "IBM Plex Sans", "sans-serif"],
+                        "display": ["IBM Plex Sans Thai", "IBM Plex Sans", "sans-serif"],
+                        "body": ["IBM Plex Sans Thai", "IBM Plex Sans", "sans-serif"],
+                        "label": ["Public Sans", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'IBM Plex Sans Thai', sans-serif; background-color: #FAFAF8; color: #1F2937; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        input[type="radio"]:checked + div { border-color: #0F766E; background-color: #F0FDF4; }
+        input[type="radio"]:checked + div .radio-inner { border-color: #0F766E; background-color: #0F766E; }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col font-body">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-[#FAFAF8] dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<!-- Left: Logo & Search -->
+<div class="flex items-center space-x-6">
+<a class="text-2xl font-black text-[#0F766E] font-headline flex items-center" href="#">
+                    ครูเปย์ครู KruPayKru
+                </a>
+<!-- Search Bar (on_left as per JSON, but visual hierarchy places it center-ish on desktop) -->
+<div class="hidden md:flex relative w-80">
+<span class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-gray-100 border-transparent rounded-full focus:bg-white focus:border-primary focus:ring-0 text-sm" placeholder="ค้นหาสื่อการสอน, ข้อสอบ..." type="text"/>
+</div>
+</div>
+<!-- Middle: Navigation Links (hidden on mobile, transactional page usually suppresses this, but prompt asked for TopNavBar, we include standard layout) -->
+<!-- Note: As a checkout page is transactional, we suppress global nav shell logic per rules, but the prompt says "Use the shared TopNavBar". I will render it minimally as a transactional header. -->
+<!-- Right: Actions -->
+<div class="flex items-center space-x-4">
+<button class="text-gray-500 hover:text-primary transition-colors hover:bg-gray-50 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="text-gray-500 hover:text-primary transition-colors hover:bg-gray-50 p-2 rounded-full flex items-center justify-center relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+</button>
+<button class="text-gray-500 hover:text-primary transition-colors hover:bg-gray-50 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="relative ml-2">
+<img alt="รูปโปรไฟล์ผู้ใช้" class="w-9 h-9 rounded-full object-cover border border-gray-200 cursor-pointer" data-alt="A small circular avatar placeholder showing a generic silhouette or subtle gradient suitable for an education platform user profile. Warm lighting, modern minimal aesthetic, pastel background. High quality digital illustration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkklh3zIacOpuZZp88ZgIRJ2Kjsgy28iwzBYL1tZpp0nV5tg87mD8o6bUjUzxV-ooa8-Yn28gDg3jBkQJiFjo_rT_Ug-k1EY-CFsEahdDW92F6j3FT3FuP2qUZdqEYmaYstuIs0vEu8li3x3Il6TX0QJmVGbGlWjIM6DL3168LHXa8x2UEjNInE4BxpMjDt46eBro1w9vv-ayY7P16AozEg2Ru_TRmuXn9WA1veAgqvRchTkxMUPSxo5pB1LrMWibglxM6untq4A"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+<!-- Breadcrumb / Back (Transactional Context) -->
+<div class="mb-6">
+<a class="inline-flex items-center text-sm text-text-muted hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm mr-1">arrow_back</span>
+                กลับไปหน้าตะกร้าสินค้า
+            </a>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+<!-- LEFT COLUMN: Payment & Details (8 columns on lg) -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Heading -->
+<div>
+<h1 class="text-3xl font-bold font-headline text-text flex items-center">
+<span class="material-symbols-outlined text-primary mr-3 text-3xl">payment</span>
+                        ชำระเงิน
+                    </h1>
+<p class="text-text-muted mt-2">เลือกวิธีการชำระเงินเพื่อดำเนินการสั่งซื้อให้เสร็จสิ้น</p>
+</div>
+<!-- Payment Methods Form -->
+<form class="space-y-6">
+<!-- Method 1: PromptPay QR (Selected) -->
+<label class="block relative cursor-pointer group">
+<input checked="" class="peer sr-only" name="payment_method" type="radio" value="promptpay"/>
+<div class="border-2 border-gray-200 rounded-lg p-6 hover:border-primary/50 transition-colors bg-surface relative z-10 peer-checked:border-primary peer-checked:bg-[#FAFAF8] shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-center">
+<!-- Custom Radio Button -->
+<div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-4 flex items-center justify-center peer-checked:border-primary peer-checked:bg-primary transition-colors radio-outer">
+<div class="w-2.5 h-2.5 rounded-full bg-white opacity-0 peer-checked:opacity-100 transition-opacity radio-inner"></div>
+</div>
+<div>
+<h3 class="font-semibold text-lg flex items-center">
+                                            สแกนจ่ายผ่าน QR Code (PromptPay)
+                                            <span class="ml-3 px-2.5 py-0.5 rounded-full bg-primary-light text-primary text-xs font-semibold">แนะนำ</span>
+</h3>
+<p class="text-sm text-text-muted mt-1">สแกนได้ทุกแอปธนาคาร ยอดอัปเดตทันที</p>
+</div>
+</div>
+<!-- Icon/Logo -->
+<div class="w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-gray-500">qr_code_scanner</span>
+</div>
+</div>
+<!-- Expandable Content for PromptPay -->
+<div class="mt-6 pt-6 border-t border-gray-200 flex flex-col items-center">
+<p class="text-sm font-medium mb-4 text-center">สแกน QR Code นี้ด้วยแอปธนาคารของคุณ</p>
+<div class="bg-white p-2 rounded-lg shadow-sm border border-gray-100 mb-4 inline-block">
+<img alt="QR Code Mockup" class="w-48 h-48 object-contain" data-alt="A simulated QR code graphic with a subtle logo in the center, designed for Thai PromptPay payment. Black and white crisp squares on a white background, highly detailed digital asset." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzeP5gMY2Dighy0E071m43-S2gUTcM060bP3CnIYVA_Ld6bV2F1OUmFQTdsG3r6vvycckRrZh3ZaAHt7_BH5pM1q98E2oSOdc64KjhPBDDjQoelpJoP5q69lgrvzOaRw2RreveUmXHiqDFJITZrPleOkmYXX4As2w2LwDaP0Lfpp-ISK2QFBG7yA-rWutvjitnpkSX9qZ51NjDKZEQs0z80kFrmFpkcKzQ4pIDNFCl43G9USlS0TsHLdlXRWFTRbwAJ6TciZXJxw"/>
+</div>
+<div class="text-center">
+<p class="text-lg font-bold">฿88.00</p>
+<p class="text-xs text-text-muted mt-1">QR Code จะหมดอายุใน <span class="text-danger font-medium">14:59</span> นาที</p>
+</div>
+</div>
+</div>
+</label>
+<!-- Method 2: TrueMoney Wallet -->
+<label class="block relative cursor-pointer group">
+<input class="peer sr-only" name="payment_method" type="radio" value="truemoney"/>
+<div class="border-2 border-gray-200 rounded-lg p-6 hover:border-primary/50 transition-colors bg-surface relative z-10 peer-checked:border-primary peer-checked:bg-[#FAFAF8] shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-4 flex items-center justify-center group-hover:border-primary/50 peer-checked:border-primary transition-colors"></div>
+<div>
+<h3 class="font-semibold text-lg">TrueMoney Wallet</h3>
+<p class="text-sm text-text-muted mt-1">ชำระผ่านแอป ทรูมันนี่ วอลเล็ท</p>
+</div>
+</div>
+<div class="w-12 h-12 bg-orange-50 rounded flex items-center justify-center text-orange-500 font-bold text-xs">
+                                    TMN
+                                </div>
+</div>
+</div>
+</label>
+<!-- Method 3: Credit/Debit Card -->
+<label class="block relative cursor-pointer group">
+<input class="peer sr-only" name="payment_method" type="radio" value="creditcard"/>
+<div class="border-2 border-gray-200 rounded-lg p-6 hover:border-primary/50 transition-colors bg-surface relative z-10 peer-checked:border-primary peer-checked:bg-[#FAFAF8] shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<div class="w-5 h-5 rounded-full border-2 border-gray-300 mr-4 flex items-center justify-center group-hover:border-primary/50 peer-checked:border-primary transition-colors"></div>
+<div>
+<h3 class="font-semibold text-lg">บัตรเครดิต/เดบิต</h3>
+<p class="text-sm text-text-muted mt-1">Visa, Mastercard, JCB</p>
+</div>
+</div>
+<div class="flex space-x-1">
+<span class="material-symbols-outlined text-gray-400">credit_card</span>
+</div>
+</div>
+<!-- Expandable Form (Hidden by default in pure CSS, but shown structurally for the prompt) -->
+<div class="mt-6 pt-6 border-t border-gray-200 hidden peer-checked:block">
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-2">
+<label class="block text-sm font-medium text-text mb-1">หมายเลขบัตร (Card Number)</label>
+<div class="relative">
+<input class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm" placeholder="0000 0000 0000 0000" type="text"/>
+<span class="material-symbols-outlined absolute left-3 top-2 text-gray-400 text-lg">credit_card</span>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-text mb-1">วันหมดอายุ (MM/YY)</label>
+<input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm" placeholder="MM/YY" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-text mb-1">CVV</label>
+<input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm" placeholder="123" type="text"/>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-medium text-text mb-1">ชื่อบนบัตร (Cardholder Name)</label>
+<input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary sm:text-sm" placeholder="SOMCHAI JAIKAEW" type="text"/>
+</div>
+</div>
+</div>
+</div>
+</label>
+</form>
+<!-- Corporate Section -->
+<div class="border-2 border-[#D97706] bg-amber-50/30 rounded-lg p-6 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<div class="flex items-start">
+<span class="material-symbols-outlined text-[#D97706] mr-3 mt-1">account_balance</span>
+<div>
+<h3 class="font-bold text-[#D97706] text-lg">ซื้อเพื่อโรงเรียน/หน่วยงาน</h3>
+<p class="text-sm text-text-muted mt-1 flex items-center">
+<span class="material-symbols-outlined text-xs mr-1 text-success">check_circle</span> ออกใบกำกับภาษีเต็มรูปแบบ
+                                <span class="mx-2 text-gray-300">|</span>
+<span class="material-symbols-outlined text-xs mr-1 text-success">check_circle</span> ชำระหลังส่งมอบได้
+                            </p>
+</div>
+</div>
+<button class="whitespace-nowrap px-4 py-2 border border-[#D97706] text-[#D97706] bg-white rounded-full font-medium hover:bg-amber-50 transition-colors text-sm shadow-sm flex items-center" type="button">
+<span class="material-symbols-outlined text-sm mr-1">request_quote</span>
+                        ขอใบเสนอราคา (PO)
+                    </button>
+</div>
+</div>
+<!-- RIGHT COLUMN: Sticky Summary Card (4 columns on lg) -->
+<div class="lg:col-span-4">
+<div class="sticky top-24 bg-surface rounded-xl shadow-soft border border-gray-100 p-6">
+<h2 class="text-xl font-bold font-headline mb-4 pb-4 border-b border-gray-100">สรุปคำสั่งซื้อ</h2>
+<!-- Items -->
+<div class="space-y-4 mb-6">
+<div class="flex justify-between items-start">
+<div class="flex-1 pr-4">
+<p class="text-sm font-medium text-text line-clamp-2">ใบงาน แรงและการเคลื่อนที่ ม.3</p>
+<p class="text-xs text-text-muted mt-1">ไฟล์ PDF · สื่อดิจิทัล</p>
+</div>
+<p class="text-sm font-semibold">฿59</p>
+</div>
+<div class="flex justify-between items-start">
+<div class="flex-1 pr-4">
+<p class="text-sm font-medium text-text line-clamp-2">สื่อการสอน คณิตศาสตร์ ป.4 (PowerPoint)</p>
+<p class="text-xs text-text-muted mt-1">ไฟล์ PPTX · แก้ไขได้</p>
+</div>
+<p class="text-sm font-semibold">฿29</p>
+</div>
+</div>
+<!-- Divider -->
+<div class="border-t border-dashed border-gray-200 my-4"></div>
+<!-- Totals -->
+<div class="space-y-2 mb-6">
+<div class="flex justify-between text-sm text-text-muted">
+<p>ยอดรวมสินค้า (2 ชิ้น)</p>
+<p>฿88</p>
+</div>
+<div class="flex justify-between text-sm text-text-muted">
+<p>ส่วนลด</p>
+<p class="text-success">- ฿0</p>
+</div>
+<div class="flex justify-between items-end mt-4 pt-4 border-t border-gray-100">
+<p class="font-bold text-lg">ยอดชำระสุทธิ</p>
+<p class="font-bold text-2xl text-primary">฿88</p>
+</div>
+</div>
+<!-- Legal Consent -->
+<div class="mb-6 bg-gray-50 p-3 rounded-lg border border-gray-100">
+<label class="flex items-start cursor-pointer">
+<div class="flex items-center h-5">
+<input checked="" class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary focus:ring-2" type="checkbox"/>
+</div>
+<div class="ml-2 text-xs text-text-muted leading-tight">
+                                ข้าพเจ้ายอมรับ <a class="text-primary hover:underline" href="#">ข้อกำหนดและเงื่อนไข</a> และ <a class="text-primary hover:underline" href="#">นโยบายความเป็นส่วนตัว</a> รวมถึงการประมวลผลข้อมูลส่วนบุคคล
+                            </div>
+</label>
+</div>
+<!-- Final Action Button -->
+<button class="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3.5 px-4 rounded-full shadow-md transition-transform transform active:scale-95 flex items-center justify-center space-x-2 text-lg">
+<span>ชำระเงิน</span>
+<span class="material-symbols-outlined text-xl">lock</span>
+</button>
+<p class="text-center text-xs text-gray-500 mt-3 flex items-center justify-center">
+<span class="material-symbols-outlined text-xs mr-1">security</span>
+                        ปลอดภัย 3-D Secure
+                    </p>
+<!-- Trust Row -->
+<div class="mt-6 pt-6 border-t border-gray-100 grid grid-cols-2 gap-2 text-center">
+<div class="flex flex-col items-center p-2 rounded-lg bg-gray-50">
+<span class="material-symbols-outlined text-primary mb-1 text-xl">cloud_download</span>
+<span class="text-xs font-medium text-text-muted">ดาวน์โหลดทันที<br/>หลังชำระเงิน</span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-lg bg-gray-50">
+<span class="material-symbols-outlined text-primary mb-1 text-xl">currency_exchange</span>
+<span class="text-xs font-medium text-text-muted">การันตีคืนเงิน<br/>ภายใน 7 วัน*</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800 full-width bottom-0 mt-auto">
+<div class="w-full py-12 px-6 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto">
+<div class="mb-6 md:mb-0 text-center md:text-left">
+<a class="text-lg font-bold text-[#0F766E] font-headline" href="#">ครูเปย์ครู KruPayKru</a>
+<p class="font-body text-sm text-[#6B7280] dark:text-gray-400 mt-2">© 2024 KruPayKru. แพลตฟอร์มเพื่อครูไทย โดยครูไทย</p>
+</div>
+<div class="flex flex-wrap justify-center gap-4 md:gap-6">
+<a class="font-body text-sm text-[#6B7280] dark:text-gray-400 hover:text-[#0F766E] transition-colors" href="#">เกี่ยวกับเรา</a>
+<a class="font-body text-sm text-[#6B7280] dark:text-gray-400 hover:text-[#0F766E] transition-colors" href="#">ศูนย์ช่วยเหลือ</a>
+<a class="font-body text-sm text-[#6B7280] dark:text-gray-400 hover:text-[#0F766E] transition-colors" href="#">ข้อกำหนดและเงื่อนไข</a>
+<a class="font-body text-sm text-[#6B7280] dark:text-gray-400 hover:text-[#0F766E] transition-colors" href="#">นโยบายความเป็นส่วนตัว</a>
+<a class="font-body text-sm text-[#6B7280] dark:text-gray-400 hover:text-[#0F766E] transition-colors" href="#">ติดต่อเรา</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>คิวตรวจสินค้า - KruPayKru Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Ibm+Plex+Sans:wght@400;500;600;700;900&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            light: '#14b8a6',
+                            dark: '#0f766e',
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                            light: '#fbbf24',
+                            dark: '#d97706',
+                        },
+                        success: {
+                            DEFAULT: '#16A34A',
+                        },
+                        danger: {
+                            DEFAULT: '#DC2626',
+                        },
+                        background: {
+                            DEFAULT: '#FAFAF8',
+                        },
+                        surface: {
+                            DEFAULT: '#FFFFFF',
+                        },
+                        text: {
+                            DEFAULT: '#1F2937', // Charcoal
+                            muted: '#6B7280',   // Muted Gray
+                        },
+                        seller: {
+                            gold: '#D97706',
+                            blue: '#2563EB',
+                        }
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem", // 12px for cards as per design system
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Ibm Plex Sans", "sans-serif"], // Using IBM Plex Sans as fallback/main as requested in config
+                        display: ["Ibm Plex Sans", "sans-serif"],
+                        body: ["Ibm Plex Sans", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Ibm Plex Sans', sans-serif;
+            background-color: #FAFAF8;
+            color: #1F2937;
+        }
+        
+        /* Scrollbar styling for table and drawer */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-background">
+<!-- SideNavBar (Shared Component) -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-[#0B4F4A] border-r border-white/10 shadow-xl flex flex-col py-6 z-20">
+<!-- Brand Header -->
+<div class="px-6 pb-6 border-b border-white/10 mb-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center overflow-hidden">
+<img class="object-cover w-full h-full" data-alt="A professional headshot of a Thai person in smart casual attire, acting as a system administrator. The lighting is bright and modern. The style is a clean, corporate profile picture on a white background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBpiIgAf0uFHdjzb4o-wTrUmWSMG-BJrpSY6EJJh_Wp6PtyFq2px8Op7IpHOHl-f_1uQ1Bg9qtvMK3LCOiIgHxTtuv-L5ng8A6bBANYZcpoU58z-f7sfEUN5KdPIK6mDxlvlcDJfjOQ21ILvRrbGUNQtS0XqU8iyijOZeNCkALc4Ika2QkXG6w6E6_6k1sPHStymFUGrSswVhYu78OxYZRCYQIQKZfS6VKt_M-OCK0lJhIuU69vH_8R16K9roO7oIMuEA2-vzDhQ"/>
+</div>
+<div>
+<h2 class="text-xl font-headline font-bold text-white leading-tight">KruPayKru Admin</h2>
+<p class="text-white/60 text-xs font-label">ผู้ดูแลระบบ</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto font-body text-label-md flex flex-col gap-1">
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                หน้าแรกแดชบอร์ด
+            </a>
+<a class="bg-[#0F766E] text-white font-bold border-l-4 border-[#F59E0B] px-4 py-3 flex items-center gap-3 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">fact_check</span>
+                ตรวจสอบสื่อ
+                <span class="ml-auto bg-danger text-white text-[10px] font-bold px-2 py-0.5 rounded-full">37</span>
+</a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">verified</span>
+                ยืนยันผู้ขาย
+                <span class="ml-auto bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded-full">14</span>
+</a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">report</span>
+                รายงานปัญหา
+            </a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">gavel</span>
+                ข้อพิพาท
+            </a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">campaign</span>
+                แคมเปญ
+            </a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">payments</span>
+                การเงิน
+            </a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">group</span>
+                จัดการสมาชิก
+            </a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">inventory_2</span>
+                คลังสื่อทั้งหมด
+            </a>
+<a class="text-white/70 hover:text-white px-4 py-3 flex items-center gap-3 transition-colors hover:bg-[#0F766E]/50 active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+                ตั้งค่าระบบ
+            </a>
+</div>
+<!-- Footer CTA & Logout -->
+<div class="px-4 mt-auto pt-4 border-t border-white/10 flex flex-col gap-3">
+<button class="w-full bg-[#0F766E] hover:bg-[#14b8a6] text-white font-bold py-2 px-4 rounded-full transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">add_circle</span>
+                ตรวจสอบสื่อใหม่
+            </button>
+<a class="text-white/70 hover:text-white px-4 py-2 flex items-center gap-3 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+                ออกจากระบบ
+            </a>
+</div>
+</nav>
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 right-0 left-64 h-16 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-gray-800 shadow-sm flex justify-between items-center px-8 z-10">
+<div class="font-black text-[#0F766E] font-headline text-lg">
+            แผงควบคุมระบบ
+        </div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full transition-all cursor-pointer">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full transition-all cursor-pointer">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
+<img class="object-cover w-full h-full" data-alt="A generic profile silhouette or minimal avatar icon on a light gray background, suitable for a top navigation bar user indicator in an administrative panel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFiuzxtVHiajtfJX3rX7STLxNeGWamtO95W9cTJbRUD5G_1Lth2bjxC9xTquvQ3sCanXPUxGr0ROpQI9r4bRyFSXmDXNX58-TBEQdF13lD5thx3bUAX71t92XblUoRwXBn0V5j7sLwGy1WD81TEWKnUdxdBHpKhlXZezzX71GpKSuRpVY3UECAOosT5DvNsEVPTNIvlbxYOTgnsmTGolXqxvD6oFi9wSlkQ-gWhlq-MmtnMFYuPmLa_TTubNz2i_UMowwKWu6L4Q"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 mt-16 flex-1 flex h-[calc(100vh-64px)] w-[calc(100vw-256px)] bg-background">
+<!-- Queue List Column -->
+<div class="flex-1 flex flex-col p-6 overflow-hidden">
+<!-- Header & Filters -->
+<div class="mb-6">
+<div class="flex justify-between items-end mb-4">
+<h1 class="text-2xl font-headline font-bold text-text">คิวตรวจสินค้า <span class="text-text-muted text-lg font-normal">(37)</span></h1>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:border-primary focus:ring-1 focus:ring-primary outline-none text-sm w-64 bg-white shadow-sm" placeholder="ค้นหาชื่อสื่อ หรือ ผู้ขาย..." type="text"/>
+</div>
+</div>
+<div class="flex gap-2 flex-wrap">
+<button class="px-4 py-1.5 rounded-full bg-text text-white text-sm font-medium shadow-sm transition-colors hover:bg-gray-800">ทั้งหมด (37)</button>
+<button class="px-4 py-1.5 rounded-full bg-white border border-gray-200 text-text text-sm font-medium shadow-sm transition-colors hover:bg-gray-50">รอตรวจ (32)</button>
+<button class="px-4 py-1.5 rounded-full bg-white border border-gray-200 text-text text-sm font-medium shadow-sm transition-colors hover:bg-gray-50 flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-gray-400"></span> AI-disclosed (12)
+                    </button>
+<button class="px-4 py-1.5 rounded-full bg-red-50 border border-red-200 text-danger text-sm font-medium shadow-sm transition-colors hover:bg-red-100 flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">flag</span> ถูกแฟล็ก (5)
+                    </button>
+</div>
+</div>
+<!-- Table Area (Scrollable) -->
+<div class="bg-surface rounded shadow-sm border border-gray-100 flex-1 overflow-auto">
+<table class="w-full text-left text-sm text-text-muted">
+<thead class="text-xs text-text uppercase bg-gray-50 sticky top-0 z-10 border-b border-gray-200">
+<tr>
+<th class="px-6 py-3 font-medium" scope="col">สื่อ (Thumbnail &amp; Title)</th>
+<th class="px-4 py-3 font-medium" scope="col">ผู้ขาย</th>
+<th class="px-4 py-3 font-medium text-center" scope="col">Similarity Score</th>
+<th class="px-4 py-3 font-medium text-center" scope="col">AI Flag</th>
+<th class="px-4 py-3 font-medium" scope="col">ส่งเมื่อ</th>
+<th class="px-4 py-3 font-medium text-center" scope="col">สถานะ</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-200">
+<!-- Active Row -->
+<tr class="bg-primary/5 hover:bg-primary/10 transition-colors cursor-pointer border-l-4 border-l-primary">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm border border-gray-200">
+<div class="bg-cover bg-center w-full h-full" data-alt="A professional Thai educational worksheet cover for Grade 9 (M.3) Science about 'Force and Motion' (แรงและการเคลื่อนที่). The cover is clean, colorful, and features diagrams of physics concepts like vectors or motion. Large Thai text says 'ใบงาน เรื่อง แรงและการเคลื่อนที่ ชั้นมัธยมศึกษาปีที่ 3'. High quality, educational material style." style="background-image: url('https://lh3.googleusercontent.com/aida/AEtjO1VdsOgKQZ-qHcnna0nBGMyrBy1TnImPP3kXwgw8iY-tIYfIbpiervMXQ3NT814TDcHZHPQGg42vIMBVPm35kd_bi7mkTm70msNRNzi_056ZmAfex1LJqfpVCyfjl6513G91mY45JT34Uk3WjudeE9IfPD54dJj_tILU-3l8KZYsykHs69TxlbwW2khMc4voW1TVrwdSJ5S6lY4AC4IwBkfTrdz0PCetWIDMFF28Cp8zbxp43m-lwyiPpg')"></div>
+</div>
+<div>
+<div class="font-medium text-text line-clamp-2">ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3</div>
+<div class="text-xs text-text-muted mt-1">วิทยาศาสตร์ • มัธยมต้น</div>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="font-medium text-text">Kru.Somsri Sci</div>
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium border border-seller-gold text-seller-gold mt-1">
+<span class="material-symbols-outlined text-[12px]">workspace_premium</span>
+                                    ครูตัวจริง
+                                </span>
+</td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    12%
+                                </span>
+</td>
+<td class="px-4 py-4 text-center">
+<span class="text-xs font-medium px-2 py-1 rounded-full border border-gray-300 text-gray-600">No</span>
+</td>
+<td class="px-4 py-4 whitespace-nowrap text-xs">
+                                10 นาทีที่แล้ว
+                            </td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                    กำลังตรวจ
+                                </span>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm border border-gray-200">
+<img class="object-cover w-full h-full" data-alt="A brightly colored Thai educational slide deck thumbnail for primary school mathematics. It shows cartoon numbers, basic addition problems, and cheerful illustrations of fruits used for counting. The text says 'คณิตศาสตร์ ป.1 สนุกคิด'. Designed with a playful, kid-friendly aesthetic in a clean digital style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ4CPxV7Al1ASFbbUjL3ICkvj3oKGYHDLMq-_YMe-TnQwV1V1_K4necGUJzTQTK3Sk8bu9ySZ2BIMiDMk_Ou2FgdFy395TEwlIw2WyMWDkpBZoqKXi9gwzwustyaiZHJqyYfw6GVMVXCqu5tslGxHQBqU_7g5oYR8CVnhmGkjzT-gaTaGmm9i_YjhzhQjyvbSaiY0YYNy66fCv0uFo17nEcT5zdt7plFGBS4jIYRLY2uaKeSkMkxvTMVHEccZKFFBGoAMLMi3U2g"/>
+</div>
+<div>
+<div class="font-medium text-text line-clamp-2">สื่อนำเสนอ สไลด์คณิตศาสตร์ ป.1 สนุกคิด</div>
+<div class="text-xs text-text-muted mt-1">คณิตศาสตร์ • ประถมต้น</div>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="font-medium text-text">MathWithJoy</div>
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-seller-blue text-white mt-1">
+<span class="material-symbols-outlined text-[12px] style='font-variation-settings: 'FILL' 1;'">check_circle</span>
+                                    ยืนยันตัวตน
+                                </span>
+</td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                    78%
+                                </span>
+</td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full border border-gray-400 text-gray-700 bg-gray-50">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+                                    Yes
+                                </span>
+</td>
+<td class="px-4 py-4 whitespace-nowrap text-xs">
+                                45 นาทีที่แล้ว
+                            </td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    รอตรวจ
+                                </span>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-gray-50 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-16 rounded overflow-hidden flex-shrink-0 bg-gray-100 shadow-sm border border-gray-200">
+<img class="object-cover w-full h-full" data-alt="A minimalist Thai language worksheet for high school students focusing on poetry analysis. The design is elegant, black and white with subtle gray accents, featuring traditional Thai patterns subtly integrated into the borders. It includes structured lines for writing and a clear header reading 'วิเคราะห์วรรณคดีไทย'." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpeAxrcc__fMgtL_-coQwCG_A8O0pHW4vsOmac4c3rIaRlvHCQ3Dpigb0258-VDqsNzsnHxcaQqzsBUhPCzfxXFer1W3SdsCuA0hpn-3dci95GyqtE88BQEVqa9-q5gUnHziomdg2f_ohqTBhLim8GQDwsqbAIflR2V-W4awUpBdzcnXMcTDBUIrUgBG8oxs0U1L6LtQujXg1Ufse388lUyECeqNE849yDOiTKODwOiEbV2IvgpbLZHyUG_AXmGO9wXimH_O8PNw"/>
+</div>
+<div>
+<div class="font-medium text-text line-clamp-2">แบบฝึกหัดวิเคราะห์วรรณคดีไทย พร้อมเฉลย</div>
+<div class="text-xs text-text-muted mt-1">ภาษาไทย • มัธยมปลาย</div>
+</div>
+</div>
+</td>
+<td class="px-4 py-4 whitespace-nowrap">
+<div class="font-medium text-text">ThaiLit Pro</div>
+<span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium border border-gray-400 text-gray-600 mt-1">
+<span class="material-symbols-outlined text-[12px]">account_balance</span>
+                                    สถาบัน
+                                </span>
+</td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
+                                    34%
+                                </span>
+</td>
+<td class="px-4 py-4 text-center">
+<span class="text-xs font-medium px-2 py-1 rounded-full border border-gray-300 text-gray-600">No</span>
+</td>
+<td class="px-4 py-4 whitespace-nowrap text-xs">
+                                2 ชั่วโมงที่แล้ว
+                            </td>
+<td class="px-4 py-4 text-center">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                    รอตรวจ
+                                </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Right Detail Drawer (Active State) -->
+<div class="w-[420px] bg-white border-l border-gray-200 shadow-xl flex flex-col z-10 shrink-0">
+<!-- Drawer Header -->
+<div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50/50">
+<h3 class="font-headline font-semibold text-lg text-text">รายละเอียดการตรวจ</h3>
+<button class="text-gray-400 hover:text-gray-700 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Drawer Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6">
+<!-- Preview Image -->
+<div class="w-full aspect-[3/4] rounded-lg border border-gray-200 bg-gray-100 overflow-hidden shadow-sm relative group">
+<div class="bg-cover bg-center w-full h-full" data-alt="A professional Thai educational worksheet cover for Grade 9 (M.3) Science about 'Force and Motion' (แรงและการเคลื่อนที่). The cover is clean, colorful, and features diagrams of physics concepts like vectors or motion. Large Thai text says 'ใบงาน เรื่อง แรงและการเคลื่อนที่ ชั้นมัธยมศึกษาปีที่ 3'. High quality, educational material style." style="background-image: url('https://lh3.googleusercontent.com/aida/AEtjO1VdsOgKQZ-qHcnna0nBGMyrBy1TnImPP3kXwgw8iY-tIYfIbpiervMXQ3NT814TDcHZHPQGg42vIMBVPm35kd_bi7mkTm70msNRNzi_056ZmAfex1LJqfpVCyfjl6513G91mY45JT34Uk3WjudeE9IfPD54dJj_tILU-3l8KZYsykHs69TxlbwW2khMc4voW1TVrwdSJ5S6lY4AC4IwBkfTrdz0PCetWIDMFF28Cp8zbxp43m-lwyiPpg')"></div>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 text-text px-4 py-2 rounded-full font-medium shadow-sm flex items-center gap-2 hover:bg-white">
+<span class="material-symbols-outlined text-xl">zoom_in</span> ดูไฟล์เต็ม (PDF)
+                        </button>
+</div>
+</div>
+<!-- Metadata -->
+<div class="space-y-3">
+<h2 class="font-headline font-bold text-xl text-text leading-tight">ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3</h2>
+<div class="flex items-center justify-between border-b border-gray-100 pb-3">
+<span class="text-sm text-text-muted">ราคาขายตั้งต้น</span>
+<span class="font-bold text-lg text-primary">฿45.00</span>
+</div>
+<div class="grid grid-cols-2 gap-y-3 text-sm pt-2">
+<div class="text-text-muted">หมวดหมู่</div>
+<div class="text-text font-medium text-right">วิทยาศาสตร์</div>
+<div class="text-text-muted">ระดับชั้น</div>
+<div class="text-text font-medium text-right">มัธยมศึกษาปีที่ 3</div>
+<div class="text-text-muted">ประเภทไฟล์</div>
+<div class="text-text font-medium text-right flex items-center justify-end gap-1">
+<span class="material-symbols-outlined text-[16px] text-red-500">picture_as_pdf</span> PDF (12 หน้า)
+                        </div>
+</div>
+</div>
+<!-- Copyright Checklist (Bento-style) -->
+<div class="bg-gray-50 rounded-lg border border-gray-200 p-4">
+<div class="font-medium text-text mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">policy</span>
+                        เช็คลิสต์ลิขสิทธิ์เบื้องต้น
+                    </div>
+<div class="grid gap-2">
+<label class="flex items-start gap-3 p-2 rounded hover:bg-white transition-colors cursor-pointer">
+<input class="mt-1 rounded text-primary focus:ring-primary border-gray-300" type="checkbox"/>
+<div>
+<div class="text-sm font-medium text-text">ฟอนต์ใช้งานได้จริง (OFL)</div>
+<div class="text-xs text-text-muted">ระบุฟอนต์: Sarabun, TH Niramit</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-2 rounded hover:bg-white transition-colors cursor-pointer">
+<input class="mt-1 rounded text-primary focus:ring-primary border-gray-300" type="checkbox"/>
+<div>
+<div class="text-sm font-medium text-text">รูปภาพ/เวกเตอร์ (CC0 / ซื้อสิทธิ์)</div>
+<div class="text-xs text-text-muted">ระบุแหล่งที่มา: Freepik (Premium)</div>
+</div>
+</label>
+<label class="flex items-start gap-3 p-2 rounded hover:bg-white transition-colors cursor-pointer">
+<input class="mt-1 rounded text-primary focus:ring-primary border-gray-300" type="checkbox"/>
+<div>
+<div class="text-sm font-medium text-text">ไม่มีตัวละครลิขสิทธิ์</div>
+<div class="text-xs text-text-muted">Disney, Sanrio, Anime ฯลฯ</div>
+</div>
+</label>
+</div>
+</div>
+<!-- Rejection Reason Dropdown (Hidden initially, shown for UI context) -->
+<div class="space-y-2 pt-2 border-t border-gray-100">
+<label class="text-sm font-medium text-text block">กรณีปฏิเสธ: เลือกเหตุผล (Templates)</label>
+<select class="w-full rounded-md border-gray-300 text-sm focus:border-danger focus:ring-danger shadow-sm py-2">
+<option value="">-- เลือกเหตุผลการปฏิเสธ --</option>
+<option value="copyright">ละเมิดลิขสิทธิ์ (ฟอนต์/ภาพ/เนื้อหา)</option>
+<option value="quality">คุณภาพต่ำ / พิมพ์ผิดจำนวนมาก</option>
+<option value="leak">เฉลยรั่วไหลในตัวอย่างสินค้า</option>
+<option value="incomplete">ข้อมูลไม่ครบถ้วน / ไฟล์เสีย</option>
+</select>
+<textarea class="w-full rounded-md border-gray-300 text-sm focus:border-danger focus:ring-danger shadow-sm mt-2" placeholder="คำอธิบายเพิ่มเติม (ถ้ามี)..." rows="2"></textarea>
+</div>
+</div>
+<!-- Drawer Footer / Actions -->
+<div class="p-6 border-t border-gray-200 bg-white grid grid-cols-2 gap-3">
+<button class="w-full py-2.5 px-4 rounded-full border-2 border-danger text-danger font-bold hover:bg-red-50 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">cancel</span>
+                    ปฏิเสธ
+                </button>
+<button class="w-full py-2.5 px-4 rounded-full bg-success text-white font-bold hover:bg-green-700 transition-colors shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+                    อนุมัติ
+                </button>
+</div>
+</div>
+</main>
+</body></html>

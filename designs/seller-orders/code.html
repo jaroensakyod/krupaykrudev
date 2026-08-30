@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>รายการขาย - ศูนย์ดูแลผู้ขาย | KruPayKru</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Ibm+Plex+Sans:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0F766E",
+                        accent: "#F59E0B",
+                        success: "#16A34A",
+                        danger: "#DC2626",
+                        background: "#FAFAF8",
+                        surface: "#FFFFFF",
+                        textMain: "#1F2937",
+                        textMuted: "#6B7280",
+                        navDark: "#0B4F4A"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Ibm Plex Sans", "sans-serif"],
+                        display: ["Ibm Plex Sans", "sans-serif"],
+                        body: ["Ibm Plex Sans", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Ibm Plex Sans', sans-serif; background-color: #FAFAF8; color: #1F2937; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-textMain">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-full py-6 space-y-2 bg-[#0B4F4A] text-white docked full-height left-0 w-64 no-border shadow-xl shrink-0 z-20">
+<!-- Header -->
+<div class="px-6 pb-6 border-b border-teal-800/50 flex items-center space-x-3">
+<img alt="รูปโปรไฟล์ครู" class="w-12 h-12 rounded-full object-cover border-2 border-[#F59E0B]" data-alt="A professional studio portrait of an Asian teacher smiling warmly, serving as an avatar placeholder. Soft lighting, neutral background, conveying trust and approachability for a Thai education marketplace context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBldIXaSLTdrr6fiqloxOsE9dtCbdX7xgUXcFOIj0EH2tFEPKL8WWNIJ01e0h8aO5e4tGyJXRfpgxvMeksNM8kxUU7_YOF_6Ar8AWRlsJvsBAziAQHNsZNjJzN-4pxtrN6kYBg0Pf7EV2QKqgPO1pJW-cIAz4qjLUZUHP3mPYpRhKwRztCM2SEE-KcYt9mXBKUR5SYK6qsY6xutOeO7KChjcza5ATSNpb-Kuwr8HvncwdZdhTL3C2E"/>
+<div>
+<h2 class="text-lg font-headline font-bold text-white leading-tight">ศูนย์ดูแลผู้ขาย</h2>
+<span class="text-sm text-teal-200">ครูตัวจริง 🏅</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 px-4 py-4 space-y-1 font-body text-label overflow-y-auto">
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span>แดชบอร์ด</span>
+</a>
+<a class="flex items-center px-4 py-3 bg-[#0F766E] text-white rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+<span class="font-medium">รายการขาย</span>
+</a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">upload_file</span>
+<span>จัดการสื่อ</span>
+</a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span>วิเคราะห์ข้อมูล</span>
+</a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">account_balance_wallet</span>
+<span>วอลเล็ต</span>
+</a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span>ตั้งค่า</span>
+</a>
+</nav>
+<!-- CTA & Footer -->
+<div class="px-6 pt-4 border-t border-teal-800/50 space-y-4 font-body text-label">
+<button class="w-full py-2 bg-[#F59E0B] hover:bg-amber-600 text-white font-medium rounded-full transition-colors flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm mr-2" style="font-variation-settings: 'FILL' 1;">add</span>
+                อัปโหลดสื่อใหม่
+            </button>
+<div class="space-y-1">
+<a class="flex items-center px-2 py-2 text-teal-200 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] mr-3">home</span>
+<span class="text-sm">กลับสู่หน้าหลัก</span>
+</a>
+<a class="flex items-center px-2 py-2 text-teal-200 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px] mr-3">logout</span>
+<span class="text-sm">ออกจากระบบ</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full bg-background overflow-hidden relative">
+<!-- Header -->
+<header class="bg-surface border-b border-gray-200 px-8 py-5 flex justify-between items-center z-10 sticky top-0">
+<div>
+<h1 class="text-2xl font-headline font-bold text-textMain">รายการขาย</h1>
+<p class="text-sm text-textMuted mt-1">จัดการคำสั่งซื้อและติดตามสถานะการจัดส่ง</p>
+</div>
+<div class="flex items-center space-x-4">
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="material-symbols-outlined text-textMuted text-[20px]">search</span>
+</span>
+<input class="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64" placeholder="ค้นหาเลขออเดอร์, ชื่อผู้ซื้อ..." type="text"/>
+</div>
+<button class="p-2 text-textMuted hover:text-primary transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8 space-y-8">
+<!-- Summary Cards (Bento Grid Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="bg-surface rounded-xl p-6 shadow-sm border border-gray-100 flex items-start justify-between">
+<div>
+<p class="text-sm font-label text-textMuted mb-1">ออเดอร์วันนี้</p>
+<h3 class="text-3xl font-headline font-bold text-textMain">12</h3>
+<p class="text-xs text-success mt-2 flex items-center font-medium">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                            +15% จากเมื่อวาน
+                        </p>
+</div>
+<div class="w-12 h-12 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+<span class="material-symbols-outlined">shopping_bag</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface rounded-xl p-6 shadow-sm border border-gray-100 flex items-start justify-between relative overflow-hidden">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/5 rounded-full blur-xl"></div>
+<div class="relative z-10">
+<p class="text-sm font-label text-textMuted mb-1">รายได้เดือนนี้</p>
+<h3 class="text-3xl font-headline font-bold text-textMain">฿4,250</h3>
+<p class="text-xs text-textMuted mt-2 flex items-center">
+                            คาดการณ์สิ้นเดือน: ฿12,000
+                        </p>
+</div>
+<div class="w-12 h-12 rounded-lg bg-teal-50 text-primary flex items-center justify-center relative z-10">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface rounded-xl p-6 shadow-sm border border-gray-100 flex items-start justify-between border-l-4 border-l-accent">
+<div>
+<p class="text-sm font-label text-textMuted mb-1">รอตรวจสอบชำระเงิน</p>
+<h3 class="text-3xl font-headline font-bold text-textMain">3</h3>
+<a class="text-xs text-accent mt-2 flex items-center hover:underline font-medium" href="#">
+                            ตรวจสอบทันที
+                            <span class="material-symbols-outlined text-[14px] ml-1">arrow_forward</span>
+</a>
+</div>
+<div class="w-12 h-12 rounded-lg bg-amber-50 text-accent flex items-center justify-center">
+<span class="material-symbols-outlined">hourglass_empty</span>
+</div>
+</div>
+</div>
+<!-- Orders Table Section -->
+<div class="bg-surface rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+<!-- Filter Tabs -->
+<div class="border-b border-gray-200 px-6 pt-4 flex space-x-6 overflow-x-auto">
+<button class="pb-3 text-sm font-medium text-primary border-b-2 border-primary whitespace-nowrap">
+                        ทั้งหมด (128)
+                    </button>
+<button class="pb-3 text-sm font-medium text-textMuted hover:text-textMain whitespace-nowrap flex items-center">
+                        รอชำระเงิน
+                        <span class="ml-2 bg-gray-100 text-gray-600 py-0.5 px-2 rounded-full text-[10px]">3</span>
+</button>
+<button class="pb-3 text-sm font-medium text-textMuted hover:text-textMain whitespace-nowrap">
+                        ชำระแล้ว (รอดาวน์โหลด)
+                    </button>
+<button class="pb-3 text-sm font-medium text-textMuted hover:text-textMain whitespace-nowrap">
+                        สำเร็จแล้ว
+                    </button>
+<button class="pb-3 text-sm font-medium text-textMuted hover:text-textMain whitespace-nowrap">
+                        ยกเลิก
+                    </button>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-gray-50/50 text-textMuted border-b border-gray-100">
+<tr>
+<th class="px-6 py-4 font-medium">ออเดอร์ #</th>
+<th class="px-6 py-4 font-medium">สินค้า</th>
+<th class="px-6 py-4 font-medium">ผู้ซื้อ</th>
+<th class="px-6 py-4 font-medium">วันที่</th>
+<th class="px-6 py-4 font-medium text-right">ยอดรวม</th>
+<th class="px-6 py-4 font-medium">สถานะ</th>
+<th class="px-6 py-4 font-medium text-center">จัดการ</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<!-- Row 1 (Pending) -->
+<tr class="hover:bg-gray-50/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">#ORD-2410-089</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<img alt="สินค้า" class="w-10 h-10 rounded object-cover border border-gray-200" data-alt="Thumbnail showing a colorful digital worksheet for elementary students, featuring math problems and cute animal illustrations. Bright, educational aesthetic suitable for Thai primary schools." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZVuY6ZvHwmrg16CnpMFqOLwYDtt2zMlQwtfd3dzYnjcx2JZQu_r_n2XU8mn0WcC0O8W_2JXMYE0zsX3F1GSYgKAm53_FY1VdJOyO92iokLJrZrhyFR8194iQ3Xy-XVEUCgv2zq7I6mfryWVCToJrkglbFfVeJLGWscaLx1bPjtZ2VvFBurFlHizNUIC1kHleEWLUzrmpN0tp3RpxL_iqwV1VdRZTnW2YGMvu5xOF9jfONlnMMO1w"/>
+<div>
+<p class="font-medium text-textMain max-w-[200px] truncate">ใบงานคณิตศาสตร์ ป.3 (ครบเทอม)</p>
+<p class="text-xs text-textMuted">PDF, 45 หน้า</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold">K</div>
+<span>Kru Somjai</span>
+</div>
+</td>
+<td class="px-6 py-4 text-textMuted">24 ต.ค. 2567<br/><span class="text-xs">14:30 น.</span></td>
+<td class="px-6 py-4 font-bold text-right">฿150</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200">
+                                        รอชำระเงิน
+                                    </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-primary hover:text-teal-900 p-1 rounded-full hover:bg-teal-50 transition-colors" title="ดูรายละเอียด">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 (Paid/Ready to download) -->
+<tr class="hover:bg-gray-50/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">#ORD-2410-088</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded bg-gray-100 border border-gray-200 flex items-center justify-center text-textMuted">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<p class="font-medium text-textMain max-w-[200px] truncate">แผนการสอนวิทยาศาสตร์ ม.1</p>
+<p class="text-xs text-textMuted">Word + PPT</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-[10px] font-bold">N</div>
+<span>Nattapong T.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-textMuted">24 ต.ค. 2567<br/><span class="text-xs">10:15 น.</span></td>
+<td class="px-6 py-4 font-bold text-right">฿290</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+                                        ชำระเงินแล้ว
+                                    </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-primary hover:text-teal-900 p-1 rounded-full hover:bg-teal-50 transition-colors" title="ดูรายละเอียด">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 (Completed) -->
+<tr class="hover:bg-gray-50/50 transition-colors">
+<td class="px-6 py-4 font-medium text-primary">#ORD-2410-085</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<img alt="สินค้า" class="w-10 h-10 rounded object-cover border border-gray-200" data-alt="Thumbnail for an interactive PowerPoint presentation game for English vocabulary learning. Features vibrant colors, cartoon characters, and clear typography suitable for Thai classrooms." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8CgQVxUH171llZG3O3SeTR8vjDVYI5AQVPEwB3vOlFrYIpa8Yts5mgBVJkxeAZkfXcvskcxQ9nYqhUZvDBvKVNJwEfeGGBpIF-yz3Qgi9wKAcBJqRTkDX709nrmZFQatxJ7eMhu0s7Gu_q0GQwMKhDgsq8T99E7NmpFfLyBtyfMC0L7XWQDuSOEDjeEHdmn3cmNq8CMvQwjNWpCwxc4hsiDIdIzAhkUL3Bj2QZ7KRlTFud9MgvQw"/>
+<div>
+<p class="font-medium text-textMain max-w-[200px] truncate">เกมทายคำศัพท์ภาษาอังกฤษ (Interactive)</p>
+<p class="text-xs text-textMuted">PowerPoint</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-[10px] font-bold">W</div>
+<span>Wipawee S.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-textMuted">23 ต.ค. 2567<br/><span class="text-xs">18:45 น.</span></td>
+<td class="px-6 py-4 font-bold text-right">฿99</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700 border border-gray-200">
+                                        สำเร็จ (โหลดแล้ว)
+                                    </span>
+</td>
+<td class="px-6 py-4 text-center">
+<button class="text-primary hover:text-teal-900 p-1 rounded-full hover:bg-teal-50 transition-colors" title="ดูรายละเอียด">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+<span class="text-sm text-textMuted">แสดง 1 ถึง 10 จาก 128 รายการ</span>
+<div class="flex space-x-1">
+<button class="p-1 rounded text-gray-400 hover:text-primary hover:bg-gray-100 disabled:opacity-50" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="px-3 py-1 rounded bg-primary text-white text-sm font-medium">1</button>
+<button class="px-3 py-1 rounded text-textMuted hover:bg-gray-100 text-sm font-medium">2</button>
+<button class="px-3 py-1 rounded text-textMuted hover:bg-gray-100 text-sm font-medium">3</button>
+<span class="px-2 py-1 text-textMuted">...</span>
+<button class="p-1 rounded text-gray-400 hover:text-primary hover:bg-gray-100">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

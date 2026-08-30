@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>คลังสื่อ - ครูเปย์ครู KruPayKru</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Kanit', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F766E',
+                        accent: '#F59E0B',
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        background: '#FAFAF8',
+                        surface: '#FFFFFF',
+                        charcoal: '#1F2937',
+                        muted: '#6B7280',
+                        seller: '#D97706',
+                        verified: '#2563EB',
+                        krupass1: '#0F766E',
+                        krupass2: '#10B981'
+                    },
+                    fontFamily: {
+                        headline: ['Kanit', 'sans-serif'],
+                        body: ['Sarabun', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#FAFAF8] text-[#1F2937] min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-3 bg-white shadow-sm border-b border-gray-100">
+<div class="flex items-center gap-4">
+<span class="text-xl font-black text-[#0F766E] font-headline">ครูเปย์ครู KruPayKru</span>
+</div>
+<div class="flex-1 max-w-2xl mx-8 relative hidden md:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:border-[#0F766E] focus:ring-1 focus:ring-[#0F766E] font-body text-sm" placeholder="ค้นหาสื่อการสอน..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-muted-gray hover:text-charcoal hover:bg-gray-50 p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-muted-gray hover:text-charcoal hover:bg-gray-50 p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="text-muted-gray hover:text-charcoal hover:bg-gray-50 p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ml-2 cursor-pointer border border-gray-200">
+<img alt="รูปโปรไฟล์ผู้ใช้" class="w-full h-full object-cover" data-alt="A smiling Thai female teacher in a professional light blue blouse, studio lighting, soft background, photorealistic style, perfect for a trustworthy educational marketplace profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbpmgaYdFPfmNOS4Pwx9K6DnJH3fZLBSQjqElbKiA0dpXbEX64_3g7tjCGN74jcuSC4QhWbcNYmbor5zFxBxvP84C7he9h81Vy2I582y0rAaQYdnocTabYd16FxHT2BHrN60F0kR7HELb-paHhVlhPusRlIL-8f57Vk6C5NFz-ddvo2pj_TY6FRfhwU9be2kCq7b-YqSHecnYn6d8J_vmOdhYHVGMLJJdVqrESjhEqSjdTmeWiuSlwpFZ5U5FY1hSUXbnlPwwWnA"/>
+</div>
+</div>
+</header>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 flex flex-col md:flex-row gap-8">
+<!-- Left Sidebar (Account Menu) -->
+<aside class="w-full md:w-1/4 shrink-0">
+<nav class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+<div class="p-4 border-b border-gray-100">
+<h2 class="font-headline font-semibold text-lg text-charcoal">บัญชีของฉัน</h2>
+</div>
+<ul class="py-2">
+<li>
+<a class="flex items-center px-4 py-3 text-[#0F766E] font-bold bg-gray-50 border-r-4 border-[#0F766E]" href="#">
+<span class="material-symbols-outlined mr-3" style="font-variation-settings: 'FILL' 1;">folder_open</span>
+                            คลังสื่อ
+                        </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-muted-gray hover:text-charcoal hover:bg-gray-50 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3">favorite</span>
+                            รายการโปรด
+                        </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-muted-gray hover:text-charcoal hover:bg-gray-50 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3">storefront</span>
+                            ร้านที่ติดตาม
+                        </a>
+</li>
+<li>
+<a class="flex items-center px-4 py-3 text-muted-gray hover:text-charcoal hover:bg-gray-50 transition-colors" href="#">
+<span class="material-symbols-outlined mr-3">history</span>
+                            ประวัติการซื้อ
+                        </a>
+</li>
+</ul>
+</nav>
+<!-- KruPass Card -->
+<div class="bg-gradient-to-br from-[#0F766E] to-[#10B981] rounded-xl p-5 text-white shadow-md relative overflow-hidden">
+<div class="absolute top-0 right-0 p-3 opacity-20">
+<span class="material-symbols-outlined text-6xl">stars</span>
+</div>
+<div class="relative z-10">
+<div class="flex justify-between items-center mb-1">
+<h3 class="font-headline font-bold text-lg">KruPass Plus</h3>
+</div>
+<p class="text-white/80 text-sm mb-4">Plus · เหลือ 18 วัน</p>
+<div class="mb-2 flex justify-between text-xs">
+<span>โหลดวันนี้</span>
+<span class="font-bold">12/30</span>
+</div>
+<div class="w-full bg-white/30 rounded-full h-1.5 mb-4 overflow-hidden">
+<div class="bg-white h-1.5 rounded-full" style="width: 40%"></div>
+</div>
+<button class="w-full py-2 bg-white text-[#0F766E] font-headline font-medium text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                        ต่ออายุสมาชิก
+                    </button>
+</div>
+</div>
+</aside>
+<!-- Main Content (Library) -->
+<main class="w-full md:w-3/4">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+<h1 class="font-headline font-bold text-2xl text-charcoal">คลังสื่อของฉัน</h1>
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xl">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:border-[#0F766E] focus:ring-1 focus:ring-[#0F766E] font-body text-sm" placeholder="ค้นหาในคลังของฉัน" type="text"/>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex gap-6 border-b border-gray-200 mb-6 font-headline overflow-x-auto pb-[-1px]">
+<button class="pb-3 text-[#0F766E] font-medium border-b-2 border-[#0F766E] whitespace-nowrap">ทั้งหมด</button>
+<button class="pb-3 text-muted-gray hover:text-charcoal whitespace-nowrap">ยังไม่ให้รีวิว</button>
+<button class="pb-3 text-muted-gray hover:text-charcoal whitespace-nowrap">ฟรี</button>
+</div>
+<!-- Purchased Items List -->
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="flex flex-col sm:flex-row gap-4 p-4 border border-gray-100 rounded-xl hover:border-[#0F766E]/30 transition-colors">
+<div class="w-full sm:w-24 h-32 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+<img alt="ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1VdsOgKQZ-qHcnna0nBGMyrBy1TnImPP3kXwgw8iY-tIYfIbpiervMXQ3NT814TDcHZHPQGg42vIMBVPm35kd_bi7mkTm70msNRNzi_056ZmAfex1LJqfpVCyfjl6513G91mY45JT34Uk3WjudeE9IfPD54dJj_tILU-3l8KZYsykHs69TxlbwW2khMc4voW1TVrwdSJ5S6lY4AC4IwBkfTrdz0PCetWIDMFF28Cp8zbxp43m-lwyiPpg"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-medium text-lg text-charcoal line-clamp-2 mb-1">ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3</h3>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-sm text-muted-gray">ครูก้อง Science Store</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] border border-gray-200 text-gray-500">🏛 สถาบัน</span>
+</div>
+<p class="text-xs text-muted-gray">ซื้อเมื่อ 12 ส.ค. 2569</p>
+</div>
+<div class="flex flex-wrap items-center gap-2 mt-4 sm:mt-0">
+<button class="px-3 py-1.5 text-sm font-medium text-[#0F766E] border border-[#0F766E] rounded-full hover:bg-[#0F766E]/5 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">download</span> PDF
+                                </button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-600 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">download</span> PPTX
+                                </button>
+<button class="px-3 py-1.5 text-sm font-medium text-amber-900 bg-amber-100 hover:bg-amber-200 rounded-full transition-colors flex items-center gap-1 ml-auto sm:ml-0">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span> ให้รีวิว
+                                </button>
+<a class="text-xs text-muted-gray underline ml-auto" href="#">ใบเสร็จ</a>
+</div>
+</div>
+</div>
+<!-- Item 2 (No image placeholder provided for second item, using generic) -->
+<div class="flex flex-col sm:flex-row gap-4 p-4 border border-gray-100 rounded-xl hover:border-[#0F766E]/30 transition-colors opacity-80">
+<div class="w-full sm:w-24 h-32 shrink-0 rounded-lg overflow-hidden bg-gray-100">
+<img alt="เทมเพลตนำเสนอ วิชาภาษาไทย" class="w-full h-full object-cover" data-alt="A minimalist and clean presentation template cover design for Thai language subjects. Soft pastel colors, elegant Thai typography 'เทมเพลตนำเสนอ วิชาภาษาไทย'. Professional educational marketplace aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKg_jMP5m_hjrsQpkOcQJpG7iAz1hVXWgwlvc3LfpVLmFVJwoqYjPN16hU_iJEmwPaETJrEAf762C5Xx5QK0Tx09t3IdquXC72brteoOb1F3RboxbmWT8_DAKaranldhaKCeQSq4Z5_4vsfRlKqnAffV_1qiUfpiwQAjqLarTZ800zpNNQGydoSivhVZFjCrZik7qwu3UndQvtu8oHwu9xRH9jUilB-F6GrbQrk0e4U-yfZstocJGmdf_A2oQpyF7GP57CA6KuDw"/>
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h3 class="font-headline font-medium text-lg text-charcoal line-clamp-2 mb-1">เทมเพลตสื่อการสอน วิชาภาษาไทย</h3>
+<div class="flex items-center gap-2 mb-2">
+<span class="text-sm text-muted-gray">Thai Kru Shop</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] border border-amber-500 text-amber-600 font-medium">🏅 ครูตัวจริง</span>
+</div>
+<p class="text-xs text-muted-gray">ซื้อเมื่อ 5 ส.ค. 2569</p>
+</div>
+<div class="flex flex-wrap items-center gap-2 mt-4 sm:mt-0">
+<button class="px-3 py-1.5 text-sm font-medium text-[#0F766E] border border-[#0F766E] rounded-full hover:bg-[#0F766E]/5 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">download</span> PPTX
+                                </button>
+<button class="px-3 py-1.5 text-sm font-medium text-gray-400 border border-gray-200 rounded-full cursor-not-allowed flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span> รีวิวแล้ว
+                                </button>
+<a class="text-xs text-muted-gray underline ml-auto" href="#">ใบเสร็จ</a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 text-center">
+<p class="text-xs text-muted-gray flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                        ดาวน์โหลดซ้ำได้ไม่จำกัด · ไฟล์ผูกกับบัญชีคุณ
+                    </p>
+</div>
+</div>
+</main>
+</div>
+<!-- BottomNavBar for Mobile -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center bg-white py-2 px-4 pb-safe border-t border-gray-100 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-muted-gray active:bg-gray-50 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label text-[10px]">หน้าแรก</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-gray active:bg-gray-50 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">search</span>
+<span class="font-label text-[10px]">ค้นหา</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-gray active:bg-gray-50 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">shopping_basket</span>
+<span class="font-label text-[10px]">ตะกร้า</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#0F766E] font-bold active:bg-gray-50 p-2 rounded-lg scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label text-[10px]">คลังสื่อ</span>
+</a>
+<a class="flex flex-col items-center justify-center text-muted-gray active:bg-gray-50 p-2 rounded-lg" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label text-[10px]">โปรไฟล์</span>
+</a>
+</nav>
+</body></html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>จัดการข้อพิพาท - KruPayKru Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0F766E",
+                        accent: "#F59E0B",
+                        success: "#16A34A",
+                        danger: "#DC2626",
+                        bgWarm: "#FAFAF8",
+                        textCharcoal: "#1F2937",
+                        mutedGray: "#6B7280",
+                        navDark: "#0B4F4A",
+                        verified: "#2563EB",
+                        sellerGold: "#D97706"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "12px",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        "headline": ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        "display": ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        "body": ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                        "label": ["Public Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #FAFAF8; color: #1F2937; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Kanit', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .icon-fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-bgWarm text-textCharcoal flex h-screen overflow-hidden">
+<!-- SideNavBar (Admin Variation based on Shared Components) -->
+<aside class="bg-[#0B4F4A] text-white flex flex-col h-full py-6 space-y-2 docked full-height left-0 w-64 shadow-xl z-20 flex-shrink-0">
+<div class="px-6 pb-6 border-b border-teal-800/50 mb-4">
+<div class="text-lg font-headline font-bold text-white mb-4">KruPayKru Admin</div>
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-teal-700 flex items-center justify-center">
+<span class="material-symbols-outlined icon-fill">admin_panel_settings</span>
+</div>
+<div>
+<h3 class="font-headline font-medium text-sm">ผู้ดูแลระบบ</h3>
+<p class="text-xs text-teal-200">สิทธิ์สูงสุด</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1 overflow-y-auto">
+<!-- Simulated Admin Tabs -->
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all font-body text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">dashboard</span>
+                แดชบอร์ด
+            </a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all font-body text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">people</span>
+                จัดการผู้ใช้
+            </a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all font-body text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">receipt_long</span>
+                รายการสั่งซื้อ
+            </a>
+<!-- Active Tab -->
+<a class="flex items-center px-4 py-3 bg-[#0F766E] text-white rounded-lg mx-2 transition-all font-body text-sm font-medium" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">gavel</span>
+                ข้อพิพาท
+            </a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all font-body text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">analytics</span>
+                รายงานระบบ
+            </a>
+<a class="flex items-center px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all font-body text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">settings</span>
+                ตั้งค่าระบบ
+            </a>
+</nav>
+<div class="px-4 mt-auto">
+<a class="flex items-center px-4 py-3 text-teal-200 hover:bg-[#0F766E]/50 rounded-lg transition-all font-body text-sm" href="#">
+<span class="material-symbols-outlined mr-3 text-xl">logout</span>
+                ออกจากระบบ
+            </a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden">
+<!-- Top Header -->
+<header class="bg-white border-b border-gray-100 px-8 py-4 flex items-center justify-between z-10 flex-shrink-0">
+<div>
+<h1 class="text-2xl font-headline font-bold text-textCharcoal">จัดการข้อพิพาท</h1>
+<p class="text-sm text-mutedGray mt-1">เคส A35: คำร้องขอคืนเงินเนื่องจากไฟล์ไม่ตรงปก</p>
+</div>
+<div class="flex items-center space-x-4">
+<span class="px-3 py-1 bg-accent/10 text-accent rounded-full text-xs font-medium border border-accent/20">สถานะ: รอแอดมินตัดสิน</span>
+<span class="text-sm text-mutedGray">เปิดเคส: 12 ต.ค. 2024</span>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-6xl mx-auto grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Left Column: Dispute Details -->
+<div class="xl:col-span-2 space-y-6">
+<!-- Timeline (Simple version) -->
+<div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+<h2 class="font-headline font-semibold text-lg mb-4 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary">history</span> ไทม์ไลน์ข้อพิพาท
+                        </h2>
+<div class="relative pl-6 border-l-2 border-gray-200 space-y-4">
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-gray-300 border-2 border-white"></div>
+<p class="text-xs text-mutedGray">12 ต.ค. 2024 10:30</p>
+<p class="text-sm font-medium">ผู้ซื้อเปิดข้อพิพาท</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-gray-300 border-2 border-white"></div>
+<p class="text-xs text-mutedGray">12 ต.ค. 2024 14:15</p>
+<p class="text-sm font-medium">ผู้ขายตอบรับและชี้แจง</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-accent border-2 border-white"></div>
+<p class="text-xs text-accent font-medium">ปัจจุบัน</p>
+<p class="text-sm font-medium">รอการตัดสินใจจากแอดมิน</p>
+</div>
+</div>
+</div>
+<!-- Buyer vs Seller Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Buyer Claim -->
+<div class="bg-red-50/50 rounded-xl p-6 border border-red-100">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline font-semibold text-danger flex items-center">
+<span class="material-symbols-outlined mr-2">person</span> คำร้องผู้ซื้อ
+                                </h3>
+<span class="text-xs text-mutedGray">ID: B-8921</span>
+</div>
+<div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+<p class="text-sm text-textCharcoal mb-2"><strong>เหตุผล:</strong> ไฟล์สื่อการสอนไม่ตรงกับรายละเอียดที่ระบุไว้ในหน้าสินค้า ขาดสไลด์สรุปเนื้อหาบทที่ 4-5</p>
+<p class="text-sm text-textCharcoal"><strong>ต้องการ:</strong> คืนเงินเต็มจำนวน (฿250)</p>
+</div>
+<div>
+<p class="text-xs font-medium text-mutedGray mb-2">หลักฐานแนบ (2):</p>
+<div class="flex space-x-2">
+<div class="w-16 h-16 bg-gray-200 rounded border border-gray-300 flex items-center justify-center cursor-pointer hover:opacity-80">
+<span class="material-symbols-outlined text-gray-500">image</span>
+</div>
+<div class="w-16 h-16 bg-gray-200 rounded border border-gray-300 flex items-center justify-center cursor-pointer hover:opacity-80">
+<span class="material-symbols-outlined text-gray-500">description</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Seller Response -->
+<div class="bg-blue-50/50 rounded-xl p-6 border border-blue-100">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline font-semibold text-verified flex items-center">
+<span class="material-symbols-outlined mr-2">storefront</span> คำชี้แจงผู้ขาย
+                                </h3>
+<span class="text-xs text-mutedGray">ID: S-1442</span>
+</div>
+<div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+<p class="text-sm text-textCharcoal mb-2"><strong>คำชี้แจง:</strong> สไลด์บทที่ 4-5 ถูกรวมไว้ในไฟล์ชื่อ Part2.pdf ซึ่งอยู่ในโฟลเดอร์ zip ที่โหลดไปแล้ว อาจจะหาไม่เจอครับ ยินดีคืนเงินบางส่วนหากไม่พอใจจริงๆ</p>
+<p class="text-sm text-textCharcoal"><strong>ข้อเสนอ:</strong> คืนเงินบางส่วน (฿100)</p>
+</div>
+<div>
+<p class="text-xs font-medium text-mutedGray mb-2">หลักฐานแนบ (1):</p>
+<div class="flex space-x-2">
+<div class="w-16 h-16 bg-gray-200 rounded border border-gray-300 flex items-center justify-center cursor-pointer hover:opacity-80">
+<span class="material-symbols-outlined text-gray-500">folder_zip</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Internal Notes -->
+<div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+<h2 class="font-headline font-semibold text-lg mb-4 flex items-center text-textCharcoal">
+<span class="material-symbols-outlined mr-2 text-primary">edit_note</span> บันทึกภายใน (สำหรับแอดมิน)
+                        </h2>
+<textarea class="w-full border-gray-200 rounded-lg p-3 text-sm focus:ring-primary focus:border-primary min-h-[100px]" placeholder="เพิ่มบันทึกย่อหรือความคิดเห็นเกี่ยวกับการสืบสวนเคสนี้ (ผู้ซื้อและผู้ขายจะไม่เห็น)"></textarea>
+<div class="flex justify-end mt-2">
+<button class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-textCharcoal text-sm font-medium rounded-full transition-colors">บันทึกข้อความ</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Order Details & Actions -->
+<div class="space-y-6">
+<!-- Order Detail Card -->
+<div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+<h2 class="font-headline font-semibold text-lg mb-4 flex items-center border-b pb-3">
+<span class="material-symbols-outlined mr-2 text-primary">receipt</span> รายละเอียดคำสั่งซื้อ
+                        </h2>
+<div class="space-y-3 text-sm">
+<div class="flex justify-between">
+<span class="text-mutedGray">หมายเลขคำสั่งซื้อ</span>
+<span class="font-medium">#ORD-2410-998</span>
+</div>
+<div class="flex justify-between">
+<span class="text-mutedGray">วันที่สั่งซื้อ</span>
+<span>10 ต.ค. 2024</span>
+</div>
+<div class="flex justify-between">
+<span class="text-mutedGray">ยอดรวม</span>
+<span class="font-bold text-primary">฿250.00</span>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-gray-100">
+<p class="text-xs font-medium text-mutedGray mb-2">สินค้า:</p>
+<div class="flex items-start space-x-3">
+<div class="w-12 h-12 bg-gray-100 rounded flex-shrink-0" data-alt="A small thumbnail image showing a beautifully designed presentation slide cover for a science lesson, bright colors, educational aesthetic, clean layout" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDyzCGtektR8__XYaj9WzY627_aUPrvCVP8P2Plr3sBbH7eL-ZbfNw2lol3e1Q9XtXH7_lo3yQm0oIMRK1AWdi60ojbrnyyWxjLvxLoeaizxlyzDLTk2yOEJlhjFjrfI0J6fwxPhJZm1uvqZEKpYP34_fcxYgNtzSxCnUS1fkE3jrWRudHcy5jxssg6i0_O4INtZhKH7yYRrZAzvdQlEr6I0M36COxMWSfY9h6kmVl2qvi5awdoHG4')"></div>
+<div>
+<p class="text-sm font-medium line-clamp-2">สื่อการสอนวิทยาศาสตร์ ม.2 ครบชุดพร้อมใบงาน</p>
+<p class="text-xs text-mutedGray mt-1">ร้าน: Kru Science Pro <span class="inline-block w-2 h-2 rounded-full bg-verified ml-1"></span></p>
+</div>
+</div>
+</div>
+</div>
+<!-- Resolution Actions -->
+<div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 border-t-4 border-t-primary">
+<h2 class="font-headline font-semibold text-lg mb-4">การตัดสินข้อพิพาท</h2>
+<p class="text-xs text-mutedGray mb-6">เลือกการดำเนินการเพื่อปิดเคสนี้ การตัดสินถือเป็นที่สิ้นสุด</p>
+<div class="space-y-3">
+<button class="w-full py-3 px-4 bg-white border-2 border-danger text-danger hover:bg-red-50 rounded-full font-medium text-sm transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined mr-2 text-lg">money_off</span>
+                                คืนเงินเต็มจำนวน (ให้ผู้ซื้อ)
+                            </button>
+<button class="w-full py-3 px-4 bg-white border-2 border-accent text-accent hover:bg-orange-50 rounded-full font-medium text-sm transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined mr-2 text-lg">splitscreen</span>
+                                คืนเงินบางส่วน
+                            </button>
+<button class="w-full py-3 px-4 bg-white border-2 border-success text-success hover:bg-green-50 rounded-full font-medium text-sm transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined mr-2 text-lg">block</span>
+                                ปฏิเสธคำร้อง (เข้าข้างผู้ขาย)
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

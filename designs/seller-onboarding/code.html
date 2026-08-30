@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KruPayKru - Seller Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Kanit:wght@300;400;500;600;700&amp;family=Public+Sans:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            light: '#14b8a6',
+                            dark: '#0f766e',
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                        },
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        background: '#FAFAF8', // Warm White
+                        surface: '#FFFFFF',
+                        text: {
+                            DEFAULT: '#1F2937', // Charcoal
+                            muted: '#6B7280', // Muted Gray
+                        }
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem", // 12px
+                        lg: "1rem",
+                        xl: "1.5rem",
+                        full: "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        body: ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #FAFAF8;
+            color: #1F2937;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Kanit', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom progress bar animation */
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        /* Hidden class for step management */
+        .step-hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex flex-col items-center py-12 px-4 sm:px-6 lg:px-8">
+<!-- Top App Bar (Simplified for Onboarding) -->
+<header class="w-full max-w-4xl flex justify-between items-center mb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-weight="fill">school</span>
+<span class="text-2xl font-headline font-bold text-primary tracking-tight">ครูเปย์ครู KruPayKru</span>
+</div>
+<a class="text-text-muted hover:text-primary text-sm font-medium transition-colors" href="#">
+            กลับสู่หน้าหลัก
+        </a>
+</header>
+<!-- Main Content Container -->
+<main class="w-full max-w-2xl bg-surface rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+<!-- Progress Header -->
+<div class="px-8 pt-8 pb-6 border-b border-gray-100">
+<h1 class="text-2xl font-headline font-semibold text-text mb-6 text-center">เปิดร้านค้ากับเรา</h1>
+<!-- Horizontal Progress Indicator -->
+<div class="relative flex justify-between items-center max-w-md mx-auto">
+<!-- Background track -->
+<div class="absolute top-1/2 left-0 w-full h-1 bg-gray-200 -translate-y-1/2 z-0 rounded-full"></div>
+<!-- Active track -->
+<div class="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 z-0 rounded-full progress-bar-fill" id="progress-line" style="width: 0%;"></div>
+<!-- Step 1 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-sm transition-colors" id="step-dot-1">1</div>
+<span class="text-xs font-medium text-primary absolute -bottom-6 whitespace-nowrap" id="step-text-1">ข้อมูลร้านค้า</span>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 text-gray-400 flex items-center justify-center font-bold transition-colors" id="step-dot-2">2</div>
+<span class="text-xs font-medium text-gray-400 absolute -bottom-6 whitespace-nowrap" id="step-text-2">ยืนยันตัวตน</span>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 text-gray-400 flex items-center justify-center font-bold transition-colors" id="step-dot-3">3</div>
+<span class="text-xs font-medium text-gray-400 absolute -bottom-6 whitespace-nowrap" id="step-text-3">บัญชีรับเงิน</span>
+</div>
+</div>
+</div>
+<!-- Form Steps Container -->
+<div class="p-8">
+<!-- Step 1: Store Info -->
+<div class="space-y-6" id="step-1">
+<div>
+<h2 class="text-lg font-headline font-medium text-text mb-1">ตั้งชื่อร้านค้าของคุณ</h2>
+<p class="text-sm text-text-muted mb-4">ชื่อร้านควรจดจำง่ายและเกี่ยวข้องกับสื่อการสอนของคุณ</p>
+</div>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-text mb-1" for="store-name">ชื่อร้านค้า <span class="text-danger">*</span></label>
+<input class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" id="store-name" placeholder="เช่น ครูใจดี สื่อประถม" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-text mb-1" for="store-url">URL ร้านค้า (ภาษาอังกฤษเท่านั้น) <span class="text-danger">*</span></label>
+<div class="mt-1 flex rounded-md shadow-sm">
+<span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
+                                krupaykru.com/store/
+                            </span>
+<input class="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-gray-300 focus:border-primary focus:ring-primary sm:text-sm" id="store-url" placeholder="krujaidee" type="text"/>
+</div>
+<p class="mt-2 text-sm text-text-muted">คุณจะไม่สามารถเปลี่ยน URL ได้ในภายหลัง</p>
+</div>
+</div>
+<div class="pt-6 flex justify-end">
+<button class="inline-flex justify-center items-center rounded-full bg-primary px-8 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" onclick="nextStep(2)" type="button">
+                        ถัดไป
+                        <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Step 2: Identity Verification -->
+<div class="step-hidden space-y-6" id="step-2">
+<div>
+<h2 class="text-lg font-headline font-medium text-text mb-1">อัปโหลดบัตรประชาชน</h2>
+<p class="text-sm text-text-muted mb-4">เพื่อความปลอดภัยและสร้างความน่าเชื่อถือให้กับผู้ซื้อ กรุณายืนยันตัวตน</p>
+</div>
+<!-- Dropzone -->
+<div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-300 px-6 py-10 hover:bg-gray-50 transition-colors cursor-pointer group">
+<div class="text-center">
+<span class="material-symbols-outlined text-4xl text-gray-400 group-hover:text-primary transition-colors">badge</span>
+<div class="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
+<label class="relative cursor-pointer rounded-md bg-transparent font-semibold text-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 hover:text-primary-dark" for="file-upload">
+<span>อัปโหลดไฟล์</span>
+<input accept="image/jpeg, image/png, application/pdf" class="sr-only" id="file-upload" name="file-upload" type="file"/>
+</label>
+<p class="pl-1">หรือลากและวางที่นี่</p>
+</div>
+<p class="text-xs leading-5 text-gray-500">PNG, JPG, PDF ขนาดไม่เกิน 5MB</p>
+</div>
+</div>
+<!-- Checkbox -->
+<div class="relative flex items-start mt-6">
+<div class="flex h-6 items-center">
+<input class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" id="verify-true" name="verify-true" type="checkbox"/>
+</div>
+<div class="ml-3 text-sm leading-6">
+<label class="font-medium text-gray-900" for="verify-true">ข้าพเจ้ายืนยันว่าข้อมูลที่ให้เป็นความจริง</label>
+<p class="text-gray-500">หากพบว่าข้อมูลเป็นเท็จ บัญชีของท่านอาจถูกระงับการใช้งาน</p>
+</div>
+</div>
+<div class="pt-6 flex justify-between">
+<button class="inline-flex justify-center items-center rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" onclick="prevStep(1)" type="button">
+<span class="material-symbols-outlined mr-2 text-sm">arrow_back</span>
+                        ย้อนกลับ
+                    </button>
+<button class="inline-flex justify-center items-center rounded-full bg-primary px-8 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" onclick="nextStep(3)" type="button">
+                        ถัดไป
+                        <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Step 3: Bank Account -->
+<div class="step-hidden space-y-6" id="step-3">
+<div>
+<h2 class="text-lg font-headline font-medium text-text mb-1">บัญชีธนาคารรับเงิน</h2>
+<p class="text-sm text-text-muted mb-4">ระบุบัญชีธนาคารที่คุณต้องการรับเงินจากการขายสื่อ</p>
+</div>
+<div class="space-y-5">
+<!-- Bank Dropdown -->
+<div>
+<label class="block text-sm font-medium text-text mb-1" for="bank">ธนาคาร <span class="text-danger">*</span></label>
+<select class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-primary focus:outline-none focus:ring-primary sm:text-sm" id="bank" name="bank">
+<option disabled="" selected="" value="">เลือกธนาคาร</option>
+<option value="kbank">ธนาคารกสิกรไทย (KBANK)</option>
+<option value="scb">ธนาคารไทยพาณิชย์ (SCB)</option>
+<option value="bbl">ธนาคารกรุงเทพ (BBL)</option>
+<option value="ktb">ธนาคารกรุงไทย (KTB)</option>
+<option value="krungsri">ธนาคารกรุงศรีอยุธยา (BAY)</option>
+</select>
+</div>
+<!-- Account Number -->
+<div>
+<label class="block text-sm font-medium text-text mb-1" for="account-no">เลขที่บัญชี <span class="text-danger">*</span></label>
+<input class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" id="account-no" placeholder="เช่น 012-3-45678-9" type="text"/>
+</div>
+<!-- Account Name -->
+<div>
+<label class="block text-sm font-medium text-text mb-1" for="account-name">ชื่อบัญชี <span class="text-danger">*</span></label>
+<input class="w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm" id="account-name" placeholder="ชื่อ-นามสกุล ที่ตรงกับหน้าสมุดบัญชี" type="text"/>
+<p class="mt-2 text-xs text-text-muted">ชื่อบัญชีต้องตรงกับชื่อที่ใช้ยืนยันตัวตนในขั้นตอนที่ 2</p>
+</div>
+</div>
+<div class="pt-6 flex justify-between border-t border-gray-100 mt-8">
+<button class="inline-flex justify-center items-center rounded-full bg-white px-6 py-2.5 text-sm font-medium text-gray-700 border border-gray-300 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors" onclick="prevStep(2)" type="button">
+<span class="material-symbols-outlined mr-2 text-sm">arrow_back</span>
+                        ย้อนกลับ
+                    </button>
+<button class="inline-flex justify-center items-center rounded-full bg-success px-8 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-success focus:ring-offset-2 transition-colors" type="button">
+                        เสร็จสิ้นการเปิดร้าน
+                        <span class="material-symbols-outlined ml-2 text-sm">check_circle</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        function updateProgressUI(activeStep) {
+            // Update Line
+            const progressLine = document.getElementById('progress-line');
+            if(activeStep === 1) progressLine.style.width = '0%';
+            else if(activeStep === 2) progressLine.style.width = '50%';
+            else if(activeStep === 3) progressLine.style.width = '100%';
+
+            // Update Dots and Text
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById(`step-dot-${i}`);
+                const text = document.getElementById(`step-text-${i}`);
+                
+                if (i <= activeStep) {
+                    // Active or Completed
+                    dot.className = "w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold shadow-sm transition-colors";
+                    text.className = "text-xs font-medium text-primary absolute -bottom-6 whitespace-nowrap";
+                    
+                    if (i < activeStep) {
+                        // Change content to checkmark if completed
+                        dot.innerHTML = '<span class="material-symbols-outlined text-sm">check</span>';
+                    } else {
+                        dot.innerHTML = i;
+                    }
+                } else {
+                    // Inactive
+                    dot.className = "w-8 h-8 rounded-full bg-white border-2 border-gray-300 text-gray-400 flex items-center justify-center font-bold transition-colors";
+                    text.className = "text-xs font-medium text-gray-400 absolute -bottom-6 whitespace-nowrap";
+                    dot.innerHTML = i;
+                }
+            }
+        }
+
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.getElementById('step-1').classList.add('step-hidden');
+            document.getElementById('step-2').classList.add('step-hidden');
+            document.getElementById('step-3').classList.add('step-hidden');
+            
+            // Show target step
+            document.getElementById(`step-${stepNumber}`).classList.remove('step-hidden');
+            
+            // Update UI
+            updateProgressUI(stepNumber);
+        }
+
+        function nextStep(step) {
+            // Add simple validation simulation here if needed
+            showStep(step);
+        }
+
+        function prevStep(step) {
+            showStep(step);
+        }
+    </script>
+</body></html>

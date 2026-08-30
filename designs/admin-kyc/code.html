@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KruPayKru - Seller Verification Queue</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#0F766E",
+                        accent: "#F59E0B",
+                        success: "#16A34A",
+                        danger: "#DC2626",
+                        bgWarm: "#FAFAF8",
+                        textCharcoal: "#1F2937",
+                        textMuted: "#6B7280",
+                        navDark: "#0B4F4A",
+                        badgeGold: "#D97706",
+                        badgeVerified: "#2563EB"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["IBM Plex Sans", "sans-serif"],
+                        body: ["IBM Plex Sans", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-textCharcoal font-body antialiased flex min-h-screen">
+<!-- SideNavBar (from JSON) -->
+<aside class="bg-navDark text-white font-label flex flex-col h-screen py-6 space-y-2 docked full-height w-64 shadow-xl shrink-0 sticky top-0">
+<!-- Header -->
+<div class="px-6 mb-8 flex flex-col items-center text-center">
+<div class="w-20 h-20 rounded-full overflow-hidden mb-3 border-2 border-white/20">
+<img alt="รูปโปรไฟล์ครู" class="w-full h-full object-cover" data-alt="Profile picture of an admin user in a professional setting. Bright, well-lit, trustworthy expression. High quality, clear focus, wearing smart casual attire. Professional corporate portrait style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgq26qyU6wjOWiaXalHZcPswxCEjlZq3VSQX7XL8c2gUiqOvDSsVWmDjCaS5Dog1FAtEacnXD18V0dNvX6FjNgoFn7qZoiNzuVMVvKe4v62Nj4PCBQVx6n3IK2Bvg1cv-277fUTlyvlylwBn6nQe2GBs6lqy5r8OZNJnrXz6h5MXvGVo26dmhhevQvaq8ZKItb4NGma6NeTe465TEdulZM8XZRTFF2fQa94jwz2uY3pmymeN2v1Mk"/>
+</div>
+<h2 class="text-lg font-headline font-bold text-white">ศูนย์ดูแลผู้ขาย</h2>
+<p class="text-sm text-teal-100">ครูตัวจริง 🏅</p>
+<button class="mt-4 bg-primary text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-primary/80 transition-colors w-full">อัปโหลดสื่อใหม่</button>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex-1 px-4 space-y-1">
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span>แดชบอร์ด</span>
+</a>
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+<span>รายการขาย</span>
+</a>
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">upload_file</span>
+<span>จัดการสื่อ</span>
+</a>
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span>วิเคราะห์ข้อมูล</span>
+</a>
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">account_balance_wallet</span>
+<span>วอลเล็ต</span>
+</a>
+<a class="bg-primary text-white rounded-lg mx-2 flex items-center px-4 py-3 transition-all shadow-md" href="#">
+<span class="material-symbols-outlined mr-3 icon-fill">verified_user</span>
+<span class="font-semibold">ยืนยันผู้ขาย</span>
+</a>
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span>ตั้งค่า</span>
+</a>
+</nav>
+<!-- Footer Tabs -->
+<div class="px-4 mt-auto space-y-1 pt-4 border-t border-white/10">
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">home</span>
+<span>กลับสู่หน้าหลัก</span>
+</a>
+<a class="text-teal-100 hover:bg-primary/50 rounded-lg mx-2 flex items-center px-4 py-3 transition-all" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span>ออกจากระบบ</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-h-screen">
+<!-- Header area for canvas -->
+<header class="bg-white border-b border-gray-200 px-8 py-5 flex items-center justify-between sticky top-0 z-10 shadow-sm">
+<div>
+<h1 class="text-2xl font-headline font-bold text-textCharcoal">ยืนยันตัวตนผู้ขาย (คิวตรวจสอบ)</h1>
+<p class="text-textMuted text-sm mt-1 font-label">รายการที่รอการตรวจสอบ: <span class="font-semibold text-primary">3 รายการ</span></p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-textMuted">search</span>
+<input class="pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:ring-primary focus:border-primary w-64 bg-bgWarm" placeholder="ค้นหาชื่อร้าน, รหัส..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-full text-sm hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+<span>ตัวกรอง</span>
+</button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="p-8 flex-1">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 p-4 border-b border-gray-100 bg-gray-50 text-sm font-label font-semibold text-textMuted uppercase tracking-wide">
+<div class="col-span-4">ข้อมูลร้านค้า</div>
+<div class="col-span-2 text-center">ระดับที่ขอ</div>
+<div class="col-span-3 text-center">สถานะเอกสาร</div>
+<div class="col-span-3 text-center">การดำเนินการ</div>
+</div>
+<!-- List Items -->
+<div class="divide-y divide-gray-100">
+<!-- Item 1 -->
+<div class="grid grid-cols-12 gap-4 p-5 items-center hover:bg-bgWarm transition-colors">
+<!-- Store Info -->
+<div class="col-span-4 flex gap-4 items-start">
+<div class="w-16 h-16 rounded bg-gray-200 shrink-0 border border-gray-300 overflow-hidden cursor-pointer relative group">
+<img alt="ID Thumbnail" class="w-full h-full object-cover" data-alt="A macro shot of a Thai national ID card resting on a clean white desk, slightly blurred for privacy, focusing on the official seal and a faint outline of a portrait photo. Bright, clinical studio lighting, conveying official documentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFkUgJ_rsvsSSah4HJO7zTEY38tCyuSSzfuB4knkcp5wm7lKT4fJJ_WFl5RUqCN54QvU2cyG2xyDoBIBIAqoD4vr2wGapW0ZgMWCLVPB3DjjzQPZbJG97WC0d_N6S7c_QZFVtoCd6Tw7UoWouTVw_yXLZYOrp4QjaGBpI-6zizZsZS5bpAebs-EaliXSevA4RVT47Rvbtwjl7fTcEDULyeiOw7wb7YoA4pZK7fv_ehs1auwRmJgWs"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-base text-textCharcoal">สื่อการสอนครูใจดี</h3>
+<p class="text-sm text-textMuted flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">person</span> ครูสมศรี ใจดี
+                                </p>
+<p class="text-xs text-textMuted mt-1">ID: V-2409-001 • ส่งเมื่อ 2 ชม. ที่แล้ว</p>
+</div>
+</div>
+<!-- Level Requested -->
+<div class="col-span-2 flex justify-center items-center">
+<span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-badgeVerified border border-blue-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                                ยืนยันตัวตน (L1)
+                            </span>
+</div>
+<!-- Document Status -->
+<div class="col-span-3 flex flex-col gap-2 items-center justify-center text-sm">
+<div class="flex items-center gap-2 text-success">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>บัตรประชาชน (ชัดเจน)</span>
+</div>
+<div class="flex items-center gap-2 text-success">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>ภาพถ่ายคู่บัตร</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="col-span-3 flex justify-center gap-2">
+<button class="px-4 py-2 bg-success text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span> อนุมัติ
+                            </button>
+<button class="px-4 py-2 bg-white text-danger border border-danger rounded-lg text-sm font-semibold hover:bg-red-50 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">close</span> ปฏิเสธ
+                            </button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="grid grid-cols-12 gap-4 p-5 items-center hover:bg-bgWarm transition-colors">
+<!-- Store Info -->
+<div class="col-span-4 flex gap-4 items-start">
+<div class="w-16 h-16 rounded bg-gray-200 shrink-0 border border-gray-300 overflow-hidden cursor-pointer relative group">
+<img alt="License Thumbnail" class="w-full h-full object-cover" data-alt="A blurred close up of official government teacher license document on a wooden desk. Natural lighting, shallow depth of field. Formal administrative setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDf4EFtmK8JogSGuCKzlKP5DJS7dkQ-ljMbmkWGepaaBTVkZTQhqSk5xgw-POE6Hb2BbMXpGW3tcoagYxtInZ_CRkDjYXIJ3e3Qr81IxK5lEOOjGyJQ1uxTqEY_M5kSrtV8O-h7voQExu2fN6JByvQXKcpmbx1iAJ_y6_6zVkDIkhhNwC0igFsIFx15rPH4vFdKArC9NE-eC4ZcgOynX39CmRXvYJp7X7zcbry4RiQSVuGO5Oma1Y"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-base text-textCharcoal">KruAom Math Space</h3>
+<p class="text-sm text-textMuted flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">person</span> ครูออมทรัพย์
+                                </p>
+<p class="text-xs text-textMuted mt-1">ID: V-2409-002 • ส่งเมื่อ 5 ชม. ที่แล้ว</p>
+</div>
+</div>
+<!-- Level Requested -->
+<div class="col-span-2 flex justify-center items-center">
+<span class="px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-badgeGold border border-amber-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">workspace_premium</span>
+                                ครูตัวจริง (L2)
+                            </span>
+</div>
+<!-- Document Status -->
+<div class="col-span-3 flex flex-col gap-2 items-center justify-center text-sm">
+<div class="flex items-center gap-2 text-success">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>ผ่าน L1 แล้ว</span>
+</div>
+<div class="flex items-center gap-2 text-amber-500">
+<span class="material-symbols-outlined text-[18px]">pending</span>
+<span>รอตรวจใบประกอบวิชาชีพ</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="col-span-3 flex justify-center gap-2">
+<button class="px-4 py-2 bg-success text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">check</span> อนุมัติ
+                            </button>
+<button class="px-4 py-2 bg-white text-danger border border-danger rounded-lg text-sm font-semibold hover:bg-red-50 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">close</span> ปฏิเสธ
+                            </button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="grid grid-cols-12 gap-4 p-5 items-center hover:bg-bgWarm transition-colors">
+<!-- Store Info -->
+<div class="col-span-4 flex gap-4 items-start">
+<div class="w-16 h-16 rounded bg-gray-200 shrink-0 border border-gray-300 overflow-hidden cursor-pointer relative group">
+<img alt="ID Thumbnail" class="w-full h-full object-cover" data-alt="A poorly lit, slightly blurry photo of a Thai ID card resting on a messy surface. Low quality image, dimly lit, hard to read details. Represents a poor quality submission." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEyUKcYW6n_grAPYd0qiJEj_4stwrUZiRB4xgZYRmeKoJSQAzPjCXyN_6X_bDAxZEfuzbfsnoD2VuS_YLkB_jy_a39w8l_PwldvkljPK4heVk-28cGVnTDH_Asa2SwdLqkawg5xSBufjRr6k1sItCULToTRzGLGmypod2oZyqIzFauIA7Xsr2HxgwXjWzqOAjzkZFpBUHK7LLmpaPLz8S5LltsMC1WJ-pBG_rCwQEjkQKHJqKUJvA"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white">zoom_in</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline font-bold text-base text-textCharcoal">Science By KruMink</h3>
+<p class="text-sm text-textMuted flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-[16px]">person</span> ครูมิงค์
+                                </p>
+<p class="text-xs text-textMuted mt-1">ID: V-2409-003 • ส่งเมื่อ 1 วันที่แล้ว</p>
+</div>
+</div>
+<!-- Level Requested -->
+<div class="col-span-2 flex justify-center items-center">
+<span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-badgeVerified border border-blue-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                                ยืนยันตัวตน (L1)
+                            </span>
+</div>
+<!-- Document Status -->
+<div class="col-span-3 flex flex-col gap-2 items-center justify-center text-sm">
+<div class="flex items-center gap-2 text-danger">
+<span class="material-symbols-outlined text-[18px]">error</span>
+<span>ภาพถ่ายเบลอ ไม่ชัดเจน</span>
+</div>
+<div class="flex items-center gap-2 text-success">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>ข้อมูลตรงกับระบบ</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="col-span-3 flex justify-center gap-2">
+<button class="px-4 py-2 bg-success text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors flex items-center gap-1 shadow-sm opacity-50 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">check</span> อนุมัติ
+                            </button>
+<button class="px-4 py-2 bg-white text-danger border border-danger rounded-lg text-sm font-semibold hover:bg-red-50 transition-colors flex items-center gap-1 ring-2 ring-red-200 ring-offset-1">
+<span class="material-symbols-outlined text-[18px]">close</span> ปฏิเสธ (ขอรูปใหม่)
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination (Mock) -->
+<div class="mt-6 flex justify-between items-center text-sm text-textMuted">
+<div>แสดง 1-3 จาก 3 รายการ</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-gray-300 rounded hover:bg-white disabled:opacity-50" disabled="">ก่อนหน้า</button>
+<button class="px-3 py-1 bg-primary text-white rounded">1</button>
+<button class="px-3 py-1 border border-gray-300 rounded hover:bg-white disabled:opacity-50" disabled="">ถัดไป</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>

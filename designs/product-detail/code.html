@@ -1,0 +1,379 @@
+<!DOCTYPE html><html class="light" lang="th"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3 - KruPayKru</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Kanit:wght@400;500;600;700&amp;family=Sarabun:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            light: '#14b8a6',
+                            dark: '#0f766e',
+                            container: '#ccfbf1',
+                            content: '#115e59'
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                            light: '#fbbf24',
+                            dark: '#d97706',
+                        },
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        brand: {
+                            gold: '#D97706',
+                            blue: '#2563EB',
+                            bg: '#FAFAF8',
+                            charcoal: '#1F2937',
+                            gray: '#6B7280'
+                        }
+                    },
+                    fontFamily: {
+                        headline: ['Kanit', 'IBM Plex Sans Thai', 'sans-serif'],
+                        body: ['Sarabun', 'Noto Sans Thai', 'sans-serif'],
+                        display: ['Kanit', 'sans-serif'],
+                        label: ['Sarabun', 'sans-serif']
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "0.75rem", // 12px
+                        xl: "1.5rem",
+                        full: "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #FAFAF8; color: #1F2937; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Kanit', sans-serif; }
+        
+        .krupass-gradient {
+            background: linear-gradient(135deg, #0F766E 0%, #10b981 100%);
+        }
+        
+        /* Hide scrollbar for horizontal scroll */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-brand-bg text-brand-charcoal min-h-screen flex flex-col antialiased">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-[#FAFAF8] border-b border-gray-200 shadow-sm docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<!-- Brand -->
+<a class="text-2xl font-headline font-bold text-[#0F766E] flex items-center gap-2" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">school</span>
+                ครูเปย์ครู KruPayKru
+            </a>
+<!-- Navigation Links (Web) -->
+<div class="hidden md:flex space-x-6">
+<!-- Searching/Exploring implies "สื่อการสอน" or general browsing, we'll highlight "สื่อการสอน" as active -->
+<a class="text-[#6B7280] hover:text-[#0F766E] hover:bg-gray-50 transition-colors rounded-full px-4 py-2 font-body text-sm font-medium" href="#">หน้าแรก</a>
+<a class="text-[#0F766E] font-bold border-b-2 border-[#0F766E] pb-1 font-body text-sm px-4 py-2 hover:bg-gray-50 rounded-t-full transition-all" href="#">สื่อการสอน</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] hover:bg-gray-50 transition-colors rounded-full px-4 py-2 font-body text-sm font-medium" href="#">คอร์สเรียน</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] hover:bg-gray-50 transition-colors rounded-full px-4 py-2 font-body text-sm font-medium" href="#">บทความ</a>
+</div>
+<!-- Search & Actions -->
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block w-64">
+<input class="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary text-sm font-body bg-white shadow-sm transition-all focus:w-80 duration-300" placeholder="ค้นหาสื่อการสอน..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-lg">search</span>
+</div>
+<button class="p-2 text-gray-500 hover:text-[#0F766E] hover:bg-gray-50 rounded-full transition-all">
+<span class="material-symbols-outlined">shopping_cart</span>
+</button>
+<button class="p-2 text-gray-500 hover:text-[#0F766E] hover:bg-gray-50 rounded-full transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="bg-[#0F766E] text-white px-5 py-2 rounded-full font-headline text-sm hover:bg-primary-dark transition-colors shadow-sm font-medium ml-2">
+                    เข้าสู่ระบบ
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
+<!-- Breadcrumb -->
+<nav aria-label="Breadcrumb" class="flex text-sm text-brand-gray mb-6 font-body">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_31}}">หน้าแรก</a>
+</li>
+<li class="">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-sm mx-1">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_25}}">วิทยาศาสตร์</a>
+</div>
+</li>
+<li class="">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-sm mx-1">chevron_right</span>
+<a class="hover:text-primary transition-colors" href="{{DATA:SCREEN:SCREEN_25}}">ม.3</a>
+</div>
+</li>
+<li aria-current="page" class="">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-sm mx-1">chevron_right</span>
+<span class="text-brand-charcoal font-medium">ใบงาน</span>
+</div>
+</li>
+</ol>
+</nav>
+<!-- Product Hero Section (2 Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+<!-- LEFT COLUMN: Product Preview (60%) -->
+<div class="lg:col-span-7 flex flex-col gap-4">
+<!-- Main Image -->
+<div class="relative w-full aspect-[4/3] bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden group">
+<img alt="Preview of worksheet on force and motion" class="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_UUUSMYA2-vo0tscDyqDc-9bQGJwmN8kukEe6B9cpznyecqSOe373k9SzKGkGPhkteOdhjHLmjf3xTVutHKM5aO1XsOw57xH6T0NHLf6PPbY6w7IMk3YMa2pLNVYZmTK3n_T3xDNiwMZdUt9xQhaZ6MrNL_rsZHeAjBFEKr5NDOQn2ENbOmDz_0ri-6RqY59K78X3JLRGHzzLtXhAuWzKaOW2q7zVRiwm2UeJj4Mr7F92Rpil9GNwjex6gBetSEkZO1MslN2U6A">
+<!-- Zoom Hint -->
+<button class="absolute bottom-4 right-4 bg-white/80 backdrop-blur p-2 rounded-full shadow text-gray-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">zoom_in</span>
+</button>
+</div>
+<!-- Thumbnails Carousel -->
+<div class="flex gap-3 overflow-x-auto no-scrollbar py-2">
+<button class="shrink-0 w-24 h-32 rounded-lg border-2 border-primary overflow-hidden opacity-100 relative shadow-sm">
+<img alt="Thumbnail 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_UUUSMYA2-vo0tscDyqDc-9bQGJwmN8kukEe6B9cpznyecqSOe373k9SzKGkGPhkteOdhjHLmjf3xTVutHKM5aO1XsOw57xH6T0NHLf6PPbY6w7IMk3YMa2pLNVYZmTK3n_T3xDNiwMZdUt9xQhaZ6MrNL_rsZHeAjBFEKr5NDOQn2ENbOmDz_0ri-6RqY59K78X3JLRGHzzLtXhAuWzKaOW2q7zVRiwm2UeJj4Mr7F92Rpil9GNwjex6gBetSEkZO1MslN2U6A">
+</button>
+<!-- Simulated thumbnails -->
+<button class="shrink-0 w-24 h-32 rounded-lg border border-gray-200 overflow-hidden opacity-70 hover:opacity-100 transition-opacity">
+<div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+<span class="material-symbols-outlined text-3xl">description</span>
+</div>
+</button>
+<button class="shrink-0 w-24 h-32 rounded-lg border border-gray-200 overflow-hidden opacity-70 hover:opacity-100 transition-opacity">
+<div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+<span class="material-symbols-outlined text-3xl">description</span>
+</div>
+</button>
+<button class="shrink-0 w-24 h-32 rounded-lg border border-gray-200 overflow-hidden opacity-70 hover:opacity-100 transition-opacity">
+<div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+<span class="material-symbols-outlined text-3xl">description</span>
+</div>
+</button>
+<button class="shrink-0 w-24 h-32 rounded-lg border border-gray-200 overflow-hidden opacity-70 hover:opacity-100 transition-opacity relative group">
+<div class="w-full h-full bg-gray-100 flex items-center justify-center text-gray-400">
+<span class="material-symbols-outlined text-3xl">description</span>
+</div>
+<div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white p-2">
+<span class="material-symbols-outlined">visibility</span>
+<span class="text-[10px] text-center mt-1">ดูตัวอย่างทั้งหมด (12 หน้า)</span>
+</div>
+</button>
+</div>
+<button class="w-full py-3 bg-white border border-gray-200 text-gray-700 rounded-full font-headline hover:bg-gray-50 hover:text-primary transition-colors flex items-center justify-center gap-2 shadow-sm">
+<span class="material-symbols-outlined">visibility</span>
+                    ดูตัวอย่างทั้งหมด (12 หน้า)
+                </button>
+</div>
+<!-- RIGHT COLUMN: Product Details & Actions (40%) -->
+<div class="lg:col-span-5 flex flex-col">
+<!-- Title -->
+<h1 class="text-2xl sm:text-3xl font-headline font-bold text-brand-charcoal leading-tight mb-4">
+                    ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3 (15 หน้า + เฉลยละเอียด)
+                </h1>
+<!-- Store Row -->
+<div class="flex items-center justify-between pb-4 border-b border-gray-100 mb-6">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-gray-200 overflow-hidden shrink-0 border border-gray-100">
+<img alt="Store Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArxnvVlBg83W02_aq4TYgaTcT20NABDGdynSRjJ-EHfaBAZBIyce8oodlfMEBucioCIEJucYwwM-fVzdONQFZ7O-M9TJN8NWey2CVg6Ls6io3SWwVLvaZZsy5uk-hVAmRfAG1rRq0VI_tY_Dct946LZZbncroq8hUIc8KKyK7XKVeS-34qJe4oZqaEN6wqm4ujsxxZqzfkJ2W-ZZJIedxubaxV6T52LvTCWmhvgHa7zxSfNAvuBEwrdHvbKYl6wHxJ9aXrLnWxMA">
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline font-medium text-brand-charcoal cursor-pointer" onclick="window.location.href='{{DATA:SCREEN:SCREEN_20}}'">ครูก้อง Science Store</span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border border-brand-gold text-brand-gold bg-amber-50">
+<span class="mr-1">🏅</span> ครูตัวจริง
+                                </span>
+</div>
+<div class="flex items-center text-sm text-brand-gray mt-0.5">
+<span class="text-accent flex items-center text-sm mr-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</span>
+<span class="font-medium text-brand-charcoal">4.9</span>
+<span class="mx-1 text-gray-300">•</span>
+<a class="hover:underline hover:text-primary" href="#reviews">(128 รีวิว)</a>
+</div>
+</div>
+</div>
+<button class="shrink-0 px-4 py-1.5 border border-primary text-primary rounded-full text-sm font-headline hover:bg-primary/5 transition-colors">
+                        + ติดตามร้าน
+                    </button>
+</div>
+<!-- Price Section -->
+<div class="flex items-baseline gap-3 mb-6">
+<span class="text-4xl font-headline font-bold text-brand-charcoal">฿59</span>
+<span class="text-lg text-brand-gray line-through decoration-gray-400">฿79</span>
+<span class="bg-danger/10 text-danger px-2.5 py-1 rounded text-sm font-headline font-bold ml-2">
+                        -25%
+                    </span>
+</div>
+<!-- Actions -->
+<div class="flex flex-col gap-3 mb-6">
+<button class="w-full bg-primary hover:bg-primary-dark text-white font-headline text-lg py-3.5 rounded-full shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2" onclick="window.location.href='{{DATA:SCREEN:SCREEN_10}}'">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+                        ใส่ตะกร้า
+                    </button>
+<button class="w-full bg-white border border-gray-300 hover:border-primary hover:text-primary hover:bg-gray-50 text-brand-charcoal font-headline py-3 rounded-full transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">favorite</span>
+                        เพิ่มในรายการโปรด
+                    </button>
+</div>
+<!-- KruPass Banner -->
+<div class="krupass-gradient p-px rounded-lg mb-6 shadow-sm">
+<div class="bg-white rounded-lg p-3 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500 font-bold">verified</span>
+<span class="text-sm font-body text-brand-charcoal font-medium">เข้าถึงได้ฟรีด้วย <span class="font-headline font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">KruPass</span></span>
+</div>
+<a class="text-sm font-headline text-primary hover:underline font-medium" href="{{DATA:SCREEN:SCREEN_12}}">สมัคร ฿99/เดือน</a>
+</div>
+</div>
+<!-- Checklist "สิ่งที่อยู่ในชุดนี้" -->
+<div class="bg-white rounded-lg border border-gray-200 p-5 mb-6 shadow-sm">
+<h3 class="font-headline font-medium text-brand-charcoal mb-4 flex items-center gap-2 cursor-pointer" onclick="window.location.href='{{DATA:SCREEN:SCREEN_20}}'">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+                        สิ่งที่อยู่ในชุดนี้
+                    </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-success text-[20px] mt-0.5">check_circle</span>
+<span class="text-sm font-body text-gray-700">15 หน้า ใบงานพร้อมพิมพ์</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-success text-[20px] mt-0.5">check_circle</span>
+<span class="text-sm font-body text-gray-700">เฉลยครบทุกข้อ + คำอธิบาย</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-success text-[20px] mt-0.5">check_circle</span>
+<span class="text-sm font-body text-gray-700">ผูกตัวชี้วัด ว 1.2 ม.3/1-3</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-success text-[20px] mt-0.5">check_circle</span>
+<span class="text-sm font-body text-gray-700">ไฟล์ PDF + PowerPoint แก้ไขได้</span>
+</li>
+</ul>
+</div>
+<!-- Info Table -->
+<div class="grid grid-cols-2 gap-y-4 gap-x-2 text-sm font-body mb-6">
+<div>
+<span class="block text-brand-gray text-xs mb-1">ระดับชั้น</span>
+<span class="font-medium text-brand-charcoal bg-gray-100 px-2 py-1 rounded inline-block">ม.3</span>
+</div>
+<div>
+<span class="block text-brand-gray text-xs mb-1">กลุ่มสาระ</span>
+<span class="font-medium text-brand-charcoal">วิทยาศาสตร์</span>
+</div>
+<div>
+<span class="block text-brand-gray text-xs mb-1">จำนวนผู้ซื้อ</span>
+<span class="font-medium text-brand-charcoal">342 ครั้ง</span>
+</div>
+<div>
+<span class="block text-brand-gray text-xs mb-1">อัปเดตล่าสุด</span>
+<span class="font-medium text-brand-charcoal">12 ส.ค. 2569</span>
+</div>
+</div>
+<!-- Standards Box -->
+<div class="border border-primary/30 bg-primary/5 rounded-lg p-4 mb-2">
+<h4 class="text-xs font-headline font-medium text-primary mb-3">ตัวชี้วัดที่เกี่ยวข้อง (หลักสูตรแกนกลาง 2560)</h4>
+<div class="flex flex-wrap gap-2">
+<button class="text-xs px-2.5 py-1 bg-white border border-primary/20 text-primary rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer shadow-sm">ว 1.2 ม.3/1</button>
+<button class="text-xs px-2.5 py-1 bg-white border border-primary/20 text-primary rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer shadow-sm">ว 1.2 ม.3/2</button>
+<button class="text-xs px-2.5 py-1 bg-white border border-primary/20 text-primary rounded-full hover:bg-primary hover:text-white transition-colors cursor-pointer shadow-sm">ว 1.2 ม.3/3</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Full Width Tabs Section -->
+<div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-12">
+<!-- Tab Headers -->
+<div class="flex overflow-x-auto no-scrollbar border-b border-gray-200">
+<button class="px-6 py-4 font-headline font-bold text-primary border-b-2 border-primary whitespace-nowrap bg-gray-50/50">
+                    รายละเอียด
+                </button>
+<button class="px-6 py-4 font-headline font-medium text-brand-gray hover:text-primary hover:bg-gray-50 transition-colors whitespace-nowrap border-b-2 border-transparent">
+                    รีวิว (128)
+                </button>
+<button class="px-6 py-4 font-headline font-medium text-brand-gray hover:text-primary hover:bg-gray-50 transition-colors whitespace-nowrap border-b-2 border-transparent">
+                    คำถามถึงผู้ขาย (5)
+                </button>
+<button class="px-6 py-4 font-headline font-medium text-brand-gray hover:text-primary hover:bg-gray-50 transition-colors whitespace-nowrap border-b-2 border-transparent">
+                    สินค้าจากร้านนี้
+                </button>
+</div>
+<!-- Tab Content (Details - Active) -->
+<div class="p-6 md:p-8 font-body text-brand-charcoal space-y-6">
+<div class="prose max-w-none text-sm md:text-base">
+<p class="mb-4">
+                        ใบงานประกอบการสอน เรื่อง <strong>แรงและการเคลื่อนที่</strong> สำหรับนักเรียนชั้นมัธยมศึกษาปีที่ 3 จัดทำขึ้นตามมาตรฐานการเรียนรู้และตัวชี้วัด กลุ่มสาระการเรียนรู้วิทยาศาสตร์และเทคโนโลยี (ฉบับปรับปรุง พ.ศ. 2560)
+                    </p>
+<h3 class="font-headline text-lg font-bold text-primary mt-6 mb-3">เนื้อหาภายในเล่มประกอบด้วย:</h3>
+<ul class="list-disc pl-5 space-y-2 mb-6">
+<li class="">ใบความรู้สรุปเนื้อหากระชับ เข้าใจง่าย</li>
+<li class="">ใบงานเรื่อง ปริมาณเวกเตอร์และสเกลาร์</li>
+<li class="">ใบงานเรื่อง การหาแรงลัพธ์</li>
+<li class="">ใบงานเรื่อง แรงเสียดทานและประโยชน์ของแรงเสียดทาน</li>
+<li class="">แบบฝึกหัดคำนวณพร้อมพื้นที่แสดงวิธีทำ</li>
+</ul>
+<div class="bg-gray-50 p-4 rounded-lg border border-gray-100 flex gap-4 items-start">
+<span class="material-symbols-outlined text-accent text-2xl shrink-0">lightbulb</span>
+<div>
+<h4 class="font-headline font-medium mb-1">คำแนะนำการใช้งาน</h4>
+<p class="text-sm text-gray-600">
+                                คุณครูสามารถดาวน์โหลดไฟล์ PowerPoint เพื่อนำไปแก้ไขชื่อโรงเรียน ปรับเปลี่ยนรูปภาพ หรือเพิ่มลดข้อสอบได้ตามความเหมาะสมของบริบทชั้นเรียน (ไม่อนุญาตให้นำไปแจกจ่ายหรือจำหน่ายต่อ)
+                            </p>
+</div>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-6 mt-8 flex justify-end">
+<a class="text-sm font-body text-brand-gray hover:text-danger flex items-center gap-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">flag</span>
+                        🚩 รายงานสินค้านี้
+                    </a>
+</div>
+</div>
+<!-- Review Tab Content Placeholder (Hidden for simplicity, but simulating structure based on prompt) -->
+<div class="hidden p-6 md:p-8 font-body" id="reviews">
+<!-- Rating Summary & Bars would go here -->
+<!-- Review Cards would go here -->
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-white border-t border-gray-100 full-width bottom mt-auto">
+<div class="w-full py-10 px-6 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-6">
+<!-- Brand / Copyright -->
+<div class="flex flex-col items-center md:items-start gap-2">
+<span class="font-headline font-bold text-[#0F766E] text-lg">KruPayKru</span>
+<p class="font-body text-sm text-[#6B7280]">
+                    © 2024 KruPayKru ครูเปย์ครู - ตลาดวิชาการสำหรับครูไทย
+                </p>
+</div>
+<!-- Links -->
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors opacity-80 hover:opacity-100" href="#">เกี่ยวกับเรา</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors opacity-80 hover:opacity-100" href="#">ศูนย์ช่วยเหลือ</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors opacity-80 hover:opacity-100" href="#">ข้อกำหนดการใช้งาน</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors opacity-80 hover:opacity-100" href="#">นโยบายความเป็นส่วนตัว</a>
+</div>
+</div>
+</footer>
+
+
+</body></html>

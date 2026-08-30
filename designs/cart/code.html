@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ตะกร้าสินค้า - KruPayKru</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@500;600;700&amp;family=Noto+Sans:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#b4c5ff",
+                      "on-secondary-container": "#684000",
+                      "error": "#ba1a1a",
+                      "success": "#16A34A",
+                      "secondary-fixed": "#ffddb8",
+                      "on-primary-fixed": "#00201d",
+                      "outline": "#6e7977",
+                      "surface-container-high": "#dee9fc",
+                      "on-tertiary-fixed": "#00174b",
+                      "inverse-on-surface": "#eaf1ff",
+                      "surface-container": "#e6eeff",
+                      "primary-fixed-dim": "#80d5cb",
+                      "background": "#f8f9ff",
+                      "on-primary-container": "#a3faef",
+                      "seller-gold": "#D97706",
+                      "outline-variant": "#bdc9c6",
+                      "on-tertiary-fixed-variant": "#003ea8",
+                      "surface-container-highest": "#d9e3f6",
+                      "muted-gray": "#6B7280",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed-variant": "#00504a",
+                      "tertiary-container": "#1e5fe7",
+                      "background-warm": "#FAFAF8",
+                      "on-surface": "#121c2a",
+                      "on-secondary-fixed": "#2a1700",
+                      "on-background": "#121c2a",
+                      "on-tertiary-container": "#e6e9ff",
+                      "secondary-fixed-dim": "#ffb95f",
+                      "on-secondary-fixed-variant": "#653e00",
+                      "surface": "#f8f9ff",
+                      "danger": "#DC2626",
+                      "surface-dim": "#d0dbed",
+                      "on-tertiary": "#ffffff",
+                      "on-surface-variant": "#3e4947",
+                      "surface-tint": "#006a63",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-variant": "#d9e3f6",
+                      "tertiary-fixed": "#dbe1ff",
+                      "inverse-surface": "#27313f",
+                      "primary-container": "#0f766e",
+                      "surface-bright": "#f8f9ff",
+                      "surface-container-low": "#eff4ff",
+                      "inverse-primary": "#80d5cb",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#005c55",
+                      "primary-fixed": "#9cf2e8",
+                      "on-error-container": "#93000a",
+                      "secondary-container": "#fea619",
+                      "secondary": "#855300",
+                      "krupass-emerald": "#10B981",
+                      "tertiary": "#0047bf"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "margin-desktop": "32px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Noto Sans"
+                      ],
+                      "body-sm": [
+                              "Noto Sans"
+                      ],
+                      "label-md": [
+                              "Noto Sans"
+                      ],
+                      "headline-lg": [
+                              "IBM Plex Sans"
+                      ],
+                      "price-display": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-lg-mobile": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-md": [
+                              "IBM Plex Sans"
+                      ],
+                      "headline-sm": [
+                              "IBM Plex Sans"
+                      ],
+                      "body-md": [
+                              "Noto Sans"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "price-display": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .shadow-ambient {
+            box-shadow: 0 4px 8px rgba(15, 118, 110, 0.12);
+        }
+        
+        .krupass-gradient {
+            background: linear-gradient(135deg, #0F766E 0%, #10B981 100%);
+        }
+        
+        .krupass-text {
+            background: linear-gradient(135deg, #0F766E 0%, #10B981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background-warm font-body-md text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<header class="bg-[#FAFAF8] text-[#0F766E] font-body text-charcoal flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto border-b border-[#6B7280]/10 shadow-sm sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<a class="text-2xl font-headline font-black text-[#0F766E]" href="#">ครูเปย์ครู KruPayKru</a>
+<div class="hidden md:flex relative items-center">
+<span class="material-symbols-outlined absolute left-3 text-muted-gray" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 border border-outline-variant rounded-full bg-surface w-64 focus:outline-none focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-colors text-body-sm" placeholder="ค้นหาสื่อการสอน..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors hover:opacity-90 transition-opacity" href="#">หน้าแรก</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors hover:opacity-90 transition-opacity" href="#">สื่อการสอน</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors hover:opacity-90 transition-opacity" href="#">คอร์สเรียน</a>
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors hover:opacity-90 transition-opacity" href="#">บทความ</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3 text-muted-gray">
+<button class="hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-variant"><span class="material-symbols-outlined" data-icon="favorite">favorite</span></button>
+<button class="text-[#0F766E] font-bold border-b-2 border-[#0F766E] pb-1 p-2 relative"><span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span><span class="absolute top-1 right-1 bg-danger text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">2</span></button>
+<button class="hover:text-primary-container transition-colors p-2 rounded-full hover:bg-surface-variant"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+</div>
+<div class="hidden md:flex items-center gap-3 ml-4 border-l border-outline-variant pl-4">
+<button class="text-body-sm font-label-md text-primary-container hover:bg-surface-variant px-4 py-2 rounded-full transition-colors border border-primary-container">เริ่มขายสื่อ</button>
+<button class="text-body-sm font-label-md bg-primary-container text-white hover:bg-primary-fixed-variant px-4 py-2 rounded-full transition-colors shadow-sm">เข้าสู่ระบบ</button>
+</div>
+<div class="md:hidden">
+<button class="p-2"><span class="material-symbols-outlined" data-icon="menu">menu</span></button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg mb-8">ตะกร้าสินค้า</h1>
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Cart Items -->
+<div class="flex-grow space-y-6">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 md:p-6 shadow-ambient flex flex-col sm:flex-row gap-6 items-start relative group">
+<button aria-label="Remove item" class="absolute top-4 right-4 text-muted-gray hover:text-danger transition-colors p-2 rounded-full hover:bg-surface-variant sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+<div class="w-full sm:w-40 aspect-[4/3] rounded-lg overflow-hidden shrink-0 bg-surface-variant relative">
+<img class="w-full h-full object-cover" data-alt="A brightly colored educational worksheet designed for primary school students, featuring cute cartoon animals, clear typography, and engaging math problems, laid out on a clean white background in a modern minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMSTLNV3kwJ7VrrZkBHBpoOU5K2BkRtwU8Pn9vJlDKGf3Dn5GBiRiSlSuqoTDzKY5_wmb6HaNoniyreh6eDVPRVIbwufyHRjfgCjC2uneLelMD7AuCSV4ky3YNsukEPS0fEzwbpcRrs1Hjgxmp3g3eoFP33eRVFebYDpv0CIcY7Gf1tb4o-eJaKl0ueMfcqD7_c0Ke2i2t06hQrOH2A0I7NZGvItmEhnXLOYfQSSwlUJj8bY8a290"/>
+</div>
+<div class="flex-grow flex flex-col h-full justify-between w-full">
+<div>
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="bg-surface-variant text-on-surface-variant text-xs font-label-md px-2 py-1 rounded-md">วิชาคณิตศาสตร์</span>
+<span class="bg-surface-variant text-on-surface-variant text-xs font-label-md px-2 py-1 rounded-md">ป.1-ป.3</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-1 pr-8">ชุดใบงานคณิตศาสตร์ พื้นฐานการบวก-ลบ (พร้อมเฉลย)</h3>
+<p class="text-body-sm text-muted-gray mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="storefront">storefront</span> ร้านครูสมปอง สื่อการสอน
+                            </p>
+</div>
+<div class="flex justify-between items-end mt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm text-success">ไฟล์ Digital Download (PDF)</span>
+</div>
+<div class="text-right">
+<div class="font-price-display text-price-display text-primary-container">฿149.00</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 md:p-6 shadow-ambient flex flex-col sm:flex-row gap-6 items-start relative group">
+<button aria-label="Remove item" class="absolute top-4 right-4 text-muted-gray hover:text-danger transition-colors p-2 rounded-full hover:bg-surface-variant sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+<div class="w-full sm:w-40 aspect-[4/3] rounded-lg overflow-hidden shrink-0 bg-surface-variant relative">
+<img class="w-full h-full object-cover" data-alt="An elegant, minimalist PowerPoint presentation template designed for teachers, featuring soft pastel colors, modern typography, and clean layout structures, displayed on a sleek laptop screen in a bright, modern setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnEqqqgaiyzXqFChoeYDp6Se8l5bfoudpRoRopkvlxNBa13vY4d7bXoTy0WKSnQMbU7Jwc1rnMtieqvfxfqgvNyGTcJ-lAPREomZoP_cQbKlOKVnu27Hf87UkBs46h6TZydmQzy9IIOEbd1EpLEkEvm_UwX36lAkqze5qvW3-EFA5qUsT2ZDcMytIBEzOlccRSBysPq1bpIuogHoMOIbEAqOFvhGeYbMXHQQr9SZkcRxn58HnkmLs"/>
+<div class="absolute top-2 left-2 bg-seller-gold text-white text-xs font-bold px-2 py-1 rounded shadow-sm">ลด 20%</div>
+</div>
+<div class="flex-grow flex flex-col h-full justify-between w-full">
+<div>
+<div class="flex flex-wrap gap-2 mb-2">
+<span class="bg-surface-variant text-on-surface-variant text-xs font-label-md px-2 py-1 rounded-md">แม่แบบนำเสนอ</span>
+<span class="bg-surface-variant text-on-surface-variant text-xs font-label-md px-2 py-1 rounded-md">มัธยมศึกษา</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm mb-1 pr-8">Template PPT สไตล์ Minimal สำหรับครูยุคใหม่ (รวม 50 หน้า)</h3>
+<p class="text-body-sm text-muted-gray mb-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="storefront">storefront</span> ครูน้ำใส ดีไซน์
+                            </p>
+</div>
+<div class="flex justify-between items-end mt-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-success" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-body-sm text-success">ไฟล์ Digital Download (PPTX)</span>
+</div>
+<div class="text-right">
+<div class="text-body-sm text-muted-gray line-through mb-1">฿250.00</div>
+<div class="font-price-display text-price-display text-primary-container">฿199.00</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary -->
+<div class="w-full lg:w-[380px] shrink-0">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-ambient sticky top-24">
+<h2 class="font-headline-md text-headline-md mb-6">สรุปคำสั่งซื้อ</h2>
+<div class="space-y-4 mb-6 text-body-md">
+<div class="flex justify-between">
+<span class="text-muted-gray">ยอดรวม (2 รายการ)</span>
+<span>฿399.00</span>
+</div>
+<div class="flex justify-between text-success">
+<span>ส่วนลดจากร้านค้า</span>
+<span>-฿51.00</span>
+</div>
+<!-- KruPass Banner -->
+<div class="krupass-gradient rounded-lg p-4 text-white flex items-start gap-3 mt-4 shadow-sm">
+<span class="material-symbols-outlined mt-0.5" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+<div>
+<h4 class="font-label-md text-label-md font-bold mb-1">สิทธิพิเศษ KruPass</h4>
+<p class="text-body-sm text-white/90 mb-2">รับส่วนลดเพิ่ม 10% สำหรับสินค้าร่วมรายการ</p>
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="rounded text-primary-container focus:ring-primary-container bg-white/20 border-white/50 w-4 h-4" type="checkbox"/>
+<span class="text-sm font-medium">ใช้ส่วนลด KruPass (-฿34.80)</span>
+</label>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-4 mb-6">
+<div class="flex justify-between items-end mb-2">
+<span class="font-bold">ยอดสุทธิ</span>
+<span class="font-price-display text-[28px] font-bold text-primary-container">฿313.20</span>
+</div>
+<p class="text-xs text-muted-gray text-right">รวมภาษีมูลค่าเพิ่มแล้ว</p>
+</div>
+<button class="w-full bg-primary-container text-white hover:bg-primary-fixed-variant py-3 rounded-full font-label-md text-label-md shadow-sm transition-all hover:scale-[1.02] flex items-center justify-center gap-2">
+                        ไปหน้าชำระเงิน <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="mt-4 flex items-center justify-center gap-4 text-muted-gray opacity-60">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+<span class="text-xs">ชำระเงินปลอดภัย 100%</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#FFFFFF] grid grid-cols-1 md:grid-cols-4 gap-8 px-6 py-12 max-w-7xl mx-auto full-width border-t border-[#6B7280]/10 mt-auto">
+<div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+<span class="text-xl font-headline font-bold text-[#0F766E]">ครูเปย์ครู KruPayKru</span>
+<p class="font-body text-sm text-[#6B7280]">© 2024 KruPayKru. แพลตฟอร์มเพื่อครูไทยโดยครูไทย</p>
+</div>
+<div class="col-span-1 md:col-span-3 flex flex-wrap gap-6 justify-start md:justify-end items-center">
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">เกี่ยวกับเรา</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">ศูนย์ช่วยเหลือ</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">ข้อกำหนดเงื่อนไข</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">นโยบายความเป็นส่วนตัว</a>
+<a class="font-body text-sm text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#">ติดต่อเรา</a>
+</div>
+</footer>
+</body></html>

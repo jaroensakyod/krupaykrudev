@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KruPayKru Seller Center - เพิ่มผลงานใหม่ (Step 4)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            light: '#14b8a6',
+                            dark: '#0f766e',
+                        },
+                        secondary: {
+                            DEFAULT: '#F59E0B', // Marigold
+                            light: '#fbbf24',
+                            dark: '#d97706',
+                        },
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        surface: '#FFFFFF',
+                        background: '#FAFAF8',
+                        text: {
+                            main: '#1F2937', // Charcoal
+                            muted: '#6B7280', // Gray
+                        },
+                        sidebar: '#0B4F4A',
+                        badge: {
+                            gold: '#D97706',
+                            blue: '#2563EB',
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px",
+                        "card": "12px",
+                    },
+                    fontFamily: {
+                        headline: ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        body: ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                        display: ["Kanit", "sans-serif"],
+                        label: ["Sarabun", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #FAFAF8; color: #1F2937; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Kanit', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="bg-background text-text-main flex h-screen overflow-hidden">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-0 bottom-0 z-40 hidden md:flex flex-col bg-[#0B4F4A] w-64 shadow-xl font-body text-sm h-full shadow-lg transition-all duration-200">
+<!-- Brand Header -->
+<div class="p-6 border-b border-white/10 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined fill text-2xl">school</span>
+</div>
+<div>
+<h1 class="text-xl font-headline font-bold text-white leading-tight">KruPayKru</h1>
+<p class="text-white/60 text-xs">ศูนย์ผู้ขาย</p>
+</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 overflow-y-auto py-4 flex flex-col gap-1 px-2">
+<a class="text-white/80 hover:bg-[#0F766E]/50 flex items-center gap-3 px-4 py-3 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>แดชบอร์ด</span>
+</a>
+<a class="text-white/80 hover:bg-[#0F766E]/50 flex items-center gap-3 px-4 py-3 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">folder_open</span>
+<span>สื่อการสอนของฉัน</span>
+</a>
+<a class="bg-[#0F766E] text-white font-bold border-l-4 border-[#F59E0B] flex items-center gap-3 px-4 py-3 rounded-r-lg" href="#">
+<span class="material-symbols-outlined">add_circle</span>
+<span>เพิ่มสื่อใหม่</span>
+</a>
+<a class="text-white/80 hover:bg-[#0F766E]/50 flex items-center gap-3 px-4 py-3 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>รายได้</span>
+</a>
+<a class="text-white/80 hover:bg-[#0F766E]/50 flex items-center gap-3 px-4 py-3 transition-colors rounded-lg" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span>ตั้งค่าร้านค้า</span>
+</a>
+</nav>
+<!-- Footer Actions -->
+<div class="p-4 border-t border-white/10 space-y-2">
+<a class="text-white/80 hover:bg-[#0F766E] hover:text-white flex items-center gap-3 px-4 py-2 transition-colors rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>ความช่วยเหลือ</span>
+</a>
+<a class="text-white/80 hover:bg-[#0F766E] hover:text-white flex items-center gap-3 px-4 py-2 transition-colors rounded-lg text-sm" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>ออกจากระบบ</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col md:ml-64 h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 right-0 left-0 md:left-64 z-30 flex justify-between items-center px-6 h-16 bg-white shadow-sm border-b border-gray-200">
+<!-- Left side (mobile menu + context title) -->
+<div class="flex items-center gap-4">
+<button class="md:hidden text-gray-500 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="font-headline text-lg font-bold text-primary hidden sm:block">KruPayKru Seller Center</h2>
+</div>
+<!-- Right side (Actions + Profile) -->
+<div class="flex items-center gap-4">
+<button class="text-gray-500 hover:bg-gray-50 p-2 rounded-full transition-opacity active:opacity-70">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-gray-500 hover:bg-gray-50 p-2 rounded-full transition-opacity active:opacity-70">
+<span class="material-symbols-outlined">mail</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-gray-200 overflow-hidden cursor-pointer border border-gray-200">
+<img alt="รูปโปรไฟล์ผู้ขาย" class="w-full h-full object-cover" data-alt="A small, professional avatar portrait of a Thai teacher smiling warmly, bright lighting, high quality." src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Main Canvas -->
+<main class="flex-1 overflow-y-auto mt-16 p-4 md:p-8">
+<div class="max-w-6xl mx-auto space-y-6 pb-24">
+<!-- Header & Stepper -->
+<div class="space-y-6">
+<h1 class="font-headline text-2xl font-bold text-text-main">เพิ่มผลงานใหม่</h1>
+<!-- Horizontal Stepper -->
+<div class="flex items-center justify-between relative w-full mb-8 font-body text-sm">
+<!-- Line behind steps -->
+<div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-full h-1 bg-gray-200 -z-10 rounded-full"></div>
+<div class="absolute left-0 top-1/2 transform -translate-y-1/2 w-[75%] h-1 bg-primary -z-10 rounded-full"></div>
+<!-- Steps -->
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+<span class="text-text-muted font-medium">ไฟล์สื่อ</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+<span class="text-text-muted font-medium">ปกสินค้า</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-lg">check</span>
+</div>
+<span class="text-text-muted font-medium">ตัวอย่างไฟล์</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full border-2 border-primary bg-white text-primary flex items-center justify-center shadow-sm ring-4 ring-primary/20">
+<span class="font-bold">4</span>
+</div>
+<span class="text-primary font-bold">รายละเอียด</span>
+</div>
+<div class="flex flex-col items-center gap-2 bg-background px-2">
+<div class="w-8 h-8 rounded-full border-2 border-gray-300 bg-white text-gray-400 flex items-center justify-center shadow-sm">
+<span class="font-medium">5</span>
+</div>
+<span class="text-gray-400 font-medium">ราคาและเผยแพร่</span>
+</div>
+</div>
+</div>
+<!-- Main Layout (2 Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Form -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Basic Info Section -->
+<section class="bg-surface rounded-[12px] p-6 shadow-sm border border-gray-100 space-y-6">
+<h2 class="font-headline text-lg font-bold text-text-main border-b border-gray-100 pb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                                ข้อมูลพื้นฐาน
+                            </h2>
+<!-- Title Input -->
+<div class="space-y-1">
+<label class="block font-medium text-text-main text-sm">ชื่อสินค้า <span class="text-danger">*</span></label>
+<input class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-body" type="text" value="ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3 (15 หน้า+เฉลย)"/>
+<p class="text-xs text-text-muted mt-1">💡 ใส่คำค้นหาไว้ต้นชื่อ เช่น 'ใบงาน เรื่อง X ม.3'</p>
+</div>
+<!-- Rich Textarea -->
+<div class="space-y-1">
+<label class="block font-medium text-text-main text-sm">รายละเอียดสินค้า <span class="text-danger">*</span></label>
+<div class="border border-gray-300 rounded-md overflow-hidden focus-within:border-primary focus-within:ring-1 focus-within:ring-primary">
+<div class="bg-gray-50 border-b border-gray-300 p-2 flex gap-2 text-gray-600">
+<button class="p-1 hover:bg-gray-200 rounded"><span class="material-symbols-outlined text-sm">format_bold</span></button>
+<button class="p-1 hover:bg-gray-200 rounded"><span class="material-symbols-outlined text-sm">format_italic</span></button>
+<button class="p-1 hover:bg-gray-200 rounded"><span class="material-symbols-outlined text-sm">format_list_bulleted</span></button>
+</div>
+<textarea class="w-full border-0 focus:ring-0 sm:text-sm font-body p-3 text-text-main" rows="5">📌 ใบงานวิทยาศาสตร์ ม.3 เรื่อง แรงและการเคลื่อนที่
+ประกอบด้วย:
+- สรุปเนื้อหาสำคัญที่เข้าใจง่าย
+- แบบฝึกหัดทบทวนความรู้ 10 หน้า
+- แนวข้อสอบ 5 หน้า
+- เฉลยละเอียดครบทุกข้อ
+
+เหมาะสำหรับใช้สอนในห้องเรียนหรือให้นักเรียนทบทวนเอง</textarea>
+</div>
+</div>
+<!-- Grade Level Pills -->
+<div class="space-y-2">
+<label class="block font-medium text-text-main text-sm">ระดับชั้น <span class="text-danger">*</span></label>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ป.1</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ป.2</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ป.3</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ป.4</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ป.5</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ป.6</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ม.1</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ม.2</button>
+<button class="px-3 py-1 rounded-full border-primary bg-primary/10 text-primary font-medium text-sm transition-colors">ม.3</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ม.4</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ม.5</button>
+<button class="px-3 py-1 rounded-full border border-gray-300 text-gray-600 text-sm hover:bg-gray-50 transition-colors">ม.6</button>
+</div>
+</div>
+<!-- Subject & Type Row -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="block font-medium text-text-main text-sm">กลุ่มสาระ <span class="text-danger">*</span></label>
+<select class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-body">
+<option>คณิตศาสตร์</option>
+<option selected="">วิทยาศาสตร์</option>
+<option>ภาษาไทย</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="block font-medium text-text-main text-sm">ประเภทสื่อ <span class="text-danger">*</span></label>
+<select class="w-full border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring-primary sm:text-sm font-body">
+<option>แผนการสอน</option>
+<option selected="">ใบงาน/Worksheet</option>
+<option>สไลด์/PowerPoint</option>
+</select>
+</div>
+</div>
+<!-- Tags Input -->
+<div class="space-y-2">
+<label class="block font-medium text-text-main text-sm">แท็ก (เพื่อการค้นหาที่แม่นยำ)</label>
+<div class="border border-gray-300 rounded-md p-2 flex flex-wrap gap-2 focus-within:border-primary focus-within:ring-1 focus-within:ring-primary bg-white">
+<div class="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                                        ฟิสิกส์ <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-danger">close</span>
+</div>
+<div class="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                                        แรง <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-danger">close</span>
+</div>
+<div class="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                                        การเคลื่อนที่ <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-danger">close</span>
+</div>
+<div class="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                                        ม.3 <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-danger">close</span>
+</div>
+<div class="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">
+                                        พร้อมเฉลย <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-danger">close</span>
+</div>
+<input class="border-0 focus:ring-0 p-0 text-sm flex-1 min-w-[150px]" placeholder="พิมพ์แท็กแล้วกด Enter..." type="text"/>
+</div>
+</div>
+</section>
+<!-- Curriculum Section -->
+<section class="bg-surface rounded-[12px] shadow-sm border-2 border-primary/20 overflow-hidden">
+<div class="bg-primary/5 px-6 py-4 border-b border-primary/20 flex items-center justify-between">
+<h3 class="font-headline text-md font-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined">account_tree</span>
+                                    ผูกตัวชี้วัด (หลักสูตรแกนกลาง 2560)
+                                 </h3>
+<span class="text-xs bg-white border border-primary/20 text-primary px-2 py-1 rounded-full">แนะนำ</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 h-64 border-b border-gray-100">
+<!-- Left Panel: Tree -->
+<div class="p-4 border-r border-gray-100 overflow-y-auto bg-gray-50/50">
+<ul class="space-y-1 text-sm font-body">
+<li class="flex items-center gap-1 text-gray-700 font-medium">
+<span class="material-symbols-outlined text-sm text-gray-400">expand_more</span>
+                                             วิทยาศาสตร์
+                                         </li>
+<li class="ml-4 space-y-1">
+<div class="flex items-center gap-1 text-gray-700">
+<span class="material-symbols-outlined text-sm text-gray-400">expand_more</span>
+                                                สาระที่ 1
+                                             </div>
+<ul class="ml-4 mt-1 space-y-1">
+<li class="flex items-center gap-1 text-primary bg-primary/10 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-sm">remove</span>
+                                                    มาตรฐาน ว 1.2
+                                                 </li>
+<li class="flex items-center gap-1 text-gray-600 hover:bg-gray-100 px-2 py-1 rounded cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-sm text-gray-400">chevron_right</span>
+                                                    มาตรฐาน ว 1.3
+                                                 </li>
+</ul>
+</li>
+<li class="flex items-center gap-1 text-gray-600 mt-1 cursor-pointer hover:bg-gray-100 p-1 rounded transition-colors">
+<span class="material-symbols-outlined text-sm text-gray-400">chevron_right</span>
+                                             สาระที่ 2
+                                         </li>
+</ul>
+</div>
+<!-- Right Panel: Checkboxes -->
+<div class="p-4 overflow-y-auto">
+<div class="text-xs text-text-muted mb-3 font-medium border-b border-gray-100 pb-2">มาตรฐาน ว 1.2 (ม.3)</div>
+<div class="space-y-3">
+<label class="flex items-start gap-3 cursor-pointer group">
+<input checked="" class="mt-1 border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main group-hover:text-primary transition-colors">ว 1.2 ม.3/1 อธิบายความหมายของแรง</span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer group">
+<input checked="" class="mt-1 border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main group-hover:text-primary transition-colors">ว 1.2 ม.3/2 แรงเสียดทาน</span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer group">
+<input class="mt-1 border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-gray-500 group-hover:text-primary transition-colors">ว 1.2 ม.3/3 การเคลื่อนที่แนวโค้ง</span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer group">
+<input class="mt-1 border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-gray-500 group-hover:text-primary transition-colors">ว 1.2 ม.3/4 กฎการเคลื่อนที่ของนิวตัน</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Compliance Section -->
+<section class="bg-surface rounded-[12px] p-6 shadow-sm border border-gray-100 space-y-4">
+<h3 class="font-headline text-md font-bold text-text-main flex items-center gap-2">
+<span class="material-symbols-outlined text-gray-500">policy</span>
+                                ลิขสิทธิ์และความถูกต้อง
+                            </h3>
+<div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+<label class="flex items-start gap-3 cursor-pointer">
+<input checked="" class="mt-1 border-amber-300 rounded text-secondary-dark focus:ring-secondary" type="checkbox"/>
+<div>
+<span class="text-sm font-medium text-amber-900 block">ผลงานนี้มีส่วนที่สร้างด้วย AI</span>
+<span class="text-xs text-amber-700 block mt-0.5">จะแสดงป้ายกำกับโปร่งใสบนหน้าสินค้า เพื่อให้ความมั่นใจกับผู้ซื้อ</span>
+</div>
+</label>
+</div>
+<div class="space-y-3 pt-2">
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main">ฟอนต์ทุกตัวที่ใช้เป็นฟอนต์โอเพนซอร์ส (OFL) หรือซื้อลิขสิทธิ์ถูกต้อง</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main">ภาพประกอบเป็น CC0, สร้างเอง, หรือซื้อลิขสิทธิ์เชิงพาณิชย์มาแล้ว</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input checked="" class="border-gray-300 rounded text-primary focus:ring-primary" type="checkbox"/>
+<span class="text-sm text-text-main">ไม่มีการใช้ภาพตัวละครที่มีลิขสิทธิ์ (เช่น การ์ตูนดิสนีย์, อนิเมะชื่อดัง)</span>
+</label>
+</div>
+</section>
+</div>
+<!-- Right Column: Preview Sticky Panel -->
+<div class="lg:col-span-1">
+<div class="sticky top-24 bg-surface rounded-[12px] p-6 shadow-lg border border-gray-100">
+<h3 class="font-headline text-md font-bold text-text-main mb-4 flex items-center gap-2 border-b border-gray-100 pb-2">
+<span class="material-symbols-outlined text-text-muted text-sm">visibility</span>
+                                ตัวอย่างการแสดงผล
+                            </h3>
+<!-- Product Card Preview -->
+<div class="border border-gray-200 rounded-[12px] overflow-hidden bg-white hover:shadow-md transition-shadow">
+<!-- Thumbnail -->
+<div class="aspect-[4/3] bg-gray-100 relative">
+<img alt="หน้าปกใบงาน" class="w-full h-full object-cover" data-alt="A clean, colorful educational worksheet cover about force and motion in Thai language, bright pastel colors, cute illustrations of physics concepts, high quality, appealing to middle school students." src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+<!-- Badges on image -->
+<div class="absolute top-2 left-2 flex flex-col gap-1">
+<span class="bg-gray-900/70 text-white text-[10px] px-2 py-0.5 rounded-full border border-gray-500/50 flex items-center gap-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[12px]">psychology</span> AI
+                                        </span>
+</div>
+</div>
+<!-- Card Content -->
+<div class="p-3 space-y-2">
+<!-- Title -->
+<h4 class="font-headline text-sm font-medium text-text-main line-clamp-2 leading-tight">
+                                        ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3 (15 หน้า+เฉลย)
+                                    </h4>
+<!-- Store Info -->
+<div class="flex items-center gap-1.5 mt-1">
+<div class="w-4 h-4 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+<img alt="รูปโปรไฟล์ผู้ขาย" class="w-full h-full object-cover" data-alt="A small, professional avatar portrait of a Thai teacher smiling warmly, bright lighting, high quality." src="https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg"/>
+</div>
+<span class="text-xs text-text-muted truncate">Kru Science</span>
+</div>
+<!-- Rating & Badges -->
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[14px] fill">star</span>
+<span class="text-xs text-text-main font-medium">0.0</span>
+<span class="text-[10px] text-text-muted">(0)</span>
+</div>
+</div>
+<!-- Price & Tags Row -->
+<div class="flex items-center justify-between pt-2 border-t border-gray-50 mt-2">
+<span class="font-headline font-bold text-primary">฿59</span>
+<div class="flex gap-1">
+<span class="text-[9px] border border-badge-gold text-badge-gold px-1.5 py-0.5 rounded-full font-medium">🏅 ครูตัวจริง</span>
+<span class="text-[9px] bg-gradient-to-r from-primary to-primary-light text-white px-1.5 py-0.5 rounded-full font-medium">KruPass</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 text-xs text-text-muted text-center bg-gray-50 p-2 rounded-lg border border-gray-100">
+                                การแสดงผลจริงอาจแตกต่างออกไปเล็กน้อยขึ้นอยู่กับอุปกรณ์ของผู้ชม
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Actions -->
+<footer class="fixed bottom-0 left-0 md:left-64 right-0 bg-white border-t border-gray-200 p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-20">
+<div class="max-w-6xl mx-auto flex items-center justify-between">
+<button class="px-6 py-2.5 border border-gray-300 text-gray-700 font-medium rounded-full hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                    ย้อนกลับ
+                </button>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-primary font-medium hover:bg-primary/5 rounded-full transition-colors">
+                        บันทึกร่าง
+                    </button>
+<button class="px-6 py-2.5 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 flex items-center gap-2">
+                        ถัดไป: ตั้งราคา
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

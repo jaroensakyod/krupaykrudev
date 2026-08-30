@@ -1,0 +1,567 @@
+<!DOCTYPE html><html lang="th"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ครูเปย์ครู KruPayKru - สื่อการสอนคุณภาพจากครูตัวจริง</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            light: '#14b8a6',
+                            dark: '#0f5132',
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                            light: '#fbbf24',
+                        },
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        background: '#FAFAF8',
+                        surface: '#FFFFFF',
+                        text: {
+                            primary: '#1F2937', // Charcoal
+                            secondary: '#6B7280', // Muted Gray
+                        },
+                        badge: {
+                            gold: '#D97706',
+                            blue: '#2563EB',
+                        }
+                    },
+                    borderRadius: {
+                        'DEFAULT': '12px',
+                        'lg': '1rem',
+                        'xl': '1.5rem',
+                        'full': '9999px'
+                    },
+                    fontFamily: {
+                        headline: ['Kanit', 'IBM Plex Sans Thai', 'sans-serif'],
+                        body: ['Sarabun', 'Noto Sans Thai', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #FAFAF8;
+            color: #1F2937;
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Kanit', sans-serif;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-background text-text-primary">
+<!-- TopNavBar -->
+<nav class="bg-surface sticky top-0 z-50 border-b border-text-secondary/10 shadow-sm font-body text-text-primary">
+<div class="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
+<!-- Logo & Brand -->
+<div class="flex items-center gap-2">
+<img alt="ครูเปย์ครู KruPayKru Logo" class="h-10 w-10 object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFUsaZMxLcJ0fYbaT6hbOkU7xKTJMLZ7pF5H5VIqBxbOAsVX6X7RO-PJLXg-qBSRMOIvYiQW2EAauFpLUO4TShK5yQ03lIG_EFSiFYkk-MTaWwNCKdL7Rq6rzb3eP2DONdn-hwZt5IB9Q-GBPQK2jRcGhtDhaw5p10934Jnyc1hWqJhZ13xLsTzA3B5-z7X1SiVoM41VByvJP1L63nSkFSl5RM5heht28m83bwx4UZg4RxWKRHWkWYNUXecVzYQRYvvlViFqsvig">
+<a class="text-2xl font-headline font-black text-primary" href="#">ครูเปย์ครู</a>
+</div>
+<!-- Search Bar (Center) -->
+<div class="hidden md:flex flex-1 max-w-2xl mx-8 relative">
+<input class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-body text-sm" placeholder="ค้นหาใบงาน สื่อการสอน แผนการสอน..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-xl">search</span>
+</div>
+<!-- Navigation Links & Actions -->
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center gap-6 font-body text-sm font-medium">
+<a class="text-primary font-bold border-b-2 border-primary pb-1" href="#">หน้าแรก</a>
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">สื่อการสอน</a>
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">คอร์สเรียน</a>
+<a class="text-text-secondary hover:text-primary transition-colors" href="#">บทความ</a>
+</div>
+<!-- Icon Actions -->
+<div class="flex items-center gap-4 text-text-secondary">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">favorite</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">shopping_cart</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined">notifications</span></button>
+</div>
+<!-- Profile & Auth Actions -->
+<div class="flex items-center gap-4 border-l border-gray-200 pl-4">
+<button class="text-text-secondary hover:text-primary transition-colors text-sm font-medium">เข้าสู่ระบบ</button>
+<button class="bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-primary-dark transition-colors shadow-sm whitespace-nowrap">เริ่มขายสื่อ</button>
+<img alt="โปรไฟล์ผู้ใช้งาน" class="w-9 h-9 rounded-full object-cover border border-gray-200 cursor-pointer" data-alt="Portrait of a smiling young Asian female teacher in a professional setting, warm natural lighting, high resolution, modern minimalist office background, 85mm portrait photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCErwzSj5JLn0zTjhxXU8KHX1NTqSt-sGy_gcmEjiYnPr_9vAuxB-dKMenDbcGdJeahPLg-SwPJOA8VK7Y1jFQV8lbHSPfvr1gpFKPuZFagffKksqIgoCuUGjvtVkQaonbQUlr0cwytYyFwi93h_oyXj13LwzGq17A6ej4q6TCoHtbAU-ZdPb5-5jBAWxbm1_nDDKxRZ-_mbOXIORToyC3OknfR67o8gkLpSEdYGjPqW-OH6CxqrLGyHF9QifuwJCj1lKwpNalS5A">
+</div>
+</div>
+</div>
+<!-- Mobile Search Bar (Below Nav) -->
+<div class="md:hidden px-6 pb-3">
+<div class="relative w-full">
+<input class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-body text-sm" placeholder="ค้นหาใบงาน สื่อการสอน แผนการสอน..." type="text">
+<span class="material-symbols-outlined absolute left-3 top-2.5 text-gray-400 text-xl">search</span>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-6 py-12 md:py-20 lg:py-24">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Text Content -->
+<div class="space-y-8">
+<h1 class="font-headline text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-text-primary">
+                    ครูซื้อจากครู — <br>
+<span class="text-primary">สื่อการสอนคุณภาพ</span>จากครูตัวจริง
+                </h1>
+<p class="font-body text-lg text-text-secondary max-w-xl leading-relaxed">
+                    ซื้อขายใบงาน แผนการสอน โครงงาน และสื่อการสอนกว่า 9 หมวด ตั้งแต่เตรียมอนุบาลถึงมหาวิทยาลัย แพลตฟอร์มที่เข้าใจครูไทยมากที่สุด
+                </p>
+<div class="flex flex-wrap items-center gap-4">
+<button class="bg-primary text-white px-8 py-3.5 rounded-full font-headline font-semibold text-lg hover:bg-primary-dark transition-colors shadow-md hover:shadow-lg">เริ่มเลย ฟรี</button>
+<button class="border-2 border-primary text-primary px-8 py-3.5 rounded-full font-headline font-semibold text-lg hover:bg-primary/5 transition-colors">ดาวน์โหลดฟรี</button>
+</div>
+<!-- Popular Search Chips -->
+<div class="pt-6">
+<p class="font-body text-sm text-text-secondary mb-3">คำค้นหายอดนิยม:</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-text-secondary hover:border-primary hover:text-primary cursor-pointer transition-colors shadow-sm">ใบงาน ป.4 คณิตศาสตร์</span>
+<span class="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-text-secondary hover:border-primary hover:text-primary cursor-pointer transition-colors shadow-sm">แผนการสอน หลักสูตรใหม่</span>
+<span class="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-text-secondary hover:border-primary hover:text-primary cursor-pointer transition-colors shadow-sm">ข้อสอบพร้อมเฉลย</span>
+<span class="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-text-secondary hover:border-primary hover:text-primary cursor-pointer transition-colors shadow-sm">โครงงานวิทยาศาสตร์</span>
+<span class="px-4 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-text-secondary hover:border-primary hover:text-primary cursor-pointer transition-colors shadow-sm">สื่อฟรี</span>
+</div>
+</div>
+</div>
+<!-- Illustration / Image -->
+<div class="relative h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl">
+<img alt="ครูไทยกับสื่อการสอน" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8S0V69PIqutyjWud1tL7kdDCQuzt-wWsvL-4k6bX4zMGKrCoeb6H2rJKlFFfW9TP0GcPNL7q9Ur_xwJF1up83cAblZBpAt4JhVINQEk1X4qmWCtvAZvH68Dif4i1hlb-Qyn3V858BcvN4cszg8wGrHmOIECHXWwytq2_T1NYfrhkj6fRjGx3G07L1nQoPiSihBPFd_AwSzSUddJJW9YKttjB9dJconbrzv_2KsUON4WAU1kE6_6c">
+<!-- Decorative elements overlaying image -->
+<div class="absolute -bottom-6 -left-6 w-24 h-24 bg-accent/20 rounded-full blur-xl"></div>
+<div class="absolute -top-6 -right-6 w-32 h-32 bg-primary/20 rounded-full blur-xl"></div>
+</div>
+</div>
+</section>
+<!-- Filter Levels -->
+<section class="max-w-7xl mx-auto px-6 py-8">
+<h2 class="font-headline text-2xl font-bold mb-6 text-text-primary">เลือกตามระดับชั้น</h2>
+<div class="flex overflow-x-auto pb-4 gap-3 scrollbar-hide">
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">เตรียมอนุบาล</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">อนุบาล</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">ป.1-3</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">ป.4-6</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">ม.1-3</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">ม.4-6</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">ปวช./ปวส.</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">มหาวิทยาลัย</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">กศน.</button>
+<button class="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap">PD ครู</button>
+</div>
+</section>
+<!-- Categories Grid -->
+<section class="max-w-7xl mx-auto px-6 py-12">
+<div class="flex justify-between items-end mb-8">
+<h2 class="font-headline text-3xl font-bold text-text-primary">9 หมวดสื่อการสอน</h2>
+<a class="text-primary font-medium hover:underline text-sm flex items-center" href="#">ดูทั้งหมด <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="bg-gradient-to-br from-teal-50 to-primary/10 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">school</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-2">สื่อการเรียนการสอน</h3>
+<p class="font-body text-sm text-text-secondary">ใบงาน, แบบฝึกหัด, โปสเตอร์, บัตรคำ</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">book</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-amber-700 mb-1">หนังสือและการอ่าน</h3>
+<p class="font-body text-sm text-text-secondary">นิทาน, หนังสืออ่านนอกเวลา</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">play_circle</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-blue-700 mb-1">คอร์สและวิดีโอ</h3>
+<p class="font-body text-sm text-text-secondary">คลิปสอน, คอร์สออนไลน์</p>
+</div>
+<!-- Card 4 -->
+<div class="bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">assignment</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-purple-700 mb-1">แผนการสอน</h3>
+<p class="font-body text-sm text-text-secondary">แผนรายชั่วโมง, แผนบูรณาการ</p>
+</div>
+<!-- Card 5 -->
+<div class="bg-gradient-to-br from-rose-50 to-rose-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">quiz</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-rose-700 mb-1">ข้อสอบ/แบบทดสอบ</h3>
+<p class="font-body text-sm text-text-secondary">คลังข้อสอบ, เฉลยละเอียด</p>
+</div>
+<!-- Card 6 -->
+<div class="bg-gradient-to-br from-emerald-50 to-emerald-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">emoji_objects</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-emerald-700 mb-1">โครงงาน/ผลงาน</h3>
+<p class="font-body text-sm text-text-secondary">รายงาน, โครงงานวิทยาศาสตร์</p>
+</div>
+<!-- Card 7 -->
+<div class="bg-gradient-to-br from-pink-50 to-pink-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">palette</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-pink-700 mb-1">สื่อตกแต่งห้องเรียน</h3>
+<p class="font-body text-sm text-text-secondary">ป้ายนิเทศ, สติ๊กเกอร์, ป้ายชื่อ</p>
+</div>
+<!-- Card 8 -->
+<div class="bg-gradient-to-br from-indigo-50 to-indigo-100/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">grading</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-indigo-700 mb-1">แบบประเมิน/รูบริก</h3>
+<p class="font-body text-sm text-text-secondary">แบบสังเกตพฤติกรรม, รูบริกให้คะแนน</p>
+</div>
+<!-- Card 9 -->
+<div class="bg-gradient-to-br from-gray-50 to-gray-200/50 rounded-[20px] p-6 relative overflow-hidden group hover:shadow-md transition-shadow cursor-pointer h-full min-h-[140px]">
+<div class="absolute -right-2 -bottom-2 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-300">
+<span class="material-symbols-outlined" style="font-size: 80px;">category</span>
+</div>
+<h3 class="font-headline font-bold text-lg text-gray-700 mb-1">อื่นๆ</h3>
+<p class="font-body text-sm text-text-secondary">สื่ออื่นๆ ที่ไม่จัดอยู่ในหมวดหมู่</p>
+</div>
+</div>
+</section>
+<!-- New Arrivals Grid -->
+<section class="max-w-7xl mx-auto px-6 py-12">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline text-3xl font-bold text-text-primary mb-2">ผลงานมาใหม่จากครู</h2>
+<p class="font-body text-text-secondary text-sm">อัปเดตสื่อการสอนสดใหม่ทุกวัน สนับสนุนครูผู้สร้างสรรค์</p>
+</div>
+<a class="text-primary font-medium hover:underline text-sm flex items-center" href="#">ดูเพิ่มเติม <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Product Card 1 (Standard) -->
+<div class="bg-surface rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="aspect-[4/3] relative overflow-hidden bg-gray-100">
+<img alt="ใบงานวิทยาศาสตร์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A brightly colored science worksheet about forces and motion for middle school students, printed on high-quality paper lying on a clean white desk next to a bright yellow pencil and a small potted plant. Overhead shot, well-lit, professional educational material presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB1goOSBcQvkJqXI54pRgK3sYtPpG3geTnnJuzgCwAD7BrotDIhpm7yVpqFRVEpolxP8EBSWO72xNkHwTLO2oorJT3Flj-yq8JfQtAyvwSiQVVKFitG1OfCzHPgik-t0rFj1Gvjb9XK1BZsZWjlXwSJB5KizGEQl6ueHzLG4WT_KSyKmRkq99TFqN0iA7a4Lx1ViP3VbM1_gDlL3G4-oxogBWkSugTGtlvK9i5THRgu5ZGFq7IYxNEm_lH45avyXusJ0fFwB6udQ">
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-gray-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+<!-- Badges Top Left -->
+<div class="absolute top-2 left-2 flex flex-col gap-1">
+<span class="bg-gray-800/80 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-0.5 rounded border border-gray-400">มีส่วนผสม AI</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-headline font-medium text-text-primary text-sm line-clamp-2 mb-2 group-hover:text-primary transition-colors">ใบงาน เรื่อง แรงและการเคลื่อนที่ ม.3 พร้อมเฉลยละเอียด (PDF)</h3>
+<div class="mt-auto">
+<!-- Store Info -->
+<div class="flex items-center gap-2 mb-3">
+<img alt="Store Avatar" class="w-5 h-5 rounded-full object-cover" data-alt="Small avatar profile picture of a female teacher wearing glasses, smiling gently, against a plain light gray background. High quality, clear portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZOtNWGRkc2WyrSVH5vb5Vx8IJH_sSvfofgkrxZ2m6VjzWedfnMe9KmRi6irDJZwBfzK3-jHrUkFVjvBxIFxOmSh_qJJhHHDqGd43lorX2o8Rnaj3mz2aZh3o6YrPf7sgnrqbYXyvz_YImkK_qNaShhGHnL4ByItmVhYO1w8ESx8kb2OB71Nff9JTF29L9v9KHlNLQBlIeO15gcyJQoBVb_RdPiJxfgzXU6ZjCaqjiZXjhakQ5Pt3Z6blkU8KRF841ZuzJzouhlQ">
+<span class="text-xs text-text-secondary truncate">Kru Ploy Science</span>
+<span class="flex items-center text-[10px] text-badge-gold border border-badge-gold px-1 rounded bg-amber-50 ml-auto whitespace-nowrap">🏅 ครูตัวจริง</span>
+</div>
+<!-- Rating & Price -->
+<div class="flex items-end justify-between">
+<div class="flex items-center text-accent">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium ml-1 text-text-primary">4.9</span>
+<span class="text-[10px] text-text-secondary ml-1">(24)</span>
+</div>
+<div class="text-right">
+<span class="text-[10px] text-text-secondary line-through mr-1">฿120</span>
+<span class="font-headline font-bold text-lg text-primary">฿89</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 2 (Free) -->
+<div class="bg-surface rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="aspect-[4/3] relative overflow-hidden bg-gray-100">
+<img alt="บัตรคำคณิตศาสตร์" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Colorful flashcards for primary school mathematics lying scattered on a wooden table, featuring numbers and basic geometric shapes in bright primary colors. Natural sunlight streaming across the desk, warm inviting educational setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_53sqi7XsTztWV2KVQYsYnV_K8wNgjzIglacS_q_lwEW15iDhAw7q20dhy6EHLufIkNnbswROVxnXq-eGttou5cOL_L6cKsjMXlAW_r71AxOUZxABArh9cV-eeMz1KrAk6CqIvQMlGk4g9MQx5O4lHEejn_eBFphy2MB_E3anBE-4o3jcR_K-jgl9W3CvKzV-_k1wJ-Zx2IZ9BnfoJHMZxNm-a8irjdgZLxQ0mTqFHSgDINiHUSz1YVDP-6r_Sfm3k32UyULSWA">
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-gray-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+<!-- Badges Top Left -->
+<div class="absolute top-2 left-2 flex flex-col gap-1">
+<span class="bg-accent text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm">ฟรี</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-headline font-medium text-text-primary text-sm line-clamp-2 mb-2 group-hover:text-primary transition-colors">บัตรคำศัพท์คณิตศาสตร์ ป.1 - ป.3 สีสันสดใส โหลดฟรี</h3>
+<div class="mt-auto">
+<!-- Store Info -->
+<div class="flex items-center gap-2 mb-3">
+<div class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-[10px]">T</div>
+<span class="text-xs text-text-secondary truncate">Teacher Tools</span>
+<span class="flex items-center text-[10px] text-badge-gold border border-badge-gold px-1 rounded bg-amber-50 ml-auto whitespace-nowrap">🏅 ครูตัวจริง</span>
+</div>
+<!-- Rating & Price -->
+<div class="flex items-end justify-between">
+<div class="flex items-center text-accent">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium ml-1 text-text-primary">5.0</span>
+<span class="text-[10px] text-text-secondary ml-1">(128)</span>
+</div>
+<div class="text-right">
+<span class="font-headline font-bold text-lg text-success">ฟรี</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="aspect-[4/3] relative overflow-hidden bg-gray-100">
+<img alt="แผนการสอน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="A neatly organized open book showing a lesson plan for literature class, with colorful sticky notes, a steaming cup of coffee, and a sleek modern pen next to it on a clean white desk. Cozy, productive, modern teacher aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdpL7RtRXcifmx1D8uu_4OqQHl511FL2LXwQuipJcBYJHHA2sh8Wlooj9A_pTj5ZwG4pGnseDlq_67EzZDO0lRrr8-uoVqhO_LSSR5RrGHaAigW34gMFa9MJy1ppwc5uuFfq0NXohxAg35yA2jgr1KIPq78Z6664gKXFPvmnhaHKbsciWOjaVfooavuREXU2LxNukgAmMLb_8n6b7SQpoOmVpGEv7W9DfdlgG9hDoUV1Tzs-Ke6IopWXhdpA-RDyno8vOhCqGLxw">
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-gray-500 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-sm">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-headline font-medium text-text-primary text-sm line-clamp-2 mb-2 group-hover:text-primary transition-colors">แผนการจัดการเรียนรู้ ภาษาไทย ป.5 (หลักสูตร 2551 ปรับปรุง 60)</h3>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-3">
+<img alt="Store Avatar" class="w-5 h-5 rounded-full object-cover" data-alt="Small avatar profile picture of a male teacher in a collared shirt, professional look, light background. High quality portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALA3ii4jWpwm-6HCx4NepVYS-B68mqaWbrzihuMIih4-abQcV2KuLMVX-IY3pVbCoE4fSNnKrGxgWpd16-mxkZeKSc85wNH3JfNlsyCoT9KYOcyEus28-qdOG_5S_cvXuWqPYB88df2w2w_ZhUplIBw0Gyoa7_s07lLaB79Su2sQ__K_B_tyfIX3XxCBVcEa4f2-XL4seV3C2H1K1M_h6BFp6A7HgqoYz8C_TFnv9JLFCUvu226kz4iEwOfa0F0ox4wNwI9Jo_2g">
+<span class="text-xs text-text-secondary truncate">Kru Somchai</span>
+<span class="flex items-center text-[10px] text-badge-gold border border-badge-gold px-1 rounded bg-amber-50 ml-auto whitespace-nowrap">🏅 ครูตัวจริง</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center text-accent">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium ml-1 text-text-primary">4.8</span>
+<span class="text-[10px] text-text-secondary ml-1">(45)</span>
+</div>
+<div class="text-right">
+<span class="font-headline font-bold text-lg text-primary">฿250</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all group cursor-pointer flex flex-col h-full">
+<div class="aspect-[4/3] relative overflow-hidden bg-gray-100">
+<img alt="สื่ออินเตอร์แอคทีฟ" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Digital tablet displaying a colorful interactive educational game for young children, placed on a wooden table alongside some physical wooden letter blocks. Bright, playful, tech-integrated learning environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMqWjkDTgpBAYkMqc07kPMSK7i9zgaTfcAJW79JRnRSdm9yDOV_AVZOj443uUhVS5-xDMbVl6C5VwyD9auHR4PEVWOtyh-Q7g2ZE_IiHPBcwYqGpR06r-d6co_XjvsWNGa12NZRPMFCxuOEbtpMhAHISW6uFEPDQB-vSz_udRkXMictsif7pNNlOO-uLzKFjnEHJcUIfhAJTCn1My1HmEEtKn3UqQPrPRGI5UJT1LHyUKwgSmB4h4GKJZl_HcCUWWjH9ZeSkOlPw">
+<button class="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full text-red-500 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<div class="absolute top-2 left-2 flex flex-col gap-1">
+<span class="bg-gradient-to-r from-primary to-emerald-400 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-sm flex items-center"><span class="material-symbols-outlined text-[10px] mr-0.5">diamond</span>KruPass</span>
+</div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<h3 class="font-headline font-medium text-text-primary text-sm line-clamp-2 mb-2 group-hover:text-primary transition-colors">PowerPoint เกมทายคำศัพท์ภาษาอังกฤษ หมวดสัตว์น่ารัก (มีเสียง)</h3>
+<div class="mt-auto">
+<div class="flex items-center gap-2 mb-3">
+<div class="w-5 h-5 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold text-[10px]">E</div>
+<span class="text-xs text-text-secondary truncate">EngJoy Studio</span>
+<span class="flex items-center text-[10px] text-badge-gold border border-badge-gold px-1 rounded bg-amber-50 ml-auto whitespace-nowrap">🏅 ครูตัวจริง</span>
+</div>
+<div class="flex items-end justify-between">
+<div class="flex items-center text-accent">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-xs font-medium ml-1 text-text-primary">5.0</span>
+<span class="text-[10px] text-text-secondary ml-1">(89)</span>
+</div>
+<div class="text-right">
+<span class="font-headline font-bold text-lg text-primary">฿59</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Banner Strip (KruPass) -->
+<section class="max-w-7xl mx-auto px-6 py-8">
+<div class="bg-gradient-to-r from-primary to-emerald-500 rounded-2xl p-8 md:p-12 shadow-lg relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+<!-- Decorative Background Elements -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute right-40 -bottom-20 w-48 h-48 bg-black/10 rounded-full blur-2xl"></div>
+<div class="relative z-10 text-white max-w-2xl text-center md:text-left">
+<div class="flex items-center justify-center md:justify-start gap-2 mb-3">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">diamond</span>
+<h2 class="font-headline text-3xl md:text-4xl font-black tracking-tight">KruPass</h2>
+</div>
+<h3 class="font-headline text-xl md:text-2xl font-bold mb-2">โหลดสื่อไม่อั้น เริ่มต้น ฿99/เดือน</h3>
+<p class="font-body text-white/90 text-sm md:text-base">เข้าถึงสื่อการสอนระดับพรีเมียมหลายหมื่นรายการโดยไม่มีค่าใช้จ่ายเพิ่มเติม ประหยัดเวลาเตรียมสอน ให้คุณโฟกัสกับการสอนได้อย่างเต็มที่</p>
+</div>
+<div class="relative z-10 flex-shrink-0">
+<button class="bg-white text-primary px-8 py-4 rounded-full font-headline font-bold text-lg shadow-xl hover:bg-gray-50 hover:scale-105 transition-all duration-300">สมัคร KruPass</button>
+</div>
+</div>
+</section>
+<!-- Popular Sellers -->
+<section class="max-w-7xl mx-auto px-6 py-12 mb-12">
+<h2 class="font-headline text-2xl font-bold mb-8 text-text-primary text-center">ร้านครูยอดนิยม</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Seller 1 -->
+<div class="bg-surface rounded-[20px] p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition-shadow cursor-pointer">
+<div class="relative mb-4">
+<img alt="Seller Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-sm" data-alt="Close up portrait of a cheerful Thai female teacher in a professional setting, warm smile, high quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD29U9ejnQzRuELHMsWmzKgjcQvyH5ubuRZ-CtbkQKHoMPlF_2EH1VoDJh-RWG1LAlvWyVkSvOxQzWn-yD1NNP2p_9fjeB5HaZmQr3A49Coqmcv9BQxt-H0bhijqLt8_8_fifBui2vkpFEM-YXaaU9CMyhyp-pXVOZ0p3rVavbaSxXi_q7ecrUvqqJzajrjhIX9HMQXKCpDZMD3j2b-HK-jZCayzzi7MdAYBJy0-4iVDsfF_RSVUbSwd7KNV9DX1mI6jFlQzua2BA">
+<div class="absolute -bottom-2 right-0 bg-white rounded-full p-0.5 shadow-sm">
+<span class="material-symbols-outlined text-badge-gold text-lg" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-text-primary mb-1">Kru Aom Math</h3>
+<p class="font-body text-xs text-text-secondary mb-3">สื่อคณิตศาสตร์ ป.1 - ป.6</p>
+<div class="flex items-center gap-4 text-xs font-medium text-text-primary bg-gray-50 px-4 py-2 rounded-full w-full justify-center">
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold">1.2K</span>
+<span class="text-[10px] text-text-secondary font-normal">ผู้ติดตาม</span>
+</div>
+<div class="w-px h-6 bg-gray-200"></div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-accent flex items-center"><span class="material-symbols-outlined text-[12px] mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>5.0</span>
+<span class="text-[10px] text-text-secondary font-normal">คะแนนร้าน</span>
+</div>
+</div>
+</div>
+<!-- Seller 2 -->
+<div class="bg-surface rounded-[20px] p-6 shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition-shadow cursor-pointer">
+<div class="relative mb-4">
+<img alt="Seller Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-sm" data-alt="Portrait of a young male teacher looking confident and professional, wearing a smart casual shirt, light background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlYHfe1TOQy4vA050E56l3pYsqkdD-t_-mT7jtopYYVcZDfidMWfbgygUJdsyZ_WA6xBVr7WWKBI0p4drO5_1FpwZL8Wo14Yn1_GAopWnpjcnhnPos7gxomr2oDhSJOulsCx9F6C28LUDQPNg0cSFel7scWsW-rGU9ji80wY6Ft7dJqURm4-8b2pRA7Kp7XaaNnrdB8gVl3pNgOiYB9ebNGqKmayWQtvXulXPcl-YrOmjW0bQssLhuN9tlXFkdNixC64wcY7PGeA">
+<div class="absolute -bottom-2 right-0 bg-white rounded-full p-0.5 shadow-sm">
+<span class="material-symbols-outlined text-badge-blue text-lg" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-text-primary mb-1">Kru Big Science</h3>
+<p class="font-body text-xs text-text-secondary mb-3">ใบงานวิทย์ ม.ต้น</p>
+<div class="flex items-center gap-4 text-xs font-medium text-text-primary bg-gray-50 px-4 py-2 rounded-full w-full justify-center">
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold">850</span>
+<span class="text-[10px] text-text-secondary font-normal">ผู้ติดตาม</span>
+</div>
+<div class="w-px h-6 bg-gray-200"></div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-accent flex items-center"><span class="material-symbols-outlined text-[12px] mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>4.9</span>
+<span class="text-[10px] text-text-secondary font-normal">คะแนนร้าน</span>
+</div>
+</div>
+</div>
+<!-- Seller 3 & 4 (Desktop only placeholders for layout) -->
+<div class="bg-surface rounded-[20px] p-6 shadow-sm border border-gray-100 flex-col items-center text-center hover:shadow-md transition-shadow cursor-pointer hidden md:flex">
+<div class="relative mb-4">
+<div class="w-20 h-20 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-headline font-bold text-3xl border-4 border-white shadow-sm">P</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-text-primary mb-1">Play &amp; Learn</h3>
+<p class="font-body text-xs text-text-secondary mb-3">สื่อปฐมวัยสีสันสดใส</p>
+<div class="flex items-center gap-4 text-xs font-medium text-text-primary bg-gray-50 px-4 py-2 rounded-full w-full justify-center">
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold">3.4K</span>
+<span class="text-[10px] text-text-secondary font-normal">ผู้ติดตาม</span>
+</div>
+<div class="w-px h-6 bg-gray-200"></div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-accent flex items-center"><span class="material-symbols-outlined text-[12px] mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>4.9</span>
+<span class="text-[10px] text-text-secondary font-normal">คะแนนร้าน</span>
+</div>
+</div>
+</div>
+<div class="bg-surface rounded-[20px] p-6 shadow-sm border border-gray-100 flex-col items-center text-center hover:shadow-md transition-shadow cursor-pointer hidden lg:flex">
+<div class="relative mb-4">
+<img alt="Seller Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-white shadow-sm" data-alt="Portrait of an experienced senior female teacher with glasses, exuding wisdom and warmth, professional attire." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmHaWqU8F6eFWNP21k5ttp0PnbsT2DIHnRfjLcOd-fHFvEfHV2F8BXhxunnjnRzZPcYNX58zl25Oi2LHoMjAOiS0UDcrED1yksz89iVIlgpb0nBipH2j9TrlQq14W6a9KGvv0DHiUzOqWUsKC03sSgXFq8vp0ZyF-tZpeQKymmn6ayeJVFWX8b4v5uEclypr11ZCrjGPO5tvFKuVD_Jht6pM2v8ZR0s7FHaCU_n4513MLtLRiP7WZAtCCcEyBxRf42NfKhDDzjFQ">
+<div class="absolute -bottom-2 right-0 bg-white rounded-full p-0.5 shadow-sm">
+<span class="material-symbols-outlined text-gray-400 text-lg" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-lg text-text-primary mb-1">สถาบันภาษาไทย</h3>
+<p class="font-body text-xs text-text-secondary mb-3">แผนการสอนภาษาไทย</p>
+<div class="flex items-center gap-4 text-xs font-medium text-text-primary bg-gray-50 px-4 py-2 rounded-full w-full justify-center">
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold">5.1K</span>
+<span class="text-[10px] text-text-secondary font-normal">ผู้ติดตาม</span>
+</div>
+<div class="w-px h-6 bg-gray-200"></div>
+<div class="flex flex-col items-center">
+<span class="text-sm font-bold text-accent flex items-center"><span class="material-symbols-outlined text-[12px] mr-0.5" style="font-variation-settings: 'FILL' 1;">star</span>4.8</span>
+<span class="text-[10px] text-text-secondary font-normal">คะแนนร้าน</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#FFFFFF] dark:bg-[#1F2937] border-t border-[#6B7280]/10 mt-20">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6 py-12 max-w-7xl mx-auto font-body text-sm text-[#6B7280] dark:text-gray-400">
+<!-- Brand Column -->
+<div class="col-span-1 md:col-span-1">
+<div class="text-xl font-headline font-bold text-[#0F766E] mb-4">ครูเปย์ครู</div>
+<p class="mb-4">© 2024 KruPayKru. แพลตฟอร์มเพื่อครูไทยโดยครูไทย</p>
+<div class="flex gap-4">
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#"><span class="material-symbols-outlined">share</span></a> <!-- Placeholder for social icons as material symbols don't have brand icons directly -->
+<a class="text-[#6B7280] hover:text-[#0F766E] transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+</div>
+</div>
+<!-- Links Columns -->
+<div class="col-span-1">
+<h4 class="font-headline font-bold text-text-primary mb-4">รู้จักเรา</h4>
+<ul class="space-y-2">
+<li class=""><a class="text-[#D1D5DB] hover:text-[#0F766E] transition-colors" href="#">เกี่ยวกับเรา</a></li>
+<li class=""><a class="text-[#D1D5DB] hover:text-[#0F766E] transition-colors" href="#">ติดต่อเรา</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-headline font-bold text-text-primary mb-4">ช่วยเหลือ</h4>
+<ul class="space-y-2">
+<li class=""><a class="text-[#D1D5DB] hover:text-[#0F766E] transition-colors" href="#">ศูนย์ช่วยเหลือ</a></li>
+<li class=""><a class="text-[#D1D5DB] hover:text-[#0F766E] transition-colors" href="#">การขายสื่อบน KruPayKru</a></li>
+</ul>
+</div>
+<div class="col-span-1">
+<h4 class="font-headline font-bold text-text-primary mb-4">ข้อกำหนด</h4>
+<ul class="space-y-2">
+<li class=""><a class="text-[#D1D5DB] hover:text-[#0F766E] transition-colors" href="#">ข้อกำหนดเงื่อนไข</a></li>
+<li class=""><a class="text-[#D1D5DB] hover:text-[#0F766E] transition-colors" href="#">นโยบายความเป็นส่วนตัว (PDPA)</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<!-- Mobile Bottom Tab Bar (As per layout rules for mobile) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-gray-200 z-50 pb-safe">
+<div class="flex justify-around items-center py-2">
+<a class="flex flex-col items-center text-primary" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-body mt-1">หน้าแรก</span>
+</a>
+<a class="flex flex-col items-center text-text-secondary hover:text-primary" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="text-[10px] font-body mt-1">ค้นหา</span>
+</a>
+<a class="flex flex-col items-center text-text-secondary hover:text-primary relative" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-0 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+<span class="text-[10px] font-body mt-1">ตะกร้า</span>
+</a>
+<a class="flex flex-col items-center text-text-secondary hover:text-primary" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-body mt-1">คลังสื่อ</span>
+</a>
+<a class="flex flex-col items-center text-text-secondary hover:text-primary" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-body mt-1">โปรไฟล์</span>
+</a>
+</div>
+</div>
+<!-- Add padding to bottom for mobile to account for fixed tab bar -->
+<div class="h-16 md:hidden"></div>
+
+
+
+
+</body></html>

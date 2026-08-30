@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ครูเปย์ครู KruPayKru - เข้าสู่ระบบ &amp; สมัครสมาชิก</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#0F766E', // Deep Teal
+                            hover: '#0D625C',
+                            light: '#CCFBF1'
+                        },
+                        accent: {
+                            DEFAULT: '#F59E0B', // Marigold
+                            hover: '#D97706'
+                        },
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        line: '#00C300', // LINE Green
+                        background: '#FAFAF8',
+                        surface: '#FFFFFF',
+                        text: {
+                            main: '#1F2937',
+                            muted: '#6B7280'
+                        }
+                    },
+                    fontFamily: {
+                        headline: ["IBM Plex Sans Thai", "sans-serif"],
+                        display: ["IBM Plex Sans Thai", "sans-serif"],
+                        body: ["IBM Plex Sans Thai", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                        lg: "0.75rem",
+                        xl: "1rem",
+                        full: "9999px"
+                    },
+                    boxShadow: {
+                        soft: '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #FAFAF8;
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            color: #1F2937;
+        }
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#0F766E 0.5px, transparent 0.5px), radial-gradient(#0F766E 0.5px, #FAFAF8 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            opacity: 0.05;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center relative py-12 px-4 sm:px-6 lg:px-8">
+<!-- Background Pattern -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<div class="absolute inset-0 bg-pattern"></div>
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/5"></div>
+</div>
+<!-- Main Container -->
+<div class="max-w-6xl w-full z-10 relative">
+<!-- Header/Logo area -->
+<div class="text-center mb-10">
+<h1 class="text-3xl md:text-4xl font-headline font-bold text-primary flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-4xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">school</span>
+                ครูเปย์ครู KruPayKru
+            </h1>
+<p class="mt-3 text-text-muted text-lg font-body">แพลตฟอร์มเพื่อครูไทย ซื้อ-ขายสื่อการสอนคุณภาพ</p>
+</div>
+<!-- Auth Card Container -->
+<div class="bg-surface rounded-xl shadow-soft flex flex-col md:flex-row overflow-hidden border border-gray-100">
+<!-- Left Side: Register -->
+<div class="w-full md:w-1/2 p-8 lg:p-12 border-b md:border-b-0 md:border-r border-gray-100 bg-gray-50/30">
+<div class="max-w-sm mx-auto">
+<h2 class="text-2xl font-headline font-bold text-text-main mb-6">สร้างบัญชีใหม่</h2>
+<!-- LINE Login Button -->
+<button class="w-full bg-[#00C300] hover:bg-[#00B300] text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors shadow-sm mb-6">
+<svg class="w-6 h-6 fill-current" viewbox="0 0 24 24"><path d="M22.5 10.3c0-4.6-4.7-8.3-10.5-8.3S1.5 5.7 1.5 10.3c0 4.2 3.8 7.7 8.9 8.2l.4.1c.3 0 .7.3.7.6v.5l.3-.4c.3-.4 1-1.3 1.3-1.6.4-.3.9-.3.9-.3 2.7-1 5.3-2.9 6.8-5.1.7-1.3 1.2-2.7 1.2-4.3zm-14.7 3.2h-2.5c-.3 0-.6-.3-.6-.6V7.4c0-.3.3-.6.6-.6h2.5c.3 0 .6.3.6.6v4.9c0 .3-.3.6-.6.6zm4.8 0h-2.5c-.3 0-.6-.3-.6-.6V7.4c0-.3.3-.6.6-.6h2.5c.3 0 .6.3.6.6v4.9c0 .3-.3.6-.6.6zm4.8 0H14.9c-.3 0-.6-.3-.6-.6V7.4c0-.3.3-.6.6-.6h2.5c.3 0 .6.3.6.6v4.9c0 .3-.3.6-.6.6z"></path></svg>
+                        สมัครสมาชิกด้วย LINE
+                    </button>
+<!-- Divider -->
+<div class="relative flex py-4 items-center mb-6">
+<div class="flex-grow border-t border-gray-200"></div>
+<span class="flex-shrink-0 mx-4 text-text-muted text-sm font-label">หรือ</span>
+<div class="flex-grow border-t border-gray-200"></div>
+</div>
+<!-- Registration Form -->
+<form action="#" class="space-y-4" method="POST">
+<!-- Role Selection -->
+<div class="mb-4">
+<label class="block text-sm font-medium text-text-main mb-2">คุณต้องการใช้งานในฐานะ?</label>
+<div class="grid grid-cols-2 gap-3">
+<label class="relative flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-primary bg-white transition-colors">
+<input checked="" class="form-radio text-primary border-gray-300 focus:ring-primary h-4 w-4" name="role" type="radio" value="buyer"/>
+<div class="ml-3 flex flex-col">
+<span class="text-sm font-medium text-text-main flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-primary">shopping_bag</span>
+                                            ครูซื้อสื่อ
+                                        </span>
+</div>
+</label>
+<label class="relative flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:border-accent bg-white transition-colors">
+<input class="form-radio text-accent border-gray-300 focus:ring-accent h-4 w-4" name="role" type="radio" value="seller"/>
+<div class="ml-3 flex flex-col">
+<span class="text-sm font-medium text-text-main flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-accent">storefront</span>
+                                            ขายสื่อ
+                                        </span>
+</div>
+</label>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-main mb-1" for="reg-email">อีเมล</label>
+<input class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm" id="reg-email" placeholder="example@school.ac.th" type="email"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-main mb-1" for="reg-password">รหัสผ่าน</label>
+<div class="relative">
+<input class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm" id="reg-password" placeholder="อย่างน้อย 8 ตัวอักษร" type="password"/>
+<button class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600" type="button">
+<span class="material-symbols-outlined text-xl">visibility_off</span>
+</button>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-text-main mb-1" for="reg-phone">เบอร์โทรศัพท์ (ทางเลือก)</label>
+<input class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm" id="reg-phone" placeholder="08X-XXX-XXXX" type="tel"/>
+</div>
+<!-- PDPA Checkbox -->
+<div class="flex items-start pt-2">
+<div class="flex items-center h-5">
+<input class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary/50" id="pdpa" type="checkbox"/>
+</div>
+<div class="ml-3 text-xs text-text-muted leading-tight">
+<label for="pdpa">
+                                    ฉันยอมรับ <a class="text-primary hover:underline font-medium" href="#">เงื่อนไขการให้บริการ</a> และ <a class="text-primary hover:underline font-medium" href="#">นโยบายความเป็นส่วนตัว (PDPA)</a> ของ KruPayKru
+                                </label>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary-hover text-white font-medium py-2.5 px-4 rounded-lg transition-colors shadow-sm mt-4" type="submit">
+                            สมัครสมาชิก
+                        </button>
+</form>
+</div>
+</div>
+<!-- Right Side: Login -->
+<div class="w-full md:w-1/2 p-8 lg:p-12 bg-surface">
+<div class="max-w-sm mx-auto flex flex-col h-full justify-center">
+<h2 class="text-2xl font-headline font-bold text-text-main mb-2">ยินดีต้อนรับกลับมา!</h2>
+<p class="text-text-muted text-sm mb-8">เข้าสู่ระบบเพื่อจัดการสื่อการสอนและห้องเรียนของคุณ</p>
+<form action="#" class="space-y-5" method="POST">
+<div>
+<label class="block text-sm font-medium text-text-main mb-1" for="login-email">อีเมล</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400 text-[20px]">mail</span>
+</div>
+<input class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm" id="login-email" placeholder="กรอกอีเมลของคุณ" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1">
+<label class="block text-sm font-medium text-text-main" for="login-password">รหัสผ่าน</label>
+<a class="text-xs font-medium text-primary hover:text-primary-hover hover:underline" href="#">ลืมรหัสผ่าน?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-gray-400 text-[20px]">lock</span>
+</div>
+<input class="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors text-sm" id="login-password" placeholder="กรอกรหัสผ่าน" type="password"/>
+</div>
+</div>
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary bg-white border-gray-300 rounded focus:ring-primary/50" id="remember-me" type="checkbox"/>
+<label class="ml-2 text-sm text-text-muted" for="remember-me">จดจำฉันไว้ในระบบ</label>
+</div>
+<button class="w-full bg-primary hover:bg-primary-hover text-white font-medium py-2.5 px-4 rounded-lg transition-colors shadow-sm" type="submit">
+                            เข้าสู่ระบบ
+                        </button>
+</form>
+<!-- Divider -->
+<div class="relative flex py-6 items-center">
+<div class="flex-grow border-t border-gray-200"></div>
+<span class="flex-shrink-0 mx-4 text-text-muted text-sm font-label">หรือ</span>
+<div class="flex-grow border-t border-gray-200"></div>
+</div>
+<!-- LINE Login Button (Secondary) -->
+<button class="w-full bg-white border border-[#00C300] text-[#00C300] hover:bg-[#00C300]/5 font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+<svg class="w-5 h-5 fill-current" viewbox="0 0 24 24"><path d="M22.5 10.3c0-4.6-4.7-8.3-10.5-8.3S1.5 5.7 1.5 10.3c0 4.2 3.8 7.7 8.9 8.2l.4.1c.3 0 .7.3.7.6v.5l.3-.4c.3-.4 1-1.3 1.3-1.6.4-.3.9-.3.9-.3 2.7-1 5.3-2.9 6.8-5.1.7-1.3 1.2-2.7 1.2-4.3zm-14.7 3.2h-2.5c-.3 0-.6-.3-.6-.6V7.4c0-.3.3-.6.6-.6h2.5c.3 0 .6.3.6.6v4.9c0 .3-.3.6-.6.6zm4.8 0h-2.5c-.3 0-.6-.3-.6-.6V7.4c0-.3.3-.6.6-.6h2.5c.3 0 .6.3.6.6v4.9c0 .3-.3.6-.6.6zm4.8 0H14.9c-.3 0-.6-.3-.6-.6V7.4c0-.3.3-.6.6-.6h2.5c.3 0 .6.3.6.6v4.9c0 .3-.3.6-.6.6z"></path></svg>
+                        เข้าสู่ระบบด้วย LINE
+                    </button>
+<div class="mt-8 text-center text-xs text-text-muted flex justify-center gap-4">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">verified</span> ปลอดภัย 100%</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">support_agent</span> มีแอดมินดูแล</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Footer Links -->
+<div class="mt-6 text-center text-sm text-text-muted space-x-4">
+<a class="hover:text-primary transition-colors" href="#">เกี่ยวกับเรา</a>
+<span class="text-gray-300">|</span>
+<a class="hover:text-primary transition-colors" href="#">ติดต่อสอบถาม</a>
+<span class="text-gray-300">|</span>
+<a class="hover:text-primary transition-colors" href="#">แจ้งปัญหาการใช้งาน</a>
+</div>
+</div>
+<!-- Minimal Script for password toggle -->
+<script>
+        document.querySelectorAll('button[type="button"]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const input = this.previousElementSibling;
+                const icon = this.querySelector('span');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.textContent = 'visibility';
+                } else {
+                    input.type = 'password';
+                    icon.textContent = 'visibility_off';
+                }
+            });
+        });
+    </script>
+</body></html>

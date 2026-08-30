@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html class="h-full bg-[#FAFAF8]" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KruPayKru Seller Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&amp;family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F766E',
+                        accent: '#F59E0B',
+                        success: '#16A34A',
+                        danger: '#DC2626',
+                        background: '#FAFAF8',
+                        surface: '#FFFFFF',
+                        textMain: '#1F2937',
+                        textMuted: '#6B7280',
+                        sidebarBg: '#0B4F4A',
+                        verified: '#2563EB',
+                        gold: '#D97706'
+                    },
+                    fontFamily: {
+                        headline: ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        body: ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for sidebar */
+        .sidebar-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar-scroll::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+        }
+    </style>
+</head>
+<body class="font-body text-textMain h-full flex antialiased">
+<!-- Sidebar (Shared Component Anchor) -->
+<aside class="docked h-full w-64 left-0 top-0 bg-[#0B4F4A] shadow-xl fixed flex flex-col py-6 overflow-y-auto z-50 sidebar-scroll">
+<!-- Store Identity -->
+<div class="px-6 mb-8 flex flex-col items-center">
+<div class="relative mb-3">
+<img class="w-20 h-20 rounded-full object-cover border-2 border-[#16A34A] shadow-md" data-alt="A professional, warm, and inviting portrait of a Thai school teacher, smiling confidently. The lighting is soft and flattering, creating a trustworthy and knowledgeable vibe, perfect for an educational marketplace profile picture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB61n5tbkzsOq9_2TIWH0o503ZV0RPyllsThOs9TB-0eXrsRdrQU3C1DwNZFfp_HW5fEdtuEWQ_7oR40mYNoW1Q5L3EWsEKerFlJm0pOmMHFtv8CH2XBxdsIJfJ6NkuEyEt2FYcYbLNyRmmmD-8JCqrgeH9FeA-fLJeauJvMYDhzXghIIf93FMBABGwk07ntTLYBo9eYdGhDAdK4_FAl42wlYimvxSoO6HQ3ANarTk1wH11bCS61y5rxkm5cmCIz4vvtYvJ3z3ECQ"/>
+</div>
+<h2 class="text-xl font-headline font-black text-white text-center">ครูก้อง Science Store</h2>
+<div class="mt-2 inline-flex items-center px-2.5 py-1 rounded-full border border-[#D97706] bg-opacity-20 bg-[#D97706]">
+<span class="text-[#F59E0B] text-xs font-headline font-semibold">🏅 ครูตัวจริง</span>
+</div>
+</div>
+<!-- Navigation Menu -->
+<nav class="flex-1 px-2 space-y-1">
+<a class="bg-teal-800 text-white font-bold flex items-center px-4 py-3 rounded-lg mx-2 Active: opacity-90 scale-[0.99] transition-all" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-body text-sm">แดชบอร์ด</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="font-body text-sm flex-1">สื่อการสอนของฉัน</span>
+<span class="bg-teal-900 text-teal-200 py-0.5 px-2 rounded-full text-xs">48</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">add_circle</span>
+<span class="font-body text-sm">เพิ่มสื่อใหม่</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">receipt_long</span>
+<span class="font-body text-sm">การขายและคำสั่งซื้อ</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">account_balance_wallet</span>
+<span class="font-body text-sm">กระเป๋าเงิน</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-body text-sm">วิเคราะห์ข้อมูล</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">auto_fix_high</span>
+<span class="font-body text-sm">ตกแต่งหน้าร้าน</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">campaign</span>
+<span class="font-body text-sm">โปรโมชั่น</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">forum</span>
+<span class="font-body text-sm flex-1">ข้อความและคำถาม</span>
+<span class="bg-[#DC2626] text-white py-0.5 px-2 rounded-full text-xs font-bold">2</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">star</span>
+<span class="font-body text-sm">การรีวิว</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+<span class="font-body text-sm">ผู้ติดตาม</span>
+</a>
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-body text-sm">ตั้งค่า</span>
+</a>
+</nav>
+<!-- Upgrade Card -->
+<div class="px-4 mt-8">
+<div class="bg-gradient-to-br from-teal-600 to-emerald-500 rounded-xl p-4 shadow-lg text-white">
+<h4 class="font-headline font-bold text-sm mb-1">อัปเกรด PRO</h4>
+<p class="text-xs mb-3 text-teal-50">ค่าธรรมเนียมเหลือ 5% พร้อมฟีเจอร์พรีเมียม</p>
+<button class="w-full bg-white text-teal-800 font-headline font-semibold py-2 rounded-full text-sm hover:bg-teal-50 transition-colors">
+                    อัปเกรดตอนนี้
+                </button>
+</div>
+</div>
+<div class="mt-6 px-4">
+<a class="text-teal-100 flex items-center px-4 py-3 hover:bg-teal-700 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined mr-3">logout</span>
+<span class="font-body text-sm">ออกจากระบบ</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 min-h-screen flex flex-col relative w-full">
+<!-- Top App Bar (Shared Component Anchor) -->
+<header class="bg-white border-b border-gray-100 shadow-sm flex justify-between items-center h-16 px-6 z-40 sticky top-0">
+<div class="flex items-center">
+<span class="text-lg font-black text-[#0F766E] font-headline">KruPayKru Seller Center</span>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-[#6B7280] hover:text-[#0F766E] p-2 rounded-full hover:bg-gray-50 transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+<button class="text-[#6B7280] hover:text-[#0F766E] p-2 rounded-full hover:bg-gray-50 transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#DC2626] rounded-full border border-white"></span>
+</button>
+</div>
+</header>
+<!-- Dashboard Content -->
+<div class="p-8 space-y-8 flex-1 overflow-y-auto">
+<!-- Greeting Row -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div>
+<h1 class="text-3xl font-headline font-bold text-textMain">สวัสดี ครูก้อง 👋</h1>
+<p class="text-textMuted text-sm mt-1">24 ส.ค. 2569</p>
+</div>
+<button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-full bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined mr-2 text-[18px]">download</span>
+                    ดาวน์โหลดรายงาน CSV
+                </button>
+</div>
+<!-- Stats Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat 1 -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full bg-teal-50 opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+<div class="flex justify-between items-start mb-4 relative z-10">
+<div class="p-2 bg-teal-50 rounded-lg text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="inline-flex items-center text-xs font-semibold text-success bg-green-50 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span> +18%
+                        </span>
+</div>
+<p class="text-textMuted text-sm font-body mb-1 relative z-10">ยอดขายวันนี้</p>
+<h3 class="text-2xl font-headline font-bold text-textMain relative z-10">฿1,240</h3>
+</div>
+<!-- Stat 2 -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+<span class="material-symbols-outlined">monitoring</span>
+</div>
+</div>
+<p class="text-textMuted text-sm font-body mb-1">ยอดขายเดือนนี้</p>
+<h3 class="text-2xl font-headline font-bold text-textMain">฿34,200</h3>
+</div>
+<!-- Stat 3 -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-orange-50 rounded-lg text-orange-500">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+</div>
+<p class="text-textMuted text-sm font-body mb-1">ผู้เข้าชม 7 วัน</p>
+<h3 class="text-2xl font-headline font-bold text-textMain">2,840</h3>
+</div>
+<!-- Stat 4 -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-purple-50 rounded-lg text-purple-600">
+<span class="material-symbols-outlined">shopping_cart_checkout</span>
+</div>
+</div>
+<p class="text-textMuted text-sm font-body mb-1">อัตราแปลงซื้อ</p>
+<h3 class="text-2xl font-headline font-bold text-textMain">3.2%</h3>
+</div>
+</div>
+<!-- Charts Section (Bento Grid Style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Line Chart Area -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 lg:col-span-2">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-headline font-semibold text-lg text-textMain">ยอดขาย 30 วันล่าสุด</h3>
+<select class="bg-gray-50 border border-gray-200 text-gray-700 text-sm rounded-lg focus:ring-primary focus:border-primary block p-2">
+<option>เดือนนี้</option>
+<option>เดือนที่แล้ว</option>
+</select>
+</div>
+<!-- Placeholder for Chart -->
+<div class="w-full h-64 bg-gray-50 rounded-lg relative overflow-hidden border border-gray-100 flex items-end px-2 pt-8 pb-4 space-x-2">
+<!-- CSS simulated chart -->
+<div class="flex-1 bg-teal-100 rounded-t-sm h-[30%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿450</div></div>
+<div class="flex-1 bg-teal-200 rounded-t-sm h-[45%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿680</div></div>
+<div class="flex-1 bg-teal-300 rounded-t-sm h-[40%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿520</div></div>
+<div class="flex-1 bg-teal-400 rounded-t-sm h-[60%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿890</div></div>
+<div class="flex-1 bg-teal-500 rounded-t-sm h-[80%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿1,200</div></div>
+<div class="flex-1 bg-teal-600 rounded-t-sm h-[75%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿1,150</div></div>
+<div class="flex-1 bg-teal-700 rounded-t-sm h-[90%] relative group"><div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">฿1,400</div></div>
+<!-- Overlay line -->
+<svg class="absolute inset-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M5,70 L20,55 L35,60 L50,40 L65,20 L80,25 L95,10" fill="none" stroke="#0F766E" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<circle cx="5" cy="70" fill="#0F766E" r="1.5"></circle>
+<circle cx="20" cy="55" fill="#0F766E" r="1.5"></circle>
+<circle cx="35" cy="60" fill="#0F766E" r="1.5"></circle>
+<circle cx="50" cy="40" fill="#0F766E" r="1.5"></circle>
+<circle cx="65" cy="20" fill="#0F766E" r="1.5"></circle>
+<circle cx="80" cy="25" fill="#0F766E" r="1.5"></circle>
+<circle cx="95" cy="10" fill="#0F766E" r="1.5"></circle>
+</svg>
+</div>
+</div>
+<!-- Donut Chart Area -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 flex flex-col">
+<h3 class="font-headline font-semibold text-lg text-textMain mb-6">ยอดขายตามหมวด</h3>
+<div class="flex-1 flex flex-col items-center justify-center">
+<!-- CSS Donut Chart -->
+<div class="relative w-40 h-40 rounded-full" style="background: conic-gradient(#0F766E 0% 45%, #F59E0B 45% 75%, #E5E7EB 75% 100%);">
+<div class="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-inner">
+<div class="text-center">
+<span class="block text-2xl font-bold font-headline text-textMain">100%</span>
+<span class="text-xs text-textMuted">ยอดรวม</span>
+</div>
+</div>
+</div>
+<!-- Legend -->
+<div class="w-full mt-8 space-y-3">
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center">
+<span class="w-3 h-3 rounded-full bg-primary mr-2"></span>
+<span>วิทยาศาสตร์</span>
+</div>
+<span class="font-semibold">45%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center">
+<span class="w-3 h-3 rounded-full bg-accent mr-2"></span>
+<span>คณิตศาสตร์</span>
+</div>
+<span class="font-semibold">30%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center">
+<span class="w-3 h-3 rounded-full bg-gray-200 mr-2"></span>
+<span>อื่นๆ</span>
+</div>
+<span class="font-semibold">25%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section (Tables & To-Do) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pb-12">
+<!-- Recent Orders Table -->
+<div class="bg-white rounded-[12px] shadow-sm border border-gray-100 lg:col-span-2 overflow-hidden flex flex-col">
+<div class="p-6 border-b border-gray-100 flex justify-between items-center bg-white">
+<h3 class="font-headline font-semibold text-lg text-textMain">ออเดอร์ล่าสุด</h3>
+<a class="text-sm font-medium text-primary hover:underline" href="#">ดูทั้งหมด</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-sm text-left">
+<thead class="text-xs text-textMuted uppercase bg-gray-50 border-b border-gray-100">
+<tr>
+<th class="px-6 py-3 font-semibold" scope="col">วันที่</th>
+<th class="px-6 py-3 font-semibold" scope="col">ผู้ซื้อ</th>
+<th class="px-6 py-3 font-semibold" scope="col">สินค้า</th>
+<th class="px-6 py-3 font-semibold text-right" scope="col">ยอด</th>
+<th class="px-6 py-3 font-semibold text-right" scope="col">รับสุทธิ</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-textMuted">24 ส.ค., 14:30</td>
+<td class="px-6 py-4 font-medium text-textMain">ครูJ***</td>
+<td class="px-6 py-4">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded bg-gray-100 mr-3 flex-shrink-0" data-alt="A small thumbnail image of a science worksheet for elementary school students. Colorful illustrations of beakers and atoms." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBugO-yZ3r8yu3QYOW39W9_0G0eDXirJ5PvE67-BPEVqpQlzFsp6zop9eVP_cF0XPhrMkVFuDAgQXslDZdLV3nEv5CtcQi2cuyGQb3j8Fx9NZ4Jp5HqwYH6S3etecGcAb48yxb9O3q6x6MJYOWgBONTvXETiBuylEj9b3r_fYr2cGMbjz1icsduqAWH0RL0xDJeWx1a91B7jHvBlGuFxxpP8xlrgRlQ7oaonUMgdccWxxJbxokbsXIxDnvMUWFYjI-3uTb6m5HCOg')"></div>
+<span class="truncate max-w-[150px]">ใบงานโครงสร้างอะตอม ม.4</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">฿59</td>
+<td class="px-6 py-4 text-right font-semibold text-primary">฿53.10</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-textMuted">24 ส.ค., 11:15</td>
+<td class="px-6 py-4 font-medium text-textMain">Pla***</td>
+<td class="px-6 py-4">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded bg-gray-100 mr-3 flex-shrink-0" data-alt="A small thumbnail image of a biology presentation template featuring cell structures." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCvsxvw8_G7tRou0nXPI1k1ycvIN-0N9mREUt4GeP4xzMG3GhMgz5PMaXBNk9kjYRLcaKru6HAiTI2Lvb4CVpD6wZ-yILBp0hhnOEV_g-vszsqIdVtx-sdgRnJhfN-BYirp1MMQ6_FyvwPnCOqtgOl47bMCICTSnepvN-wq7AOx54g5T8waL0bzSktuz3OFG-EkbzD55nYVI1B3EcNN28Z_mLWXnQ3LZrzOA3ntt-W3o0ulYo6Ji3fC5OrmNXvMtztGomJlLjZ9eQ')"></div>
+<span class="truncate max-w-[150px]">สไลด์สอนเรื่องเซลล์พืช</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">฿49</td>
+<td class="px-6 py-4 text-right font-semibold text-primary">฿44.10</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-textMuted">23 ส.ค., 20:45</td>
+<td class="px-6 py-4 font-medium text-textMain">T.Som***</td>
+<td class="px-6 py-4">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded bg-gray-100 mr-3 flex-shrink-0" data-alt="A thumbnail of a physics experiment guide with illustrations of pulleys." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDUOb7SNOtHxCXrP25K-xDrjDCO3xzrJz0JZXuX6aGbam1lMZ9kUvwi9Pk4JugMEzwC2ItTeidHorSfCxos1xjUMDPhJT1a7aupUozz0cIB5NfKecggNlTvhgyDn70fspUTt3znO-ac7V38-eyVXc-1Mnf2ldWaZegUqVOYxh7vZa2wkiohB9Pk8wMdVTD8rtG6COS17iHW-xDJSu1d3efNCstUIKS1nl7LaHtkJz54VswNBgxw4fctKV-YyNC6yBCQLzE9RHMtiA')"></div>
+<span class="truncate max-w-[150px]">คู่มือทดลองฟิสิกส์พื้นฐาน</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">฿89</td>
+<td class="px-6 py-4 text-right font-semibold text-primary">฿80.10</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-textMuted">23 ส.ค., 16:20</td>
+<td class="px-6 py-4 font-medium text-textMain">ครูนิ***</td>
+<td class="px-6 py-4">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded bg-gray-100 mr-3 flex-shrink-0" data-alt="Thumbnail of a chemistry quiz bundle with colorful test tube graphics." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDwPHNWsIfXyIoAUpolllBTLiex0N7TOZ_wkzd-KQm0U6bzf0dAPj5p5aI2BybmY-zySrwdbc5PmChABftpuabdFGIs3GxFMvsp0T-HeiRZoJerLnphVKz5IXcKjh1hLhPLVDk5Kuwdl8H7ET5QJBX8-D2Uoyj6u5--r689mDkS8n-UJ-C-UjgatdL8l9ia2Xv9icjNm1v9VJVCuVwv8hUAnuEK3L_zSGXSN1BCUDJ4gdk-M2acymyg7Hnu8MCUXhxykUD826dWhA')"></div>
+<span class="truncate max-w-[150px]">รวมข้อสอบเคมี ม.ปลาย</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">฿129</td>
+<td class="px-6 py-4 text-right font-semibold text-primary">฿116.10</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap text-textMuted">23 ส.ค., 09:05</td>
+<td class="px-6 py-4 font-medium text-textMain">K.Waan***</td>
+<td class="px-6 py-4">
+<div class="flex items-center">
+<div class="w-8 h-8 rounded bg-gray-100 mr-3 flex-shrink-0" data-alt="Thumbnail of earth science flashcards showing geology layers." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBv8GfzjNx6y9Wl0vMswzyu7yGTkJP_W2tz-Etfd_iLs7SZYaDdWeF2bJLbjOviBKqV2MVf6duxCjTyjeUNiDNmgHP6EI-2PUY6uIVhBNiWje8X-3N3Ul1ll_xIaaeGrjQb2Un0Mc_veuLLB_lOQ34fvXSc7qT_BoC16sUTW23Hd2NAb6RKjVWpS_I-DY2LjkFBbISHU03ToABSVbIGzL9ZAHxmc5l_spcSegwWlB0dPPBN5APSP9edwi-i75-FUK2X3Zp3WajcRw')"></div>
+<span class="truncate max-w-[150px]">แฟลชการ์ดวิทยาศาสตร์โลก</span>
+</div>
+</td>
+<td class="px-6 py-4 text-right">฿29</td>
+<td class="px-6 py-4 text-right font-semibold text-primary">฿26.10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- To-Do & Wallet -->
+<div class="bg-white rounded-[12px] p-6 shadow-sm border border-gray-100 flex flex-col">
+<h3 class="font-headline font-semibold text-lg text-textMain mb-4">สิ่งที่ต้องทำ</h3>
+<ul class="space-y-4 mb-8 flex-1">
+<li class="flex items-start">
+<div class="p-2 bg-red-50 rounded-lg text-[#DC2626] mr-3 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">forum</span>
+</div>
+<div>
+<p class="text-sm font-medium text-textMain flex items-center">
+                                    ตอบคำถาม 2 รายการ
+                                    <span class="ml-2 w-2 h-2 rounded-full bg-[#DC2626]"></span>
+</p>
+<a class="text-xs text-primary hover:underline mt-1 inline-block" href="#">ไปที่กล่องข้อความ</a>
+</div>
+</li>
+<li class="flex items-start">
+<div class="p-2 bg-yellow-50 rounded-lg text-yellow-600 mr-3 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">edit_document</span>
+</div>
+<div>
+<p class="text-sm font-medium text-textMain">ผลงาน 1 ฉบับเป็นฉบับร่าง</p>
+<a class="text-xs text-textMuted hover:text-primary transition-colors mt-1 inline-block" href="#">จัดการผลงาน</a>
+</div>
+</li>
+<li class="flex items-start">
+<div class="p-2 bg-teal-50 rounded-lg text-primary mr-3 mt-0.5">
+<span class="material-symbols-outlined text-[18px]">event</span>
+</div>
+<div>
+<p class="text-sm font-medium text-textMain">รอบถอดเงินถัดไป ศุกร์นี้</p>
+<p class="text-xs text-textMuted mt-1">เงินเข้าบัญชีอัตโนมัติ</p>
+</div>
+</li>
+</ul>
+<!-- Wallet Progress -->
+<div class="pt-4 border-t border-gray-100">
+<div class="flex justify-between items-end mb-2">
+<span class="text-sm font-medium text-textMuted">ยอดถอดได้</span>
+<span class="text-lg font-headline font-bold text-textMain">฿12,480</span>
+</div>
+<div class="w-full bg-gray-100 rounded-full h-2 mb-2 overflow-hidden">
+<div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+</div>
+<button class="w-full mt-3 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-teal-50 transition-colors">
+                            จัดการกระเป๋าเงิน
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

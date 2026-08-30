@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ครูเปย์ครู KruPayKru - อัปโหลดสื่อ (ขั้นตอนที่ 1)</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: "#0F766E",
+                            dark: "#0B4F4A",
+                        },
+                        accent: {
+                            DEFAULT: "#F59E0B",
+                        },
+                        success: "#16A34A",
+                        danger: "#DC2626",
+                        surface: {
+                            DEFAULT: "#FAFAF8",
+                            card: "#FFFFFF"
+                        },
+                        text: {
+                            main: "#1F2937",
+                            muted: "#6B7280"
+                        }
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        display: ["Kanit", "IBM Plex Sans Thai", "sans-serif"],
+                        body: ["Sarabun", "Noto Sans Thai", "sans-serif"],
+                        label: ["Sarabun", "Noto Sans Thai", "sans-serif"]
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #FAFAF8; color: #1F2937; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Kanit', sans-serif; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-surface">
+<!-- Side Navigation -->
+<aside class="docked full-height left-0 w-64 bg-[#0B4F4A] flex flex-col h-full py-6 space-y-2 no-border shadow-xl z-20 flex-shrink-0 hidden md:flex">
+<div class="px-6 mb-8">
+<h1 class="text-lg font-headline font-bold text-white">ครูเปย์ครู KruPayKru</h1>
+<div class="mt-4 flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">account_circle</span>
+</div>
+<div>
+<p class="text-white font-headline text-sm font-semibold">ศูนย์ดูแลผู้ขาย</p>
+<p class="text-teal-200 text-xs flex items-center gap-1">ครูตัวจริง <span class="text-accent text-[10px]">🏅</span></p>
+</div>
+</div>
+</div>
+<button class="mx-6 mb-4 bg-accent hover:bg-accent/90 text-white font-bold py-2 px-4 rounded-full shadow-sm transition-all text-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span> อัปโหลดสื่อใหม่
+        </button>
+<nav class="flex-1 px-2 overflow-y-auto space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">dashboard</span>
+<span class="font-body text-sm">แดชบอร์ด</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">receipt_long</span>
+<span class="font-body text-sm">รายการขาย</span>
+</a>
+<!-- Active Tab Intent: อัปโหลดสื่อ (Mapping to จัดการสื่อ or adding an active state for the current flow) -->
+<a class="flex items-center space-x-3 px-4 py-3 bg-[#0F766E] text-white rounded-lg mx-2 transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span class="font-body text-sm font-semibold">จัดการสื่อ</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">analytics</span>
+<span class="font-body text-sm">วิเคราะห์ข้อมูล</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">account_balance_wallet</span>
+<span class="font-body text-sm">วอลเล็ต</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform">settings</span>
+<span class="font-body text-sm">ตั้งค่า</span>
+</a>
+</nav>
+<div class="px-2 mt-auto">
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group mt-2" href="#">
+<span class="material-symbols-outlined group-hover:-translate-x-1 transition-transform">home</span>
+<span class="font-body text-sm">กลับสู่หน้าหลัก</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 transition-all group" href="#">
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">logout</span>
+<span class="font-body text-sm">ออกจากระบบ</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-surface relative">
+<!-- Top App Bar (Mobile Nav alternative + Header for this flow) -->
+<header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 px-6 py-4 flex items-center justify-between shadow-sm lg:hidden border-b border-gray-100">
+<div class="flex items-center gap-3">
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline font-bold text-primary text-xl">อัปโหลดสื่อ</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm font-semibold text-text-muted">ขั้นตอน 1 / 5</span>
+</div>
+</header>
+<!-- Main Scrollable Area -->
+<div class="flex-1 overflow-y-auto p-4 md:p-8 lg:p-12 w-full max-w-5xl mx-auto">
+<!-- Page Header & Stepper (Desktop) -->
+<div class="mb-8 hidden md:block">
+<div class="flex justify-between items-end mb-6">
+<div>
+<h2 class="text-3xl font-headline font-bold text-text-main mb-2">อัปโหลดสื่อการสอนใหม่</h2>
+<p class="text-text-muted font-body">เพิ่มรายละเอียดไฟล์และภาพประกอบเพื่อเริ่มการขาย</p>
+</div>
+</div>
+<!-- Horizontal Stepper -->
+<div class="relative flex items-center justify-between w-full mt-8 before:absolute before:inset-0 before:top-1/2 before:-translate-y-1/2 before:h-1 before:bg-gray-200 before:z-0 before:rounded-full">
+<!-- Progress Line (Active) -->
+<div class="absolute top-1/2 -translate-y-1/2 h-1 bg-primary z-0 rounded-full transition-all duration-500 w-0"></div>
+<!-- Step 1 (Active) -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-white">1</div>
+<span class="mt-2 text-xs font-semibold text-primary font-headline absolute top-full w-max text-center pt-1">ไฟล์ &amp; ปก</span>
+</div>
+<!-- Step 2 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white text-text-muted border-2 border-gray-200 flex items-center justify-center font-bold text-sm">2</div>
+<span class="mt-2 text-xs font-medium text-text-muted font-headline absolute top-full w-max text-center pt-1 hidden md:block">รายละเอียด</span>
+</div>
+<!-- Step 3 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white text-text-muted border-2 border-gray-200 flex items-center justify-center font-bold text-sm">3</div>
+<span class="mt-2 text-xs font-medium text-text-muted font-headline absolute top-full w-max text-center pt-1 hidden md:block">ราคา</span>
+</div>
+<!-- Step 4 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white text-text-muted border-2 border-gray-200 flex items-center justify-center font-bold text-sm">4</div>
+<span class="mt-2 text-xs font-medium text-text-muted font-headline absolute top-full w-max text-center pt-1 hidden md:block">พรีวิว</span>
+</div>
+<!-- Step 5 -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-10 h-10 rounded-full bg-white text-text-muted border-2 border-gray-200 flex items-center justify-center font-bold text-sm">5</div>
+<span class="mt-2 text-xs font-medium text-text-muted font-headline absolute top-full w-max text-center pt-1 hidden md:block">ยืนยัน</span>
+</div>
+</div>
+</div>
+<!-- Upload Form Content (Bento Grid Style Layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12 md:mt-16">
+<!-- Main Upload Zone (Spans 2 cols on Desktop) -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Primary File Upload -->
+<section class="bg-surface-card rounded-xl shadow-soft p-6 border border-gray-100 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-teal-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline font-semibold text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">cloud_upload</span>
+                                อัปโหลดไฟล์ผลงานหลัก
+                                <span class="text-danger">*</span>
+</h3>
+<span class="text-xs text-text-muted bg-gray-100 px-2 py-1 rounded-full">PDF, PPTX</span>
+</div>
+<!-- Drag & Drop Zone -->
+<div class="border-2 border-dashed border-primary/30 rounded-lg p-10 flex flex-col items-center justify-center text-center hover:bg-primary/5 hover:border-primary transition-all cursor-pointer relative bg-white">
+<div class="w-16 h-16 bg-teal-50 rounded-full flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined text-3xl">upload_file</span>
+</div>
+<p class="font-headline font-semibold text-text-main text-lg mb-1">ลากไฟล์มาวางที่นี่ หรือ <span class="text-primary underline">คลิกเพื่อเลือกไฟล์</span></p>
+<p class="text-sm text-text-muted font-body mb-4">รองรับไฟล์ PDF, PPTX ขนาดไม่เกิน 200MB</p>
+<!-- Hidden File Input -->
+<input accept=".pdf,.pptx" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+</div>
+</section>
+<!-- Preview/Example File Upload & Product Cover (Grid inside Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Sample File -->
+<section class="bg-surface-card rounded-xl shadow-soft p-6 border border-gray-100">
+<h3 class="font-headline font-semibold text-md mb-4 flex items-center gap-2 text-text-main">
+<span class="material-symbols-outlined text-text-muted text-sm">draft</span>
+                                ไฟล์ตัวอย่าง (ให้ดูฟรี)
+                            </h3>
+<div class="border-2 border-dashed border-gray-200 rounded-lg p-6 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-all cursor-pointer bg-white h-32 relative">
+<span class="material-symbols-outlined text-gray-400 mb-2">add_photo_alternate</span>
+<span class="text-xs text-text-muted">เพิ่มไฟล์ตัวอย่าง (PDF &lt; 10MB)</span>
+<input accept=".pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" type="file"/>
+</div>
+</section>
+<!-- Product Cover -->
+<section class="bg-surface-card rounded-xl shadow-soft p-6 border border-gray-100">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline font-semibold text-md flex items-center gap-2 text-text-main">
+<span class="material-symbols-outlined text-text-muted text-sm">wallpaper</span>
+                                    ภาพปกสินค้า <span class="text-danger">*</span>
+</h3>
+</div>
+<div class="border-2 border-dashed border-gray-200 rounded-lg p-6 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-all cursor-pointer bg-white h-32 relative group overflow-hidden">
+<!-- Placeholder Image background if selected -->
+<div class="absolute inset-0 bg-gray-100 opacity-50 group-hover:opacity-80 transition-opacity flex items-center justify-center">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-gray-400 mb-1">image</span>
+<span class="text-xs text-text-muted">อัตราส่วน 4:3 (JPG, PNG)</span>
+</div>
+</div>
+<input accept="image/jpeg, image/png" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" type="file"/>
+</div>
+</section>
+</div>
+</div>
+<!-- Side Panel (Copyright & Checklists) -->
+<div class="space-y-6">
+<!-- Copyright Checklist -->
+<section class="bg-surface-card rounded-xl shadow-soft p-6 border border-gray-100 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-16 h-16 bg-accent/10 rounded-bl-full z-0"></div>
+<h3 class="font-headline font-semibold text-lg mb-4 flex items-center gap-2 relative z-10">
+<span class="material-symbols-outlined text-accent" style="font-variation-settings: 'FILL' 1;">verified</span>
+                            ตรวจสอบลิขสิทธิ์
+                        </h3>
+<p class="text-sm text-text-muted mb-4 font-body">กรุณายืนยันว่าผลงานนี้สร้างสรรค์อย่างถูกต้องและไม่ละเมิดลิขสิทธิ์ผู้อื่น</p>
+<div class="space-y-3 font-body text-sm">
+<label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg transition-colors">
+<input class="mt-1 rounded text-primary focus:ring-primary border-gray-300" type="checkbox"/>
+<span>ฟอนต์ที่ใช้เป็นแบบ <strong>OFL (Open Font License)</strong> หรือซื้อสิทธิ์เชิงพาณิชย์แล้ว</span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg transition-colors">
+<input class="mt-1 rounded text-primary focus:ring-primary border-gray-300" type="checkbox"/>
+<span>ภาพประกอบ/กราฟิก เป็น <strong>CC0 (Creative Commons Zero)</strong> หรือออกแบบเองทั้งหมด</span>
+</label>
+<label class="flex items-start gap-3 cursor-pointer p-2 hover:bg-gray-50 rounded-lg transition-colors">
+<input class="mt-1 rounded text-primary focus:ring-primary border-gray-300" type="checkbox"/>
+<span>เนื้อหาไม่ละเมิดลิขสิทธิ์หรือคัดลอกผลงานผู้อื่นโดยไม่ได้รับอนุญาต</span>
+</label>
+</div>
+</section>
+<!-- AI Disclosure -->
+<section class="bg-surface-card rounded-xl shadow-soft p-6 border border-gray-100">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="font-headline font-semibold text-md flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-text-muted">memory</span>
+                                    การใช้ AI ช่วยสร้าง
+                                </h3>
+<p class="text-xs text-text-muted font-body w-4/5">มีการใช้เครื่องมือ AI (เช่น ChatGPT, Midjourney) เป็นส่วนผสมหลักในการสร้างสรรค์ผลงานนี้หรือไม่?</p>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer mt-1 flex-shrink-0">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-100 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</section>
+</div>
+</div>
+<!-- Sticky Bottom Actions -->
+<div class="mt-12 flex justify-between items-center border-t border-gray-200 pt-6 pb-20 md:pb-6">
+<button class="px-6 py-2.5 rounded-full text-text-muted hover:bg-gray-100 font-body text-sm transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">arrow_back</span> ยกเลิก
+                </button>
+<button class="px-8 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white font-body font-semibold text-sm shadow-md transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                    ถัดไป: ใส่รายละเอียด <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

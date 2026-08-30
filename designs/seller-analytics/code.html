@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>วิเคราะห์ข้อมูล - ศูนย์ดูแลผู้ขาย ครูเปย์ครู</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=Public+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {},
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": [
+                            "Ibm Plex Sans"
+                        ],
+                        "display": [
+                            "Ibm Plex Sans"
+                        ],
+                        "body": [
+                            "Ibm Plex Sans"
+                        ],
+                        "label": [
+                            "Public Sans"
+                        ]
+                    },
+                    "fontSize": {}
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', 'IBM Plex Sans', sans-serif;
+            background-color: #FAFAF8; /* Warm White */
+            color: #1F2937; /* Text Charcoal */
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+        
+        /* Custom Scrollbar for heatmap */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 6px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+            border-radius: 4px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden bg-[#FAFAF8]">
+<!-- SideNavBar (Seller Pages) -->
+<aside class="flex flex-col h-full py-6 space-y-2 bg-[#0B4F4A] w-64 flex-shrink-0 z-20 no-border shadow-xl font-body text-label text-white">
+<!-- Header -->
+<div class="px-6 pb-6 border-b border-[#0F766E]">
+<h1 class="text-lg font-headline font-bold text-white mb-4">ศูนย์ดูแลผู้ขาย</h1>
+<div class="flex items-center space-x-3">
+<img alt="รูปโปรไฟล์ครู" class="w-10 h-10 rounded-full border-2 border-teal-100 object-cover" data-alt="A professional headshot of a smiling Thai teacher in a smart casual outfit, well-lit studio portrait, warm and approachable expression, wearing glasses, soft blurred background with subtle educational elements like books or a chalkboard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcQa_OVZSMe5g4JPHnLOeu16qhosnUq2mUac3urJFzI1m6Ffk2Vu6eIVQ4D7DReJpd7HnahajLtmSeaEwzA7vkz5qecmhrrLRoN3WAjqqiKIIt4jkWgnZeyE4yZhEgIR7xdNpxwKcaKntudPK7ptJfpXu_day7tc5BBMcgBy63A6Wa-wcJFwA3aDheaIXIuicCOS0wKD_VHPgL6-ANGUCpJmPfKCN3OuAkApmUwEb9W_qzC_aohyc"/>
+<div>
+<p class="font-medium">ครูตัวจริง 🏅</p>
+</div>
+</div>
+</div>
+<!-- Main Navigation -->
+<nav class="flex-1 overflow-y-auto pt-4 space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 hover:bg-[#0F766E]/80 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>แดชบอร์ด</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 hover:bg-[#0F766E]/80 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>รายการขาย</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 hover:bg-[#0F766E]/80 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">upload_file</span>
+<span>จัดการสื่อ</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center space-x-3 px-4 py-3 bg-[#0F766E] text-white rounded-lg mx-2 hover:bg-[#0F766E]/80 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-bold">วิเคราะห์ข้อมูล</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 hover:bg-[#0F766E]/80 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+<span>วอลเล็ต</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-teal-100 hover:bg-[#0F766E]/50 rounded-lg mx-2 hover:bg-[#0F766E]/80 transition-all active:translate-x-1 duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>ตั้งค่า</span>
+</a>
+</nav>
+<!-- CTA & Footer Nav -->
+<div class="px-4 pt-4 border-t border-[#0F766E]">
+<button class="w-full py-2 mb-4 bg-white text-[#0F766E] font-bold rounded-full hover:bg-gray-100 transition-colors shadow-sm">
+                อัปโหลดสื่อใหม่
+            </button>
+<div class="space-y-1">
+<a class="flex items-center space-x-3 px-4 py-2 text-sm text-teal-100 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">home</span>
+<span>กลับสู่หน้าหลัก</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-2 text-sm text-teal-100 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span>ออกจากระบบ</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto p-8">
+<!-- Page Header -->
+<div class="flex justify-between items-center mb-8">
+<div>
+<h2 class="text-2xl font-headline font-bold text-[#1F2937]">วิเคราะห์ข้อมูลการขาย</h2>
+<p class="text-sm text-[#6B7280] mt-1">ภาพรวมและข้อมูลเชิงลึกสำหรับร้านค้าของคุณ</p>
+</div>
+<!-- Date Filter Pill -->
+<div class="flex items-center bg-white rounded-full px-4 py-2 shadow-sm border border-gray-100">
+<span class="material-symbols-outlined text-[#6B7280] mr-2 text-sm">calendar_month</span>
+<select class="bg-transparent text-sm font-medium text-[#1F2937] outline-none border-none focus:ring-0 cursor-pointer">
+<option>30 วันล่าสุด</option>
+<option>7 วันล่าสุด</option>
+<option>เดือนนี้</option>
+<option>ปีนี้</option>
+</select>
+</div>
+</div>
+<!-- KPIs Bento Row -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+<div class="bg-white p-6 rounded-[12px] shadow-sm flex flex-col justify-between border border-gray-50">
+<div class="flex justify-between items-start mb-2">
+<p class="text-sm font-medium text-[#6B7280]">ยอดขายรวม</p>
+<div class="p-2 bg-teal-50 rounded-lg text-[#0F766E]">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-[#1F2937]">฿45,200</h3>
+<p class="text-xs text-[#16A34A] flex items-center mt-1">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                        +12.5% เทียบกับช่วงก่อนหน้า
+                    </p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-[12px] shadow-sm flex flex-col justify-between border border-gray-50">
+<div class="flex justify-between items-start mb-2">
+<p class="text-sm font-medium text-[#6B7280]">ยอดดาวน์โหลดสื่อ</p>
+<div class="p-2 bg-blue-50 rounded-lg text-blue-600">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-[#1F2937]">1,284</h3>
+<p class="text-xs text-[#16A34A] flex items-center mt-1">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                        +8.2% เทียบกับช่วงก่อนหน้า
+                    </p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-[12px] shadow-sm flex flex-col justify-between border border-gray-50">
+<div class="flex justify-between items-start mb-2">
+<p class="text-sm font-medium text-[#6B7280]">อัตราการซื้อ (Conversion)</p>
+<div class="p-2 bg-orange-50 rounded-lg text-[#F59E0B]">
+<span class="material-symbols-outlined text-[20px]">shopping_cart_checkout</span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-[#1F2937]">4.8%</h3>
+<p class="text-xs text-[#DC2626] flex items-center mt-1">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_down</span>
+                        -0.5% เทียบกับช่วงก่อนหน้า
+                    </p>
+</div>
+</div>
+<div class="bg-white p-6 rounded-[12px] shadow-sm flex flex-col justify-between border border-gray-50">
+<div class="flex justify-between items-start mb-2">
+<p class="text-sm font-medium text-[#6B7280]">ผู้เข้าชมร้านค้า</p>
+<div class="p-2 bg-purple-50 rounded-lg text-purple-600">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</div>
+</div>
+<div>
+<h3 class="text-2xl font-bold text-[#1F2937]">28,500</h3>
+<p class="text-xs text-[#16A34A] flex items-center mt-1">
+<span class="material-symbols-outlined text-[14px] mr-1">trending_up</span>
+                        +22.1% เทียบกับช่วงก่อนหน้า
+                    </p>
+</div>
+</div>
+</div>
+<!-- Charts Grid (Bento style) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+<!-- Line Chart: Sales Trend (Spans 2 cols) -->
+<div class="bg-white p-6 rounded-[12px] shadow-sm border border-gray-50 lg:col-span-2 flex flex-col">
+<h3 class="text-lg font-bold text-[#1F2937] mb-4">แนวโน้มยอดขาย (30 วัน)</h3>
+<div class="flex-1 relative w-full h-64">
+<canvas id="salesLineChart"></canvas>
+</div>
+</div>
+<!-- Funnel Visual: Conversion -->
+<div class="bg-white p-6 rounded-[12px] shadow-sm border border-gray-50 flex flex-col">
+<h3 class="text-lg font-bold text-[#1F2937] mb-4">พฤติกรรมลูกค้า (Funnel)</h3>
+<div class="flex-1 flex flex-col justify-center space-y-4">
+<!-- Funnel Stage 1 -->
+<div class="relative w-full">
+<div class="bg-[#e0f2fe] h-12 rounded-lg flex items-center px-4 w-full justify-between">
+<span class="text-sm font-medium text-blue-900">ดูสินค้า (View)</span>
+<span class="font-bold text-blue-900">100% (28.5k)</span>
+</div>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center text-gray-300 -my-2 z-10">
+<span class="material-symbols-outlined">arrow_drop_down</span>
+</div>
+<!-- Funnel Stage 2 -->
+<div class="relative w-full flex justify-center">
+<div class="bg-[#fef3c7] h-12 rounded-lg flex items-center px-4 w-[75%] justify-between shadow-sm">
+<span class="text-sm font-medium text-amber-900">หยิบใส่ตะกร้า (Add to Cart)</span>
+<span class="font-bold text-amber-900">24% (6.8k)</span>
+</div>
+</div>
+<!-- Arrow -->
+<div class="flex justify-center text-gray-300 -my-2 z-10">
+<span class="material-symbols-outlined">arrow_drop_down</span>
+</div>
+<!-- Funnel Stage 3 -->
+<div class="relative w-full flex justify-center">
+<div class="bg-[#dcfce7] h-12 rounded-lg flex items-center px-4 w-[50%] justify-between shadow-sm">
+<span class="text-sm font-medium text-green-900">สั่งซื้อสำเร็จ (Buy)</span>
+<span class="font-bold text-green-900">4.8% (1.3k)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+<!-- Bar Chart: Downloads by Product -->
+<div class="bg-white p-6 rounded-[12px] shadow-sm border border-gray-50 flex flex-col">
+<h3 class="text-lg font-bold text-[#1F2937] mb-4">ยอดดาวน์โหลดแยกตามประเภทสื่อ</h3>
+<div class="flex-1 relative w-full h-64">
+<canvas id="downloadsBarChart"></canvas>
+</div>
+</div>
+<!-- Heatmap: Retention Cohort -->
+<div class="bg-white p-6 rounded-[12px] shadow-sm border border-gray-50 flex flex-col overflow-hidden">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-[#1F2937]">การกลับมาซื้อซ้ำ (Retention)</h3>
+<span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">รายสัปดาห์</span>
+</div>
+<div class="overflow-x-auto pb-2">
+<table class="w-full text-xs text-center border-separate border-spacing-1">
+<thead>
+<tr class="text-gray-500">
+<th class="text-left font-normal pb-2 w-24">สัปดาห์ที่เริ่ม</th>
+<th class="font-normal pb-2">W0</th>
+<th class="font-normal pb-2">W1</th>
+<th class="font-normal pb-2">W2</th>
+<th class="font-normal pb-2">W3</th>
+<th class="font-normal pb-2">W4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="text-left text-gray-600 py-2">Oct 01 - 07</td>
+<td class="bg-[#0F766E] text-white rounded">100%</td>
+<td class="bg-[#0F766E]/60 text-white rounded">45%</td>
+<td class="bg-[#0F766E]/40 text-teal-900 rounded">28%</td>
+<td class="bg-[#0F766E]/20 text-teal-900 rounded">15%</td>
+<td class="bg-[#0F766E]/10 text-teal-900 rounded">8%</td>
+</tr>
+<tr>
+<td class="text-left text-gray-600 py-2">Oct 08 - 14</td>
+<td class="bg-[#0F766E] text-white rounded">100%</td>
+<td class="bg-[#0F766E]/70 text-white rounded">52%</td>
+<td class="bg-[#0F766E]/50 text-white rounded">35%</td>
+<td class="bg-[#0F766E]/25 text-teal-900 rounded">18%</td>
+<td class="bg-gray-50 rounded"></td>
+</tr>
+<tr>
+<td class="text-left text-gray-600 py-2">Oct 15 - 21</td>
+<td class="bg-[#0F766E] text-white rounded">100%</td>
+<td class="bg-[#0F766E]/55 text-white rounded">40%</td>
+<td class="bg-[#0F766E]/30 text-teal-900 rounded">22%</td>
+<td class="bg-gray-50 rounded"></td>
+<td class="bg-gray-50 rounded"></td>
+</tr>
+<tr>
+<td class="text-left text-gray-600 py-2">Oct 22 - 28</td>
+<td class="bg-[#0F766E] text-white rounded">100%</td>
+<td class="bg-[#0F766E]/65 text-white rounded">48%</td>
+<td class="bg-gray-50 rounded"></td>
+<td class="bg-gray-50 rounded"></td>
+<td class="bg-gray-50 rounded"></td>
+</tr>
+<tr>
+<td class="text-left text-gray-600 py-2">Oct 29 - Nov 04</td>
+<td class="bg-[#0F766E] text-white rounded">100%</td>
+<td class="bg-gray-50 rounded"></td>
+<td class="bg-gray-50 rounded"></td>
+<td class="bg-gray-50 rounded"></td>
+<td class="bg-gray-50 rounded"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Top Products Table -->
+<div class="bg-white rounded-[12px] shadow-sm border border-gray-50 overflow-hidden mb-8">
+<div class="p-6 border-b border-gray-100 flex justify-between items-center">
+<h3 class="text-lg font-bold text-[#1F2937]">5 อันดับสื่อขายดี</h3>
+<a class="text-sm text-[#0F766E] hover:underline" href="#">ดูทั้งหมด</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm text-gray-600">
+<thead class="bg-gray-50 text-gray-500 uppercase text-xs">
+<tr>
+<th class="px-6 py-4 font-medium">ชื่อสื่อการสอน</th>
+<th class="px-6 py-4 font-medium">ราคา</th>
+<th class="px-6 py-4 font-medium">ยอดขาย (ชิ้น)</th>
+<th class="px-6 py-4 font-medium">รายได้</th>
+<th class="px-6 py-4 font-medium text-right">แนวโน้ม</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100">
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Thumb" class="w-12 h-9 rounded object-cover" data-alt="Thumbnail image of an educational presentation slide deck, colorful and engaging design for primary school, focusing on Thai language consonants, clear typography, playful illustrations." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAGjQelHIWlSz128ZI1unXezTPCg4OZQuOWf9FMOC5cD_zQrbLfIyAYlvy8SjXhf8vxSJkjnsUKgCLQxRZPa4VmW3rbaigkwBEAYp_3HjMe2UGSXN4-gO_38gMvyIBE1VbdrAuCagbceBfTd-d4jcdP8XbEWyMBCciygrExIp9vLOkUnBSaqUQJITFUJGNM7IryCStndTXnEu7bkFMqA34yf9i3C-9OYOzJJsdYQ2J7OrZ4Sudwug"/>
+<span class="font-medium text-gray-800">ชุดสไลด์สอน พยัญชนะไทย ป.1 (มีส่วนผสม AI)</span>
+</td>
+<td class="px-6 py-4">฿150</td>
+<td class="px-6 py-4">342</td>
+<td class="px-6 py-4 font-medium text-gray-900">฿51,300</td>
+<td class="px-6 py-4 text-right text-green-600">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Thumb" class="w-12 h-9 rounded object-cover" data-alt="Thumbnail image of a printable worksheet bundle for primary math, black and white clean layout, cute borders, subtraction and addition problems." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjyURDzZ-AChKEliXf7_5OUxamMRrNSdjIhf3Ku64gq44UpfSXupza7zpKMWmq9mfxq4RF_DFW_lWt-jGI3JRLl4KN6vH6EaeZe7CD5l6WEnzbbNi37JEANN2oRLiPLc9l_dHWAQTKyBn2o4psclgZFM4AqabqEGbnAHL5ZhLTxewUK9bAljnRVk8WEyIt2rdb36HpNHSSaalRLc42qpfktdf8fAInWIE_7O8xriYD2BoLqSlpKRc"/>
+<span class="font-medium text-gray-800">ใบงานคณิตศาสตร์ ป.3 บวกลบระคน</span>
+</td>
+<td class="px-6 py-4">฿99</td>
+<td class="px-6 py-4">285</td>
+<td class="px-6 py-4 font-medium text-gray-900">฿28,215</td>
+<td class="px-6 py-4 text-right text-green-600">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Thumb" class="w-12 h-9 rounded object-cover" data-alt="Thumbnail image of interactive digital flashcards, vibrant colors, science topic covering solar system planets, engaging visual style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAKEJ4-MXR8I66247EOHVVhDQebkqJg9uv4KhK2OEFRkipUNzJtSTWN0lpzLx4PM7Xt1XDaP6En49jyIfsvMBdUqVwxalymlQy0zg8cypa7R6mZVb-2D15OGxLbJ4dlChDdJOufr7RWmwldZQWTaqXbqzwY7RJzeBBIw2qQYLinnVCXGFN9ZXbhyH2lUi5dL1S-ZvlGear4tLfSSCFo1smWfq8nM4hH4kFNHtPJyJDt58-qz7WeamA"/>
+<span class="font-medium text-gray-800">แฟลชการ์ด ระบบสุริยะจักรวาล</span>
+</td>
+<td class="px-6 py-4">฿120</td>
+<td class="px-6 py-4">198</td>
+<td class="px-6 py-4 font-medium text-gray-900">฿23,760</td>
+<td class="px-6 py-4 text-right text-red-500">
+<span class="material-symbols-outlined text-[16px]">trending_down</span>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 flex items-center space-x-3">
+<div class="w-12 h-9 rounded bg-orange-100 flex items-center justify-center text-orange-500 text-xs font-bold border border-orange-200">ฟรี</div>
+<span class="font-medium text-gray-800">แผนการสอน วิทยาศาสตร์ ม.1 (ตัวอย่าง)</span>
+</td>
+<td class="px-6 py-4">฿0</td>
+<td class="px-6 py-4">850</td>
+<td class="px-6 py-4 font-medium text-gray-900">฿0</td>
+<td class="px-6 py-4 text-right text-gray-400">-</td>
+</tr>
+<tr class="hover:bg-gray-50 transition-colors">
+<td class="px-6 py-4 flex items-center space-x-3">
+<img alt="Thumb" class="w-12 h-9 rounded object-cover" data-alt="Thumbnail image of a classroom decoration pack, printable posters, positive affirmation quotes in Thai, pastel aesthetic, minimalist." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-6pvn0BxjDFcYnYCXggFKC73KjK05TlIG62qPynxMPZ5XFEK2DABjTvCi79mZ0MAMY177OLarEXBmNAK7BTvDCdAtid60ctXVXR-4X3w8hFWJPPwtu33AncbZkvdu-iemO-gSTWjXbFC1-1keaNfBXx6s4Bi7umezDl0aIwC-te12YCE3H0UvrDSM8f8zV1wc_q4JtkaeWib04KkXV3kBFTDv4ixh6oFzXCeRa6iqyB_7EYSc_OQ"/>
+<span class="font-medium text-gray-800">โปสเตอร์ตกแต่งห้องเรียน เชิงบวก</span>
+</td>
+<td class="px-6 py-4">฿59</td>
+<td class="px-6 py-4">145</td>
+<td class="px-6 py-4 font-medium text-gray-900">฿8,555</td>
+<td class="px-6 py-4 text-right text-green-600">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- Chart JS Initialization -->
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Line Chart: Sales Trend
+            const ctxLine = document.getElementById('salesLineChart').getContext('2d');
+            
+            // Generate some dummy data for 30 days
+            const labels30 = Array.from({length: 30}, (_, i) => `Oct ${i+1}`);
+            const dataSales = Array.from({length: 30}, () => Math.floor(Math.random() * 5000) + 1000);
+            
+            new Chart(ctxLine, {
+                type: 'line',
+                data: {
+                    labels: labels30,
+                    datasets: [{
+                        label: 'ยอดขาย (บาท)',
+                        data: dataSales,
+                        borderColor: '#0F766E', // Primary Teal
+                        backgroundColor: 'rgba(15, 118, 110, 0.1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#0F766E',
+                        pointBorderWidth: 2,
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                        fill: true,
+                        tension: 0.4 // Smooth curves
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1F2937',
+                            padding: 12,
+                            titleFont: { family: 'IBM Plex Sans' },
+                            bodyFont: { family: 'IBM Plex Sans' },
+                            displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    return '฿' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                maxTicksLimit: 7,
+                                font: { family: 'Public Sans', size: 12 },
+                                color: '#6B7280'
+                            }
+                        },
+                        y: {
+                            grid: { color: '#f3f4f6', drawBorder: false },
+                            ticks: {
+                                font: { family: 'Public Sans', size: 12 },
+                                color: '#6B7280',
+                                callback: function(value) {
+                                    return '฿' + (value / 1000) + 'k';
+                                }
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                }
+            });
+
+            // Bar Chart: Downloads by Category
+            const ctxBar = document.getElementById('downloadsBarChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['ใบงาน', 'สไลด์', 'แผนการสอน', 'ข้อสอบ', 'สื่อตกแต่ง', 'อื่นๆ'],
+                    datasets: [{
+                        label: 'ยอดดาวน์โหลด',
+                        data: [450, 320, 210, 180, 90, 34],
+                        backgroundColor: [
+                            'rgba(15, 118, 110, 0.9)', // Teal
+                            'rgba(245, 158, 11, 0.8)', // Marigold
+                            'rgba(37, 99, 235, 0.8)', // Blue
+                            'rgba(22, 163, 74, 0.8)', // Green
+                            'rgba(220, 38, 38, 0.8)', // Red
+                            'rgba(156, 163, 175, 0.8)'  // Gray
+                        ],
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1F2937',
+                            titleFont: { family: 'IBM Plex Sans' },
+                            bodyFont: { family: 'IBM Plex Sans' },
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { family: 'Public Sans' },
+                                color: '#4B5563'
+                            }
+                        },
+                        y: {
+                            grid: { color: '#f3f4f6' },
+                            beginAtZero: true,
+                            ticks: {
+                                font: { family: 'Public Sans' },
+                                color: '#6B7280'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body></html>
