@@ -37,11 +37,13 @@ export default async function EditProductPage({
     throw e;
   }
 
-  const [productTypes, subjects, grades, curricula] = await Promise.all([
+  const [productTypes, subjects, grades, curricula, topics, exams] = await Promise.all([
     prisma.productType.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.subject.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.grade.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.curriculum.findMany({ orderBy: { id: "asc" } }),
+    prisma.topic.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, include: { subject: true } }),
+    prisma.exam.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
   ]);
 
   const editable = ["DRAFT", "NEEDS_CHANGES", "REJECTED"].includes(product.status);
@@ -105,12 +107,16 @@ export default async function EditProductPage({
           curriculumId: product.curriculumId,
           price: product.price.toNumber(),
           tags: product.tags.map((t) => t.tag.name).join(", "),
+          topicId: product.topicId,
+          examId: product.examId,
         }}
         options={{
           productTypes: productTypes.map((t) => ({ id: t.id, name: t.nameTh, code: t.code })),
           subjects: subjects.map((s) => ({ id: s.id, name: s.nameTh, code: s.code })),
           grades: grades.map((g) => ({ id: g.id, name: g.nameTh, group: g.group, code: g.code })),
           curricula: curricula.map((c) => ({ id: c.id, name: c.nameTh })),
+          topics: topics.map((t) => ({ id: t.id, name: t.nameTh, subjectId: t.subjectId })),
+          exams: exams.map((e) => ({ id: e.id, name: e.nameTh })),
         }}
         disabled={!editable}
       />

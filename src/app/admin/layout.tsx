@@ -4,11 +4,18 @@ import { requirePermission } from "@/lib/session";
 import { logoutAction } from "@/app/(auth)/actions";
 
 const NAV = [
-  { href: "/admin", icon: "dashboard", label: "หน้าแรกแดชบอร์ด" },
-  { href: "/admin/moderation", icon: "fact_check", label: "คิวตรวจสอบสื่อ" },
+  { href: "/admin", icon: "dashboard", label: "แดชบอร์ด" },
+  { href: "/admin/moderation", icon: "fact_check", label: "ตรวจสอบสื่อ" },
+  { href: "/admin/users", icon: "group", label: "สมาชิก" },
+  { href: "/admin/creators", icon: "storefront", label: "ผู้ขาย" },
+  { href: "/admin/orders", icon: "receipt_long", label: "คำสั่งซื้อ" },
+  { href: "/admin/payments", icon: "credit_card", label: "การชำระเงิน" },
+  { href: "/admin/finance", icon: "payments", label: "การเงิน/ถอน" },
   { href: "/admin/reports", icon: "report", label: "รายงานปัญหา" },
-  { href: "/admin/finance", icon: "payments", label: "การเงิน" },
-  { href: "/admin/analytics", icon: "query_stats", label: "สถิติและ Funnel" },
+  { href: "/admin/taxonomy", icon: "category", label: "Taxonomy" },
+  { href: "/admin/ai", icon: "auto_awesome", label: "AI Usage" },
+  { href: "/admin/audit", icon: "history", label: "Audit Log" },
+  { href: "/admin/analytics", icon: "query_stats", label: "สถิติ Funnel" },
 ];
 
 // TASK-053: Admin dashboard shell — sidebar จาก designs/admin-dashboard (Stitch)

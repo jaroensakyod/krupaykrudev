@@ -121,6 +121,36 @@ async function main() {
     });
   }
 
+  // Exam taxonomy (PRD §11)
+  const EXAMS: Array<[string, string]> = [
+    ["TGAT", "TGAT"], ["TPAT", "TPAT"], ["A_LEVEL", "A-Level"],
+    ["SOWON", "สอวน."], ["ENTRANCE", "Entrance/Admission"], ["SCHOOL_EXAM", "ข้อสอบโรงเรียน"], ["OTHER_EXAM", "อื่น ๆ"],
+  ];
+  for (let i = 0; i < EXAMS.length; i++) {
+    const [code, nameTh] = EXAMS[i];
+    await prisma.exam.upsert({ where: { code }, update: { nameTh, sortOrder: i }, create: { code, nameTh, sortOrder: i } });
+  }
+
+  // Hierarchical topics ตัวอย่างต่อวิชาหลัก (เพิ่มได้ผ่าน Admin ภายหลัง)
+  const TOPICS: Record<string, string[]> = {
+    MATH: ["จำนวนและพีชคณิต", "การวัดและเรขาคณิต", "สถิติและความน่าจะเป็น"],
+    SCIENCE: ["ฟิสิกส์", "เคมี", "ชีววิทยา", "โลก ดาราศาสตร์ และอวกาศ", "วิทยาศาสตร์ธรรมชาติ"],
+    THAI: ["การอ่าน", "การเขียน", "นิทานและวรรณคดี", "ไวยากรณ์"],
+    ENGLISH: ["Vocabulary", "Grammar", "Reading", "Speaking"],
+    SOCIAL: ["ประวัติศาสตร์", "ภูมิศาสตร์", "เศรษฐศาสตร์", "การเมืองการปกครอง"],
+    COMPUTER: ["Coding/Programming", "เทคโนโลยีสารสนเทศ", "ดิจิทัลลิเทอราซี"],
+  };
+  for (const [subjectCode, names] of Object.entries(TOPICS)) {
+    const subject = await prisma.subject.findUnique({ where: { code: subjectCode } });
+    if (!subject) continue;
+    for (let i = 0; i < names.length; i++) {
+      const existing = await prisma.topic.findFirst({ where: { subjectId: subject.id, nameTh: names[i], parentId: null } });
+      if (!existing) {
+        await prisma.topic.create({ data: { subjectId: subject.id, nameTh: names[i], sortOrder: i } });
+      }
+    }
+  }
+
   // Commission rule — default 15% (แก้ได้ผ่าน Admin ภายหลัง PRD §37)
   const feeCount = await prisma.platformFeeRule.count({ where: { isActive: true } });
   if (feeCount === 0) {

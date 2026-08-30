@@ -14,6 +14,10 @@ type Params = {
   subject?: string;
   grade?: string;
   type?: string;
+  exam?: string;
+  min?: string;
+  max?: string;
+  rating?: string;
   sort?: string;
   page?: string;
 };
@@ -41,12 +45,28 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   const subjectCode = sp.subject ?? norm.subjectCode;
   const gradeCode = sp.grade ?? norm.gradeCode;
   const typeCode = sp.type;
-  const sort = (sp.sort as "new" | "price-asc" | "price-desc" | undefined) ?? "new";
+  const examCode = sp.exam;
+  const minPrice = sp.min ? Number(sp.min) : undefined;
+  const maxPrice = sp.max ? Number(sp.max) : undefined;
+  const ratingMin = sp.rating ? Number(sp.rating) : undefined;
+  const sort = (sp.sort as "relevance" | "new" | "price-asc" | "price-desc" | undefined) ?? "relevance";
   const page = Number(sp.page ?? "1") || 1;
 
   const session = await getSession();
   const [result, subjects, grades, types] = await Promise.all([
-    searchProducts({ q, cleanedText: norm.cleanedText, subjectCode, gradeCode, typeCode, sort, page }),
+    searchProducts({
+    q,
+    cleanedText: norm.cleanedText,
+    subjectCode,
+    gradeCode,
+    typeCode,
+    examCode,
+    minPrice,
+    maxPrice,
+    ratingMin,
+    sort,
+    page,
+  }),
     prisma.subject.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.grade.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
     prisma.productType.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } }),
@@ -89,6 +109,10 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
           subjectCode={subjectCode}
           gradeCode={gradeCode}
           typeCode={typeCode}
+          examCode={examCode}
+          minPrice={sp.min}
+          maxPrice={sp.max}
+          ratingMin={sp.rating}
         />
 
         {/* Results */}

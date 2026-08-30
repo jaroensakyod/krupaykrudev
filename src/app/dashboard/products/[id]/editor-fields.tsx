@@ -1,10 +1,11 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { MaterialIcon } from "@/components/material-icon";
 import { saveDraftAction } from "../actions";
 
 type Option = { id: number; name: string; code?: string };
+type TopicOption = { id: number; name: string; subjectId: number };
 
 type AiMetadataResult = {
   suggestedTitle: string;
@@ -35,16 +36,21 @@ export function EditorFields({
     curriculumId: number | null;
     price: number;
     tags: string;
+    topicId: number | null;
+    examId: number | null;
   };
   options: {
     productTypes: Option[];
     subjects: Option[];
     grades: Array<Option & { group: string | null }>;
     curricula: Option[];
+    topics: TopicOption[];
+    exams: Option[];
   };
   disabled: boolean;
 }) {
   const [state, formAction, pending] = useActionState(saveDraftAction, {} as { error?: string; saved?: boolean });
+  const [subjectId, setSubjectId] = useState(product.subjectId);
 
   // TASK-049: AI assistance — เติมฟอร์มแล้วให้ Creator ตรวจสอบ/แก้ไขเอง (PRD §19)
   const [aiLoading, setAiLoading] = useState(false);
@@ -56,6 +62,20 @@ export function EditorFields({
     keywords: string[];
     confidence: number;
   } | null>(null);
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const dirtyRef = useRef(false);
+  // §87: auto-save draft ทุก 60 วินาทีเมื่อมีการแก้ไข
+  useEffect(() => {
+    if (disabled) return;
+    const timer = setInterval(() => {
+      if (dirtyRef.current && formRef.current) {
+        dirtyRef.current = false;
+        formRef.current.requestSubmit();
+      }
+    }, 60_000);
+    return () => clearInterval(timer);
+  }, [disabled]);
 
   const titleRef = useRef<HTMLInputElement>(null);
   const shortRef = useRef<HTMLInputElement>(null);
@@ -161,7 +181,14 @@ export function EditorFields({
         </div>
       )}
 
-      <form action={formAction} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 space-y-6">
+      <form
+        action={formAction}
+        className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 space-y-6"
+        onChange={() => {
+          dirtyRef.current = true;
+        }}
+        ref={formRef}
+      >
         <input name="productId" type="hidden" value={product.id} />
 
         {state.error && (
@@ -249,11 +276,12 @@ export function EditorFields({
             </label>
             <select
               className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary"
-              defaultValue={product.subjectId}
               disabled={disabled}
               id="subjectId"
               name="subjectId"
+              onChange={(e) => setSubjectId(Number(e.target.value))}
               ref={subjectRef}
+              value={subjectId}
             >
               {options.subjects.map((s) => (
                 <option key={s.id} value={s.id}>

@@ -80,6 +80,8 @@ export type UpdateDraftInput = {
   subjectId: number;
   primaryGradeId: number;
   curriculumId?: number | null;
+  topicId?: number | null;
+  examId?: number | null;
   price: number;
   tags?: string[];
 };
@@ -118,6 +120,8 @@ export async function updateDraftProduct(
         subjectId: input.subjectId,
         primaryGradeId: input.primaryGradeId,
         curriculumId: input.curriculumId ?? null,
+        topicId: input.topicId ?? null,
+        examId: input.examId ?? null,
         price: input.price,
       },
     });

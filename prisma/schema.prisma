@@ -110,6 +110,7 @@ model Topic {
   subject  Subject @relation(fields: [subjectId], references: [id])
   parent   Topic?  @relation("TopicTree", fields: [parentId], references: [id])
   children Topic[] @relation("TopicTree")
+  products Product[]
 
   @@index([subjectId])
   @@map("topics")
@@ -123,6 +124,19 @@ model Curriculum {
   products Product[]
 
   @@map("curricula")
+}
+
+// Exam taxonomy (PRD §11: TGAT/TPAT/A-Level/สอวน./Entrance/School Exam/Other)
+model Exam {
+  id     Int    @id @default(autoincrement())
+  code   String @unique
+  nameTh String @map("name_th")
+  sortOrder Int @default(0) @map("sort_order")
+  isActive Boolean @default(true) @map("is_active")
+
+  products Product[]
+
+  @@map("exams")
 }
 
 model Tag {
@@ -146,6 +160,8 @@ model Product {
   subjectId        Int               @map("subject_id")
   primaryGradeId   Int               @map("primary_grade_id")
   curriculumId     Int?              @map("curriculum_id")
+  topicId          Int?              @map("topic_id")
+  examId           Int?              @map("exam_id")
   difficulty       String?
   language         String            @default("th")
   price            Decimal           @default(0) @db.Decimal(10, 2)
@@ -163,6 +179,8 @@ model Product {
   subject     Subject        @relation(fields: [subjectId], references: [id])
   grade       Grade          @relation(fields: [primaryGradeId], references: [id])
   curriculum  Curriculum?    @relation(fields: [curriculumId], references: [id])
+  topic       Topic?         @relation(fields: [topicId], references: [id])
+  exam        Exam?          @relation(fields: [examId], references: [id])
   versions    ProductVersion[]
   tags        ProductTag[]
   copyrightDeclarations CopyrightDeclaration[]

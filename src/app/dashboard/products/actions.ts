@@ -42,6 +42,8 @@ const updateSchema = z.object({
   subjectId: z.coerce.number().int().positive(),
   primaryGradeId: z.coerce.number().int().positive(),
   curriculumId: z.coerce.number().int().positive().nullable(),
+  topicId: z.coerce.number().int().positive().nullable(),
+  examId: z.coerce.number().int().positive().nullable(),
   price: z.coerce.number().min(0).max(100000),
   tags: z.array(z.string()).default([]),
 });
@@ -62,6 +64,8 @@ export async function saveDraftAction(
     subjectId: formData.get("subjectId"),
     primaryGradeId: formData.get("primaryGradeId"),
     curriculumId: curriculumRaw ? Number(curriculumRaw) : null,
+    topicId: formData.get("topicId") ? Number(formData.get("topicId")) : null,
+    examId: formData.get("examId") ? Number(formData.get("examId")) : null,
     price: formData.get("price"),
     tags: String(formData.get("tagsInput") ?? "")
       .split(",")

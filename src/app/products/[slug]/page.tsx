@@ -7,6 +7,7 @@ import { ProductGridCard } from "@/components/product-grid-card";
 import { addToCartAction } from "@/app/cart/actions";
 import { getProductReviews, getProductRating, toggleWishlist } from "@/lib/reviews";
 import { toggleWishlistAction } from "@/app/account/actions";
+import { ReportFields } from "./report/report-fields";
 import { trackEvent } from "@/lib/analytics";
 import { getSession } from "@/lib/session";
 
@@ -44,8 +45,24 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const cover = coverUrlOf(product);
   const mainFile = product.files.find((f) => f.fileRole === "ORIGINAL");
 
+  // §58: structured data
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.shortDescription ?? product.description ?? undefined,
+    brand: { "@type": "Brand", name: "ครูเปย์ครู KruPayKru" },
+    offers: {
+      "@type": "Offer",
+      price: product.price.toNumber(),
+      priceCurrency: product.currency,
+      availability: "https://schema.org/InStock",
+    },
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav className="text-sm text-text-muted mb-6 flex items-center gap-1.5">
         <Link href="/" className="hover:text-primary">หน้าแรก</Link>
         <MaterialIcon name="chevron_right" className="text-base" />
@@ -147,9 +164,23 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <Link href={`/search?grade=${product.grade.code}`} className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs hover:border-primary">
               {product.grade.nameTh}
             </Link>
+            {product.topic && (
+              <span className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs">{product.topic.nameTh}</span>
+            )}
+            {product.exam && (
+              <Link href={`/search?exam=${product.exam.code}`} className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs hover:border-primary">
+                สอบเข้า {product.exam.nameTh}
+              </Link>
+            )}
             {product.curriculum && (
               <span className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs">{product.curriculum.nameTh}</span>
             )}
+            <span className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs">
+              {product.files.length} ไฟล์ · อัปเดต {product.updatedAt.toLocaleDateString("th-TH")}
+            </span>
+            <span className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs">
+              สิทธิ์ใช้งาน: ส่วนบุคคล (สอนในชั้นเรียน)
+            </span>
             {product.tags.map(({ tag }) => (
               <Link key={tag.id} href={`/search?q=${encodeURIComponent(tag.name)}`} className="px-3 py-1 bg-gray-50 border border-gray-200 rounded-full text-xs hover:border-primary">
                 #{tag.name}
@@ -166,6 +197,17 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </div>
+
+      {/* TASK-055: report */}
+      <details className="mt-10 max-w-3xl">
+        <summary className="text-xs text-text-muted cursor-pointer hover:text-danger flex items-center gap-1">
+          <MaterialIcon name="flag" className="text-sm" />
+          พบปัญหากับสื่อนี้? แจ้งรายงาน
+        </summary>
+        <div className="mt-3 bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <ReportFields productId={product.id} />
+        </div>
+      </details>
 
       {/* Reviews (TASK-091) */}
       <section className="mt-12 max-w-3xl">

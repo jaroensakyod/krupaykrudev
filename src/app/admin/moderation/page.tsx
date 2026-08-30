@@ -1,6 +1,7 @@
 import { MaterialIcon } from "@/components/material-icon";
 import { requirePermission } from "@/lib/session";
 import { getModerationQueue } from "@/lib/trust";
+import { prisma } from "@/lib/prisma";
 import { moderateAction } from "./actions";
 
 export const metadata = { title: "คิวตรวจสอบสื่อ" };
@@ -13,6 +14,28 @@ export default async function ModerationQueuePage({
   const session = await requirePermission("moderation:decide");
   const { done, error } = await searchParams;
   const queue = await getModerationQueue();
+
+  // §53: duplicate hash matches + AI suggestions ต่อสินค้า
+  const enriched = await Promise.all(
+    queue.map(async (product) => {
+      const files = await prisma.productFile.findMany({ where: { productId: product.id }, select: { sha256Hash: true } });
+      const duplicates: string[] = [];
+      for (const f of files) {
+        const others = await prisma.productFile.findMany({
+          where: { sha256Hash: f.sha256Hash, productId: { not: product.id } },
+          select: { productId: true },
+          take: 3,
+        });
+        duplicates.push(...others.map((o) => o.productId));
+      }
+      const aiJobs = await prisma.aiJob.findMany({
+        where: { entityType: "product", entityId: product.id, status: "COMPLETED" },
+        orderBy: { createdAt: "desc" },
+        take: 2,
+      });
+      return { product, duplicates: [...new Set(duplicates)], aiJobs };
+    }),
+  );
 
   return (
     <div>
@@ -38,12 +61,12 @@ export default async function ModerationQueuePage({
         </div>
       ) : (
         <div className="space-y-4">
-          {queue.map((product) => (
+          {enriched.map(({ product, duplicates, aiJobs }) => (
             <div key={product.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Product info */}
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <h2 className="font-headline font-bold text-lg">{product.title}</h2>
                     {product.copyrightDeclarations.length > 0 ? (
                       <span className="text-[10px] text-green-700 bg-green-50 border border-green-200 px-1.5 rounded">
@@ -54,7 +77,29 @@ export default async function ModerationQueuePage({
                         ✗ ไม่มีประกาศลิขสิทธิ์
                       </span>
                     )}
+                    {duplicates.length > 0 && (
+                      <span className="text-[10px] text-red-700 bg-red-100 border border-red-300 px-1.5 rounded font-bold">
+                        ⚠ ไฟล์ซ้ำกับสินค้าอื่น {duplicates.length} รายการ
+                      </span>
+                    )}
                   </div>
+                  {aiJobs.length > 0 && (
+                    <div className="mb-3 text-xs bg-primary-50 border border-primary-100 rounded-lg p-3 space-y-1">
+                      <p className="font-bold text-primary flex items-center gap-1">
+                        <span className="material-symbols-outlined text-sm">auto_awesome</span> คำแนะนำจาก AI
+                      </p>
+                      {aiJobs.map((j) => (
+                        <details key={j.id}>
+                          <summary className="cursor-pointer text-text-muted">
+                            {j.taskType} (มั่นใจ {Math.round((j.confidence ?? 0) * 100)}%)
+                          </summary>
+                          <pre className="mt-1 text-[10px] bg-white rounded p-2 overflow-x-auto">
+                            {JSON.stringify(j.outputJson, null, 1)}
+                          </pre>
+                        </details>
+                      ))}
+                    </div>
+                  )}
                   <p className="text-sm text-text-muted mb-3">{product.shortDescription ?? "—"}</p>
                   <div className="flex flex-wrap gap-2 text-xs">
                     <span className="px-2 py-1 bg-gray-50 border border-gray-200 rounded">
@@ -76,6 +121,11 @@ export default async function ModerationQueuePage({
                     {product.creator.verificationStatus === "UNVERIFIED"
                       ? "ยังไม่ยืนยันตัวตน"
                       : product.creator.verificationStatus}
+                    {duplicates.length > 0 && (
+                      <span className="block mt-1 text-red-700">
+                        ซ้ำกับ: {duplicates.map((d) => d.slice(0, 8)).join(", ")}
+                      </span>
+                    )}
                   </p>
                 </div>
 

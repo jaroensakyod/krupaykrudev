@@ -9,11 +9,23 @@ export type SearchParams = {
   subjectCode?: string;
   gradeCode?: string;
   typeCode?: string;
-  sort?: "new" | "price-asc" | "price-desc";
+  examCode?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  ratingMin?: number; // 4, 3, ... (มีรีวิวเฉลี่ย >= ค่านี้)
+  sort?: "relevance" | "new" | "price-asc" | "price-desc";
   page?: number;
 };
 
 const PAGE_SIZE = 12;
+
+const relInclude = {
+  creator: { select: { displayName: true, slug: true } },
+  productType: true,
+  subject: true,
+  grade: true,
+  files: { where: { fileRole: { in: ["ORIGINAL", "COVER"] as const } }, include: { preview: true }, take: 1 },
+} satisfies Prisma.ProductInclude;
 
 /** TASK-063/065/066: search + filters + sorting — เฉพาะ PUBLISHED + PUBLIC */
 export async function searchProducts(params: SearchParams) {
@@ -42,7 +54,21 @@ export async function searchProducts(params: SearchParams) {
       ? [{ price: "asc" }, { createdAt: "desc" }]
       : params.sort === "price-desc"
         ? [{ price: "desc" }, { createdAt: "desc" }]
-        : [{ createdAt: "desc" }]; // "new" / popular fallback
+        : [{ createdAt: "desc" }]; // "new" / relevance fallback ด้านล่าง
+
+  // §27 Relevance sort: title ตรงมาก่อน แล้วคนอื่น (ใช้ V1 rule-based)
+  if (params.sort === "relevance" && textQuery) {
+    const products = await prisma.product.findMany({ where: { ...where }, orderBy, take: 48, include: relInclude });
+    const titleHit = products.filter((p) => p.title.toLowerCase().includes(textQuery.toLowerCase()));
+    const rest = products.filter((p) => !titleHit.includes(p));
+    const merged = [...titleHit, ...rest];
+    return {
+      total: await prisma.product.count({ where }),
+      page,
+      totalPages: Math.max(1, Math.ceil((await prisma.product.count({ where })) / PAGE_SIZE)),
+      products: merged.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+    };
+  }
 
   const [total, products] = await Promise.all([
     prisma.product.count({ where }),
@@ -104,6 +130,8 @@ export async function getPublishedProduct(slug: string) {
       subject: true,
       grade: true,
       curriculum: true,
+      topic: true,
+      exam: true,
       tags: { include: { tag: true } },
       files: { include: { preview: true }, orderBy: { createdAt: "asc" } },
     },

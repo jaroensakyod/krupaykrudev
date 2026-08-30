@@ -14,6 +14,10 @@ export function SearchFilters({
   subjectCode,
   gradeCode,
   typeCode,
+  examCode,
+  minPrice,
+  maxPrice,
+  ratingMin,
 }: {
   q: string;
   subjects: Option[];
@@ -22,6 +26,10 @@ export function SearchFilters({
   subjectCode?: string;
   gradeCode?: string;
   typeCode?: string;
+  examCode?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  ratingMin?: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -84,6 +92,24 @@ export function SearchFilters({
                   {t.nameTh}
                 </option>
               ))}
+            </select>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <p className="text-xs font-bold mb-1">ราคาต่ำสุด</p>
+              <input className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm" defaultValue={minPrice} min={0} name="min" placeholder="0" type="number" />
+            </div>
+            <div>
+              <p className="text-xs font-bold mb-1">ราคาสูงสุด</p>
+              <input className="w-full px-2 py-2 border border-gray-300 rounded-lg text-sm" defaultValue={maxPrice} min={0} name="max" placeholder="500" type="number" />
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-bold mb-2">คะแนนรีวิว</p>
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" defaultValue={ratingMin ?? ""} name="rating">
+              <option value="">ทั้งหมด</option>
+              <option value="4">4★ ขึ้นไป</option>
+              <option value="3">3★ ขึ้นไป</option>
             </select>
           </div>
           <button
