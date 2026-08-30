@@ -32,6 +32,171 @@ enum CreatorVerificationStatus {
   RESTRICTED
 }
 
+// ── Catalog (Phase 2) ───────────────────────────────────────────
+
+enum ProductStatus {
+  DRAFT
+  PROCESSING
+  READY_FOR_REVIEW
+  UNDER_REVIEW
+  PUBLISHED
+  REJECTED
+  NEEDS_CHANGES
+  SUSPENDED
+  ARCHIVED
+}
+
+enum ModerationStatus {
+  NOT_SUBMITTED
+  PENDING
+  APPROVED
+  REJECTED
+  NEEDS_CHANGES
+}
+
+enum ProductVisibility {
+  PRIVATE
+  UNLISTED
+  PUBLIC
+}
+
+// Taxonomy — configurable via Admin, never hard-coded in UI (PRD §10-11)
+model ProductType {
+  id        Int     @id @default(autoincrement())
+  code      String  @unique
+  nameTh    String  @map("name_th")
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  products Product[]
+
+  @@map("product_types")
+}
+
+model Subject {
+  id        Int     @id @default(autoincrement())
+  code      String  @unique
+  nameTh    String  @map("name_th")
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  topics  Topic[]
+  products Product[]
+
+  @@map("subjects")
+}
+
+model Grade {
+  id        Int     @id @default(autoincrement())
+  code      String  @unique
+  nameTh    String  @map("name_th")
+  group     String?
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  products Product[]
+
+  @@map("grades")
+}
+
+model Topic {
+  id        Int     @id @default(autoincrement())
+  subjectId Int     @map("subject_id")
+  parentId  Int?    @map("parent_id")
+  nameTh    String  @map("name_th")
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  subject  Subject @relation(fields: [subjectId], references: [id])
+  parent   Topic?  @relation("TopicTree", fields: [parentId], references: [id])
+  children Topic[] @relation("TopicTree")
+
+  @@index([subjectId])
+  @@map("topics")
+}
+
+model Curriculum {
+  id     Int    @id @default(autoincrement())
+  code   String @unique
+  nameTh String @map("name_th")
+
+  products Product[]
+
+  @@map("curricula")
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  slug  String @unique
+
+  products ProductTag[]
+
+  @@map("tags")
+}
+
+model Product {
+  id               String            @id @default(uuid()) @db.Uuid
+  creatorId        String            @map("creator_id") @db.Uuid
+  title            String
+  slug             String            @unique
+  shortDescription String?           @map("short_description")
+  description      String?
+  productTypeId    Int               @map("product_type_id")
+  subjectId        Int               @map("subject_id")
+  primaryGradeId   Int               @map("primary_grade_id")
+  curriculumId     Int?              @map("curriculum_id")
+  difficulty       String?
+  language         String            @default("th")
+  price            Decimal           @default(0) @db.Decimal(10, 2)
+  currency         String            @default("THB")
+  status           ProductStatus     @default(DRAFT)
+  moderationStatus ModerationStatus  @default(NOT_SUBMITTED) @map("moderation_status")
+  visibility       ProductVisibility @default(PRIVATE)
+  publishedAt      DateTime?         @map("published_at")
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+  deletedAt        DateTime?         @map("deleted_at")
+
+  creator     CreatorProfile @relation(fields: [creatorId], references: [id])
+  productType ProductType    @relation(fields: [productTypeId], references: [id])
+  subject     Subject        @relation(fields: [subjectId], references: [id])
+  grade       Grade          @relation(fields: [primaryGradeId], references: [id])
+  curriculum  Curriculum?    @relation(fields: [curriculumId], references: [id])
+  versions    ProductVersion[]
+  tags        ProductTag[]
+
+  @@index([creatorId, status])
+  @@index([status])
+  @@map("products")
+}
+
+// ห้าม overwrite history ที่จำเป็นต่อ dispute/audit (PRD §12)
+model ProductVersion {
+  id            String   @id @default(uuid()) @db.Uuid
+  productId     String   @map("product_id") @db.Uuid
+  versionNumber Int      @map("version_number")
+  changeSummary String?  @map("change_summary")
+  createdBy     String   @map("created_by") @db.Uuid
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  product Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, versionNumber])
+  @@map("product_versions")
+}
+
+model ProductTag {
+  productId String @map("product_id") @db.Uuid
+  tagId     Int    @map("tag_id")
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id])
+
+  @@id([productId, tagId])
+  @@map("product_tags")
+}
+
 model User {
   id            String     @id @default(uuid()) @db.Uuid
   email         String     @unique
@@ -76,6 +241,8 @@ model CreatorProfile {
   deletedAt          DateTime?                 @map("deleted_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  products Product[]
 
   @@map("creator_profiles")
 }
