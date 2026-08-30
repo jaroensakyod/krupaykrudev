@@ -148,11 +148,19 @@ async function tagSlug(name: string): Promise<string> {
 /**
  * TASK-029: lifecycle transition — DRAFT/NEEDS_CHANGES/REJECTED → READY_FOR_REVIEW.
  * Status transitions are controlled here (service), never by the client (PRD §17).
+ * TASK-050: requires the copyright declaration to be recorded (PRD §46).
  */
-export async function submitForReview(creatorId: string, productId: string) {
+export async function submitForReview(
+  creatorId: string,
+  productId: string,
+  declarationAccepted: boolean,
+) {
   const product = await requireOwnProduct(creatorId, productId);
   if (!EDITABLE_STATUSES.includes(product.status)) {
     throw new ProductError("INVALID_STATUS");
+  }
+  if (!declarationAccepted) {
+    throw new ProductError("INCOMPLETE_SUBMISSION");
   }
 
   // Submission requirements (files/preview จะเพิ่มเงื่อนไขใน Phase 3)
@@ -160,13 +168,26 @@ export async function submitForReview(creatorId: string, productId: string) {
     throw new ProductError("INCOMPLETE_SUBMISSION");
   }
 
-  const updated = await prisma.product.update({
-    where: { id: productId },
-    data: {
-      status: "READY_FOR_REVIEW",
-      moderationStatus: "PENDING",
-    },
+  const updated = await prisma.$transaction(async (tx) => {
+    await tx.copyrightDeclaration.create({
+      data: { creatorId, productId, declarationVersion: "1.0" },
+    });
+    const updatedProduct = await tx.product.update({
+      where: { id: productId },
+      data: { status: "READY_FOR_REVIEW", moderationStatus: "PENDING" },
+    });
+    // เปิด moderation case ให้ทีมตรวจ (TASK-052)
+    const openCase = await tx.moderationCase.findFirst({
+      where: { entityType: "product", entityId: productId, status: { in: ["OPEN", "IN_REVIEW"] } },
+    });
+    if (!openCase) {
+      await tx.moderationCase.create({
+        data: { caseType: "PRODUCT_REVIEW", entityType: "product", entityId: productId },
+      });
+    }
+    return updatedProduct;
   });
+
   logger.info("product_submitted_for_review", { productId, creatorId });
   return updated;
 }

@@ -88,8 +88,9 @@ export async function saveDraftAction(
 export async function submitForReviewAction(formData: FormData) {
   const creatorId = await currentCreatorId();
   const productId = String(formData.get("productId") ?? "");
+  const declarationAccepted = formData.get("declaration") === "on";
   try {
-    await submitForReview(creatorId, productId);
+    await submitForReview(creatorId, productId, declarationAccepted);
   } catch (error) {
     if (error instanceof ProductError && error.code === "INCOMPLETE_SUBMISSION") {
       redirect(`/dashboard/products/${productId}?error=incomplete`);

@@ -4,8 +4,13 @@
  */
 
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
+
+/** บัญชีแอดมินเริ่มต้นสำหรับ dev — เปลี่ยนรหัสผ่านก่อน production */
+const ADMIN_EMAIL = "admin@krupay.dev";
+const ADMIN_PASSWORD = "Admin12345!";
 
 const PRODUCT_TYPES: Array<[string, string]> = [
   ["WORKSHEET", "ใบงาน/แบบฝึกหัด"],
@@ -67,6 +72,20 @@ const CURRICULA: Array<[string, string]> = [
 ];
 
 async function main() {
+  // Admin account (idempotent)
+  const admin = await prisma.user.upsert({
+    where: { email: ADMIN_EMAIL },
+    update: {},
+    create: {
+      email: ADMIN_EMAIL,
+      displayName: "Admin KruPayKru",
+      passwordHash: await bcrypt.hash(ADMIN_PASSWORD, 12),
+      role: "ADMIN",
+      emailVerified: new Date(),
+    },
+  });
+  console.log("Admin ready:", admin.email);
+
   for (let i = 0; i < PRODUCT_TYPES.length; i++) {
     const [code, nameTh] = PRODUCT_TYPES[i];
     await prisma.productType.upsert({
