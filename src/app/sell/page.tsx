@@ -29,8 +29,7 @@ export default async function SellLandingPage() {
           เปลี่ยนสื่อที่คุณทำเอง <span className="text-primary">ให้เป็นรายได้</span>
         </h1>
         <p className="mt-4 text-lg text-text-muted max-w-2xl mx-auto">
-          ครูไทยหลายหมื่นคนกำลังมองหาสื่อคุณภาพอยู่ทุกวัน
-          เปิดร้านฟรีแล้วเริ่มขายผลงานของคุณได้เลย
+          ไม่ว่าคุณจะเป็นครู ติวเตอร์ หรือนักสร้างสื่อการศึกษา เปลี่ยนผลงานที่คุณมีให้เข้าถึงผู้สอนได้มากขึ้น
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           {session?.user ? (

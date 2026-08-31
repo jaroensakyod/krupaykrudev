@@ -31,7 +31,7 @@ export async function getOrCreateCart(userId: string) {
     where: { userId },
     update: {},
     create: { userId },
-    include: { items: { include: { product: { include: { creator: true } } } } },
+    include: { items: { include: { product: { include: { creator: true } }, bundle: { include: { creator: true, items: { include: { product: true } } } } } } },
   });
 }
 
@@ -62,16 +62,26 @@ export async function removeFromCart(userId: string, productId: string) {
   await prisma.cartItem.deleteMany({ where: { cartId: cart.id, productId } });
 }
 
+export async function removeBundleFromCart(userId: string, bundleId: string) {
+  const cart = await prisma.cart.findUnique({ where: { userId } });
+  if (cart) await prisma.cartItem.deleteMany({ where: { cartId: cart.id, bundleId } });
+}
+
 /** ราคาปัจจุบันจาก DB เท่านั้น — ใช้ทั้งตอนแสดง cart และตอน checkout */
 export async function cartPriced(userId: string) {
   const cart = await getOrCreateCart(userId);
-  const items = cart.items.map((item) => ({
-    cartItemId: item.id,
-    productId: item.productId,
-    title: item.product.title,
-    price: item.product.price.toNumber(),
-    creatorName: item.product.creator.displayName,
-  }));
+  const items = cart.items.flatMap((item) => {
+    if (item.bundle && item.bundleId) return [{ cartItemId: item.id, productId: item.bundleId, title: item.bundle.title, price: item.bundle.price.toNumber(), creatorName: item.bundle.creator.displayName, isBundle: true }];
+    if (!item.product || !item.productId) return [];
+    return [{
+      cartItemId: item.id,
+      productId: item.productId,
+      title: item.product.title,
+      price: item.product.price.toNumber(),
+      creatorName: item.product.creator.displayName,
+      isBundle: false,
+    }];
+  });
   const subtotal = items.reduce((sum, i) => sum + i.price, 0);
   return { items, subtotal };
 }
@@ -83,12 +93,19 @@ export async function checkout(userId: string) {
   const { items, subtotal } = await cartPriced(userId);
   if (items.length === 0) throw new Error("EMPTY_CART");
 
+  const bundleIds = items.filter((i) => i.isBundle).map((i) => i.productId);
+  const bundles = bundleIds.length ? await prisma.bundle.findMany({ where: { id: { in: bundleIds }, status: "PUBLISHED", visibility: "PUBLIC" }, include: { items: { include: { product: true } } } }) : [];
+  if (bundles.length !== bundleIds.length || bundles.some((b) => b.items.length < 2)) throw new Error("PRODUCT_UNAVAILABLE");
+  const individualIds = items.filter((i) => !i.isBundle).map((i) => i.productId);
+  const componentBundleIds = bundles.flatMap((b) => b.items.map((i) => i.productId));
+  const requestedIds = [...individualIds, ...componentBundleIds];
+  if (new Set(requestedIds).size !== requestedIds.length) throw new Error("PRODUCT_UNAVAILABLE");
   // revalidate ตอน checkout: ทุก product ต้องยัง published
   const published = await prisma.product.findMany({
-    where: { id: { in: items.map((i) => i.productId) }, status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
+    where: { id: { in: requestedIds }, status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
     include: { versions: { orderBy: { versionNumber: "desc" }, take: 1 } },
   });
-  if (published.length !== items.length) throw new Error("PRODUCT_UNAVAILABLE");
+  if (published.length !== requestedIds.length || published.some((p) => !p.versions[0])) throw new Error("PRODUCT_UNAVAILABLE");
 
   const feeRate = await activeFeeRate();
 
@@ -99,15 +116,19 @@ export async function checkout(userId: string) {
       total: subtotal,
       items: {
         create: published.map((p) => {
-          const fee = Math.round(p.price.toNumber() * feeRate * 100) / 100;
+          const bundle = bundles.find((b) => b.items.some((i) => i.productId === p.id));
+          const regularTotal = bundle ? bundle.items.reduce((sum, i) => sum + i.product.price.toNumber(), 0) : 0;
+          const unitPrice = bundle && regularTotal > 0 ? Math.round((bundle.price.toNumber() * p.price.toNumber() / regularTotal) * 100) / 100 : p.price.toNumber();
+          const fee = Math.round(unitPrice * feeRate * 100) / 100;
           return {
             productId: p.id,
             creatorId: p.creatorId,
             title: p.title,
-            unitPrice: p.price,
+            unitPrice,
             platformFee: fee,
-            creatorAmount: Math.round((p.price.toNumber() - fee) * 100) / 100,
+            creatorAmount: Math.round((unitPrice - fee) * 100) / 100,
             productVersionId: p.versions[0].id,
+            bundleId: bundle?.id,
           };
         }),
       },
@@ -181,6 +202,15 @@ export async function fulfillPaidPayment(providerPaymentId: string) {
     });
     if (!alreadyLedgered) {
       await recordSaleLedger(tx, payment.order);
+    }
+    // Referral is first-touch, limited to 90 days and protected by a unique order constraint.
+    // Rewards are recorded here; payout release remains gated on production KYC/payment operations.
+    const { createReferralReward } = await import("@/lib/growth");
+    const platformFee = payment.order.items.reduce((sum, item) => sum + item.platformFee.toNumber(), 0);
+    const reward = await createReferralReward(tx, payment.orderId, payment.order.buyerId, platformFee);
+    if (reward) {
+      const { trackEvent } = await import("@/lib/analytics");
+      void trackEvent({ eventType: "REFERRAL_CONVERSION", userId: payment.order.buyerId, properties: { orderId: payment.orderId, reward: reward.amount.toNumber() } });
     }
     return created;
   });

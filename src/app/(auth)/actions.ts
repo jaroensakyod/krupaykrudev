@@ -7,7 +7,10 @@ import { signIn, signOut } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
 import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import { rateLimit, ipKey } from "@/lib/rate-limit";
+import { attributeReferral } from "@/lib/growth";
+import { trackEvent } from "@/lib/analytics";
 
 export type AuthFormState = { error?: string };
 
@@ -45,13 +48,18 @@ export async function registerAction(
   }
 
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         email,
         displayName,
         passwordHash: await bcrypt.hash(password, 12),
       },
     });
+    const store = await cookies();
+    const ref = store.get("kp_ref")?.value;
+    if (ref && await attributeReferral(user.id, ref)) {
+      void trackEvent({ eventType: "REFERRAL_SIGNUP", userId: user.id, source: "referral", utmSource: store.get("kp_utm_source")?.value, utmMedium: store.get("kp_utm_medium")?.value, utmCampaign: store.get("kp_utm_campaign")?.value });
+    }
   } catch (error) {
     logger.error("register_failed", { error: String(error) });
     return { error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" };

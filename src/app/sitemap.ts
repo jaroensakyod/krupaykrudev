@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3210";
 
-  const [products, creators] = await Promise.all([
+  const [products, creators, combinations] = await Promise.all([
     prisma.product.findMany({
       where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
       select: { slug: true, updatedAt: true },
@@ -14,7 +14,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       where: { deletedAt: null },
       select: { slug: true, updatedAt: true },
     }),
+    prisma.product.groupBy({ by: ["primaryGradeId", "subjectId"], where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null }, _count: true }),
   ]);
+
+  const landingPages: MetadataRoute.Sitemap = [];
+  for (const combination of combinations) {
+    const [grade, subject] = await Promise.all([prisma.grade.findUnique({ where: { id: combination.primaryGradeId } }), prisma.subject.findUnique({ where: { id: combination.subjectId } })]);
+    if (grade && subject) landingPages.push({ url: `${base}/learn/${grade.code}/${subject.code}`, changeFrequency: "weekly", priority: 0.7 });
+  }
 
   return [
     { url: base, changeFrequency: "daily", priority: 1 },
@@ -33,5 +40,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "weekly" as const,
       priority: 0.5,
     })),
+    ...landingPages,
   ];
 }

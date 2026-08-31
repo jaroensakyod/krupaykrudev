@@ -8,6 +8,7 @@ import { ProductGridCard } from "@/components/product-grid-card";
 import { SearchFilters } from "./search-filters";
 import { trackSearch, trackEvent } from "@/lib/analytics";
 import { getSession } from "@/lib/session";
+import { toggleTopicFollowAction } from "@/app/account/growth-actions";
 
 type Params = {
   q?: string;
@@ -87,6 +88,9 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
 
   const activeSubject = subjects.find((s) => s.code === subjectCode);
   const activeGrade = grades.find((g) => g.code === gradeCode);
+  const topicFollow = session?.user && activeSubject && activeGrade
+    ? await prisma.follow.findUnique({ where: { userId_subjectId_gradeId: { userId: session.user.id, subjectId: activeSubject.id, gradeId: activeGrade.id } } })
+    : null;
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -98,6 +102,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         {activeSubject ? ` · ${activeSubject.nameTh}` : ""}
         {activeGrade ? ` · ${activeGrade.nameTh}` : ""}
       </p>
+      {activeSubject && activeGrade && <form action={toggleTopicFollowAction} className="mb-6"><input type="hidden" name="subjectId" value={activeSubject.id}/><input type="hidden" name="gradeId" value={activeGrade.id}/><button className={`text-sm px-4 py-2 rounded-full border ${topicFollow ? "bg-primary text-white border-primary" : "bg-white text-primary border-primary hover:bg-primary-50"}`}>{topicFollow ? "กำลังติดตามหัวข้อนี้" : `ติดตาม ${activeSubject.nameTh} ${activeGrade.nameTh}`}</button></form>}
 
       <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-8">
         {/* Filters (TASK-065 — collapsible บนมือถือ) */}

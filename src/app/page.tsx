@@ -3,12 +3,11 @@ import { MaterialIcon } from "@/components/material-icon";
 import { ProductGridCard } from "@/components/product-grid-card";
 import { coverUrlOf } from "@/lib/catalog";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIES, GRADE_LEVELS, POPULAR_SEARCHES } from "@/lib/mock/home-data";
 
 // หน้าแรก — layout ตาม design เป้าหมาย (hero + right rail) · สถิติ/ยอดขายจาก DB จริง
 // ไม่แสดงสถิติปลอมหรือ feature ที่ยังไม่มี (บทเรียนจาก KruPass banner)
 export default async function HomePage() {
-  const [latest, productCount, creatorCount, downloadCount, topCreators] =
+  const [latest, productCount, creatorCount, downloadCount, topCreators, subjects, grades] =
     await Promise.all([
       prisma.product.findMany({
         where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
@@ -33,6 +32,8 @@ export default async function HomePage() {
         orderBy: { _sum: { amount: "desc" } },
         take: 6,
       }),
+      prisma.subject.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, take: 8, select: { code: true, nameTh: true } }),
+      prisma.grade.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" }, select: { code: true, nameTh: true } }),
     ]);
 
   // ครูยอดนิยมจากยอดขายจริง (จำนวนรายการรับเงิน)
@@ -63,12 +64,11 @@ export default async function HomePage() {
           <div className="bg-gradient-to-br from-primary-50 via-white to-accent/10 rounded-2xl border border-gray-100 p-8 md:p-10 flex flex-col md:flex-row gap-8 items-center">
             <div className="flex-1 space-y-5">
               <h1 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-text-main">
-                แหล่งรวมสื่อการสอน
-                <span className="text-primary">คุณภาพสำหรับครูไทย</span>
+                แหล่งรวมสื่อการศึกษา
+                <span className="text-primary">สำหรับผู้สอนและผู้สร้างไทย</span>
               </h1>
               <p className="text-base md:text-lg text-text-muted">
-                ซื้อ-ขายสื่อการเรียนการสอนโดยครู สำหรับครู ค้นหาง่าย{" "}
-                AI ช่วยลงสินค้าให้ครู <b className="text-primary">ประหยัดเวลาเตรียมสอน</b>
+                ซื้อ-ขายใบงาน ชุดเรียน และสื่อดิจิทัลสำหรับอนุบาลถึง ม.6 ค้นหาง่าย และ AI ช่วยผู้สร้างจัดเตรียมสินค้า
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -94,13 +94,13 @@ export default async function HomePage() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-2 pt-1">
-                {POPULAR_SEARCHES.map((term) => (
+                {subjects.slice(0, 5).map((subject) => (
                   <Link
-                    key={term}
-                    href={`/search?q=${encodeURIComponent(term)}`}
+                    key={subject.code}
+                    href={`/search?q=${encodeURIComponent(subject.nameTh)}`}
                     className="px-3 py-1 bg-white border border-gray-200 rounded-full text-xs text-text-muted hover:border-primary hover:text-primary shadow-sm"
                   >
-                    {term}
+                    {subject.nameTh}
                   </Link>
                 ))}
               </div>
@@ -142,16 +142,16 @@ export default async function HomePage() {
                 </Link>
               </div>
               <div className="grid grid-cols-4 gap-3">
-                {CATEGORIES.slice(0, 8).map((cat) => (
+                {subjects.map((subject) => (
                   <Link
-                    key={cat.name}
-                    href={`/search?q=${encodeURIComponent(cat.name)}`}
+                    key={subject.code}
+                    href={`/search?q=${encodeURIComponent(subject.nameTh)}`}
                     className="flex flex-col items-center gap-1.5 p-2 rounded-xl hover:bg-primary-50 transition-colors text-center"
                   >
                     <span className="w-10 h-10 rounded-xl bg-primary-50 flex items-center justify-center">
-                      <MaterialIcon name={cat.icon} className="text-primary text-xl" />
+                      <MaterialIcon name="auto_stories" className="text-primary text-xl" />
                     </span>
-                    <span className="text-[10px] leading-tight text-gray-600">{cat.name}</span>
+                    <span className="text-[10px] leading-tight text-gray-600">{subject.nameTh}</span>
                   </Link>
                 ))}
               </div>
@@ -178,13 +178,13 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <h2 className="font-headline text-2xl font-bold mb-5 text-text-main">เลือกตามระดับชั้น</h2>
         <div className="flex overflow-x-auto pb-3 gap-3">
-          {GRADE_LEVELS.map((grade) => (
+          {grades.map((grade) => (
             <Link
-              key={grade}
-              href={`/search?grade=${encodeURIComponent(grade)}`}
+              key={grade.code}
+              href={`/search?grade=${encodeURIComponent(grade.code)}`}
               className="flex-shrink-0 px-6 py-2.5 bg-white border border-gray-200 rounded-full text-sm font-medium hover:border-primary hover:text-primary shadow-sm whitespace-nowrap"
             >
-              {grade}
+              {grade.nameTh}
             </Link>
           ))}
         </div>
@@ -208,10 +208,7 @@ export default async function HomePage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {latest.map((p) => {
-              const isNew =
-                p.publishedAt && Date.now() - p.publishedAt.getTime() < 14 * 24 * 60 * 60 * 1000;
-              return (
+            {latest.map((p) => (
                 <ProductGridCard
                   key={p.id}
                   id={p.slug}
@@ -221,10 +218,9 @@ export default async function HomePage() {
                   rating={null}
                   reviewCount={0}
                   price={p.price.toNumber()}
-                  badge={isNew ? "ใหม่" : undefined}
+                  badge="ใหม่"
                 />
-              );
-            })}
+            ))}
           </div>
         )}
       </section>

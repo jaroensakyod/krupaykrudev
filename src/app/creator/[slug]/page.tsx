@@ -5,6 +5,8 @@ import { getCreatorBySlug } from "@/lib/creators";
 import { prisma } from "@/lib/prisma";
 import { coverUrlOf } from "@/lib/catalog";
 import { ProductGridCard } from "@/components/product-grid-card";
+import { getSession } from "@/lib/session";
+import { toggleCreatorFollowAction } from "@/app/account/growth-actions";
 
 export const metadata = { title: "ร้านค้าครู" };
 
@@ -26,6 +28,10 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
   });
 
   const verified = profile.verificationStatus === "VERIFIED";
+  const session = await getSession();
+  const following = session?.user
+    ? await prisma.follow.findUnique({ where: { userId_creatorId: { userId: session.user.id, creatorId: profile.id } } })
+    : null;
 
   return (
     <div>
@@ -57,6 +63,13 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
             <p className="text-sm text-text-muted">@{profile.slug}</p>
             {profile.bio && <p className="mt-2 text-sm max-w-xl">{profile.bio}</p>}
           </div>
+          <form action={toggleCreatorFollowAction} className="shrink-0">
+            <input type="hidden" name="creatorId" value={profile.id} />
+            <input type="hidden" name="slug" value={slug} />
+            <button className={`px-4 py-2 rounded-full text-sm font-medium border ${following ? "bg-primary text-white border-primary" : "bg-white text-primary border-primary hover:bg-primary-50"}`}>
+              {following ? "กำลังติดตาม" : "ติดตามร้าน"}
+            </button>
+          </form>
         </div>
 
         {/* Meta chips */}

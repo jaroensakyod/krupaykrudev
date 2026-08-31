@@ -80,8 +80,9 @@ model Subject {
   sortOrder Int     @default(0) @map("sort_order")
   isActive  Boolean @default(true) @map("is_active")
 
-  topics  Topic[]
+  topics   Topic[]
   products Product[]
+  follows  Follow[]
 
   @@map("subjects")
 }
@@ -95,6 +96,7 @@ model Grade {
   isActive  Boolean @default(true) @map("is_active")
 
   products Product[]
+  follows  Follow[]
 
   @@map("grades")
 }
@@ -107,9 +109,9 @@ model Topic {
   sortOrder Int     @default(0) @map("sort_order")
   isActive  Boolean @default(true) @map("is_active")
 
-  subject  Subject @relation(fields: [subjectId], references: [id])
-  parent   Topic?  @relation("TopicTree", fields: [parentId], references: [id])
-  children Topic[] @relation("TopicTree")
+  subject  Subject   @relation(fields: [subjectId], references: [id])
+  parent   Topic?    @relation("TopicTree", fields: [parentId], references: [id])
+  children Topic[]   @relation("TopicTree")
   products Product[]
 
   @@index([subjectId])
@@ -128,11 +130,11 @@ model Curriculum {
 
 // Exam taxonomy (PRD §11: TGAT/TPAT/A-Level/สอวน./Entrance/School Exam/Other)
 model Exam {
-  id     Int    @id @default(autoincrement())
-  code   String @unique
-  nameTh String @map("name_th")
-  sortOrder Int @default(0) @map("sort_order")
-  isActive Boolean @default(true) @map("is_active")
+  id        Int     @id @default(autoincrement())
+  code      String  @unique
+  nameTh    String  @map("name_th")
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
 
   products Product[]
 
@@ -140,9 +142,9 @@ model Exam {
 }
 
 model Tag {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  slug  String @unique
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  slug String @unique
 
   products ProductTag[]
 
@@ -174,21 +176,22 @@ model Product {
   updatedAt        DateTime          @updatedAt @map("updated_at")
   deletedAt        DateTime?         @map("deleted_at")
 
-  creator     CreatorProfile @relation(fields: [creatorId], references: [id])
-  productType ProductType    @relation(fields: [productTypeId], references: [id])
-  subject     Subject        @relation(fields: [subjectId], references: [id])
-  grade       Grade          @relation(fields: [primaryGradeId], references: [id])
-  curriculum  Curriculum?    @relation(fields: [curriculumId], references: [id])
-  topic       Topic?         @relation(fields: [topicId], references: [id])
-  exam        Exam?          @relation(fields: [examId], references: [id])
-  versions    ProductVersion[]
-  tags        ProductTag[]
+  creator               CreatorProfile         @relation(fields: [creatorId], references: [id])
+  productType           ProductType            @relation(fields: [productTypeId], references: [id])
+  subject               Subject                @relation(fields: [subjectId], references: [id])
+  grade                 Grade                  @relation(fields: [primaryGradeId], references: [id])
+  curriculum            Curriculum?            @relation(fields: [curriculumId], references: [id])
+  topic                 Topic?                 @relation(fields: [topicId], references: [id])
+  exam                  Exam?                  @relation(fields: [examId], references: [id])
+  versions              ProductVersion[]
+  tags                  ProductTag[]
   copyrightDeclarations CopyrightDeclaration[]
-  files       ProductFile[]
-  cartItems   CartItem[]
-  orderItems  OrderItem[]
-  reviews     Review[]
-  wishlistItems WishlistItem[]
+  files                 ProductFile[]
+  cartItems             CartItem[]
+  orderItems            OrderItem[]
+  reviews               Review[]
+  wishlistItems         WishlistItem[]
+  bundleItems           BundleItem[]
 
   @@index([creatorId, status])
   @@index([status])
@@ -296,7 +299,7 @@ model ProductFile {
   scanStatus       ScanStatus @default(PENDING) @map("scan_status")
   createdAt        DateTime   @default(now()) @map("created_at")
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
   preview ProductPreview?
 
   @@index([sha256Hash])
@@ -359,10 +362,10 @@ enum LicenseType {
 
 // TASK-070: cart ต่อผู้ใช้ (guest ซื้อไม่ได้ตาม PRD §5)
 model Cart {
-  id        String     @id @default(uuid()) @db.Uuid
-  userId    String     @unique @map("user_id") @db.Uuid
-  createdAt DateTime   @default(now()) @map("created_at")
-  updatedAt DateTime   @updatedAt @map("updated_at")
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @unique @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   items CartItem[]
   user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -373,56 +376,97 @@ model Cart {
 model CartItem {
   id        String   @id @default(uuid()) @db.Uuid
   cartId    String   @map("cart_id") @db.Uuid
-  productId String   @unique @map("product_id") @db.Uuid
+  productId String?  @unique @map("product_id") @db.Uuid
+  bundleId  String?  @unique @map("bundle_id") @db.Uuid
   addedAt   DateTime @default(now()) @map("added_at")
 
-  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id])
+  cart    Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id])
+  bundle  Bundle?  @relation(fields: [bundleId], references: [id])
 
   @@map("cart_items")
 }
 
 // TASK-072/073: order + snapshot — ห้าม mutate historical monetary snapshot (PRD §65)
 model Order {
-  id          String      @id @default(uuid()) @db.Uuid
-  buyerId     String      @map("buyer_id") @db.Uuid
-  status      OrderStatus @default(PENDING_PAYMENT)
-  subtotal    Decimal     @db.Decimal(10, 2)
-  discountTotal Decimal   @default(0) @map("discount_total") @db.Decimal(10, 2)
-  total       Decimal     @db.Decimal(10, 2)
-  currency    String      @default("THB")
-  paymentStatus String    @default("PENDING") @map("payment_status")
-  createdAt   DateTime    @default(now()) @map("created_at")
-  paidAt      DateTime?   @map("paid_at")
+  id            String      @id @default(uuid()) @db.Uuid
+  buyerId       String      @map("buyer_id") @db.Uuid
+  status        OrderStatus @default(PENDING_PAYMENT)
+  subtotal      Decimal     @db.Decimal(10, 2)
+  discountTotal Decimal     @default(0) @map("discount_total") @db.Decimal(10, 2)
+  total         Decimal     @db.Decimal(10, 2)
+  currency      String      @default("THB")
+  paymentStatus String      @default("PENDING") @map("payment_status")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  paidAt        DateTime?   @map("paid_at")
 
-  items    OrderItem[]
-  payments Payment[]
-  buyer    User        @relation(fields: [buyerId], references: [id])
+  items          OrderItem[]
+  payments       Payment[]
+  buyer          User            @relation(fields: [buyerId], references: [id])
+  referralReward ReferralReward?
 
   @@index([buyerId, status])
   @@map("orders")
 }
 
 model OrderItem {
-  id              String      @id @default(uuid()) @db.Uuid
-  orderId         String      @map("order_id") @db.Uuid
-  productId       String      @map("product_id") @db.Uuid
-  creatorId       String      @map("creator_id") @db.Uuid
-  title           String
-  unitPrice       Decimal     @map("unit_price") @db.Decimal(10, 2)
-  platformFee     Decimal     @map("platform_fee") @db.Decimal(10, 2)
-  creatorAmount   Decimal     @map("creator_amount") @db.Decimal(10, 2)
-  productVersionId String     @map("product_version_id") @db.Uuid
-  licenseType     LicenseType @default(PERSONAL) @map("license_type")
+  id               String      @id @default(uuid()) @db.Uuid
+  orderId          String      @map("order_id") @db.Uuid
+  productId        String      @map("product_id") @db.Uuid
+  creatorId        String      @map("creator_id") @db.Uuid
+  title            String
+  unitPrice        Decimal     @map("unit_price") @db.Decimal(10, 2)
+  platformFee      Decimal     @map("platform_fee") @db.Decimal(10, 2)
+  creatorAmount    Decimal     @map("creator_amount") @db.Decimal(10, 2)
+  productVersionId String      @map("product_version_id") @db.Uuid
+  bundleId         String?     @map("bundle_id") @db.Uuid
+  licenseType      LicenseType @default(PERSONAL) @map("license_type")
 
   order       Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product     Product        @relation(fields: [productId], references: [id])
   creator     CreatorProfile @relation(fields: [creatorId], references: [id])
   entitlement Entitlement?
   review      Review?
+  bundle      Bundle?        @relation(fields: [bundleId], references: [id])
 
   @@index([orderId])
   @@map("order_items")
+}
+
+// A bundle is a sellable collection; fulfillment expands it into one order item per product.
+model Bundle {
+  id          String            @id @default(uuid()) @db.Uuid
+  creatorId   String            @map("creator_id") @db.Uuid
+  slug        String            @unique
+  title       String
+  description String?
+  coverUrl    String?           @map("cover_url")
+  price       Decimal           @db.Decimal(10, 2)
+  status      ProductStatus     @default(DRAFT)
+  visibility  ProductVisibility @default(PRIVATE)
+  publishedAt DateTime?         @map("published_at")
+  createdAt   DateTime          @default(now()) @map("created_at")
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+
+  creator    CreatorProfile @relation(fields: [creatorId], references: [id])
+  items      BundleItem[]
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+
+  @@index([creatorId, status])
+  @@map("bundles")
+}
+
+model BundleItem {
+  bundleId  String @map("bundle_id") @db.Uuid
+  productId String @map("product_id") @db.Uuid
+  sortOrder Int    @default(0) @map("sort_order")
+
+  bundle  Bundle  @relation(fields: [bundleId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@id([bundleId, productId])
+  @@map("bundle_items")
 }
 
 // TASK-074/076/077: payment — backend verify เท่านั้น ห้ามเชื่อ client redirect
@@ -445,13 +489,13 @@ model Payment {
 
 // TASK-078: entitlement คือ source of truth ของสิทธิ์ดาวน์โหลด (PRD §41)
 model Entitlement {
-  id         String      @id @default(uuid()) @db.Uuid
-  buyerId    String      @map("buyer_id") @db.Uuid
-  orderItemId String     @unique @map("order_item_id") @db.Uuid
-  productId  String      @map("product_id") @db.Uuid
+  id          String      @id @default(uuid()) @db.Uuid
+  buyerId     String      @map("buyer_id") @db.Uuid
+  orderItemId String      @unique @map("order_item_id") @db.Uuid
+  productId   String      @map("product_id") @db.Uuid
   licenseType LicenseType @default(PERSONAL) @map("license_type")
-  grantedAt  DateTime    @default(now()) @map("granted_at")
-  revokedAt  DateTime?   @map("revoked_at")
+  grantedAt   DateTime    @default(now()) @map("granted_at")
+  revokedAt   DateTime?   @map("revoked_at")
 
   orderItem OrderItem @relation(fields: [orderItemId], references: [id])
   buyer     User      @relation(fields: [buyerId], references: [id])
@@ -491,23 +535,23 @@ enum LedgerDirection {
 // TASK-080: immutable ledger — ห้าม hard delete, ห้าม mutate (PRD §36, §65)
 // Balance derive จาก entries เสมอ — ห้ามคำนวณจาก Order ตรง ๆ (PRD §36)
 model LedgerEntry {
-  id                 String           @id @default(uuid()) @db.Uuid
-  transactionGroupId String           @map("transaction_group_id")
-  entryType          LedgerEntryType  @map("entry_type")
+  id                 String          @id @default(uuid()) @db.Uuid
+  transactionGroupId String          @map("transaction_group_id")
+  entryType          LedgerEntryType @map("entry_type")
   direction          LedgerDirection
-  accountType        String           @map("account_type") // CREATOR | PLATFORM
-  accountId          String           @map("account_id") // users.id หรือ "PLATFORM"
-  amount             Decimal          @db.Decimal(10, 2)
-  currency           String           @default("THB")
-  orderId            String?          @map("order_id") @db.Uuid
-  payoutId           String?          @map("payout_id") @db.Uuid
-  refundId           String?          @map("refund_id") @db.Uuid
+  accountType        String          @map("account_type") // CREATOR | PLATFORM
+  accountId          String          @map("account_id") // users.id หรือ "PLATFORM"
+  amount             Decimal         @db.Decimal(10, 2)
+  currency           String          @default("THB")
+  orderId            String?         @map("order_id") @db.Uuid
+  payoutId           String?         @map("payout_id") @db.Uuid
+  refundId           String?         @map("refund_id") @db.Uuid
   // เงินเข้า pending ก่อน แล้วพร้อมถอนเมื่อครบ hold period
-  availableAt        DateTime?        @map("available_at")
-  createdAt          DateTime         @default(now()) @map("created_at")
+  availableAt        DateTime?       @map("available_at")
+  createdAt          DateTime        @default(now()) @map("created_at")
 
-  payout Payout?  @relation(fields: [payoutId], references: [id])
-  refund Refund?  @relation(fields: [refundId], references: [id])
+  payout Payout? @relation(fields: [payoutId], references: [id])
+  refund Refund? @relation(fields: [refundId], references: [id])
 
   @@unique([transactionGroupId, entryType, accountId])
   @@index([accountType, accountId])
@@ -525,15 +569,15 @@ enum PayoutStatus {
 }
 
 model Payout {
-  id               String       @id @default(uuid()) @db.Uuid
-  creatorUserId    String       @map("creator_user_id") @db.Uuid
-  amount           Decimal      @db.Decimal(10, 2)
-  method           String       @default("manual_transfer")
-  status           PayoutStatus @default(REQUESTED)
-  requestedAt      DateTime     @default(now()) @map("requested_at")
-  processedAt      DateTime?    @map("processed_at")
-  processedBy      String?      @map("processed_by") @db.Uuid
-  providerReference String?     @map("provider_reference")
+  id                String       @id @default(uuid()) @db.Uuid
+  creatorUserId     String       @map("creator_user_id") @db.Uuid
+  amount            Decimal      @db.Decimal(10, 2)
+  method            String       @default("manual_transfer")
+  status            PayoutStatus @default(REQUESTED)
+  requestedAt       DateTime     @default(now()) @map("requested_at")
+  processedAt       DateTime?    @map("processed_at")
+  processedBy       String?      @map("processed_by") @db.Uuid
+  providerReference String?      @map("provider_reference")
 
   entries LedgerEntry[]
 
@@ -585,18 +629,84 @@ model SearchEvent {
 
 // TASK-103-107: product funnel events
 model AnalyticsEvent {
-  id         String   @id @default(uuid()) @db.Uuid
-  eventType  String   @map("event_type")
-  sessionId  String   @map("session_id")
-  userId     String?  @map("user_id") @db.Uuid
-  productId  String?  @map("product_id") @db.Uuid
-  creatorId  String?  @map("creator_id") @db.Uuid
-  properties Json?
-  createdAt  DateTime @default(now()) @map("created_at")
+  id          String   @id @default(uuid()) @db.Uuid
+  eventType   String   @map("event_type")
+  sessionId   String   @map("session_id")
+  userId      String?  @map("user_id") @db.Uuid
+  productId   String?  @map("product_id") @db.Uuid
+  creatorId   String?  @map("creator_id") @db.Uuid
+  properties  Json?
+  source      String?  @map("source")
+  utmSource   String?  @map("utm_source")
+  utmMedium   String?  @map("utm_medium")
+  utmCampaign String?  @map("utm_campaign")
+  createdAt   DateTime @default(now()) @map("created_at")
 
   @@index([eventType, createdAt])
   @@index([productId, eventType])
   @@map("analytics_events")
+}
+
+model Follow {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  creatorId String?  @map("creator_id") @db.Uuid
+  subjectId Int?     @map("subject_id")
+  gradeId   Int?     @map("grade_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user    User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  creator CreatorProfile? @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  subject Subject?        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  grade   Grade?          @relation(fields: [gradeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, creatorId])
+  @@unique([userId, subjectId, gradeId])
+  @@index([creatorId])
+  @@map("follows")
+}
+
+model ReferralCode {
+  id        String   @id @default(uuid()) @db.Uuid
+  creatorId String   @unique @map("creator_id") @db.Uuid
+  code      String   @unique
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  creator      CreatorProfile        @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  attributions ReferralAttribution[]
+
+  @@map("referral_codes")
+}
+
+model ReferralAttribution {
+  id             String   @id @default(uuid()) @db.Uuid
+  referredUserId String   @unique @map("referred_user_id") @db.Uuid
+  referralCodeId String   @map("referral_code_id") @db.Uuid
+  expiresAt      DateTime @map("expires_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  referredUser User             @relation(name: "ReferredUser", fields: [referredUserId], references: [id], onDelete: Cascade)
+  referralCode ReferralCode     @relation(fields: [referralCodeId], references: [id])
+  rewards      ReferralReward[]
+
+  @@map("referral_attributions")
+}
+
+model ReferralReward {
+  id            String    @id @default(uuid()) @db.Uuid
+  attributionId String    @map("attribution_id") @db.Uuid
+  orderId       String    @unique @map("order_id") @db.Uuid
+  creatorUserId String    @map("creator_user_id") @db.Uuid
+  amount        Decimal   @db.Decimal(10, 2)
+  revokedAt     DateTime? @map("revoked_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  attribution ReferralAttribution @relation(fields: [attributionId], references: [id])
+  order       Order               @relation(fields: [orderId], references: [id])
+
+  @@index([creatorUserId, revokedAt])
+  @@map("referral_rewards")
 }
 
 // ── Buyer engagement (Phase 9) ──────────────────────────────────
@@ -607,13 +717,13 @@ model Review {
   productId   String   @map("product_id") @db.Uuid
   buyerId     String   @map("buyer_id") @db.Uuid
   orderItemId String   @unique @map("order_item_id") @db.Uuid
-  rating      Int      // 1-5
+  rating      Int // 1-5
   title       String?
   body        String?
   createdAt   DateTime @default(now()) @map("created_at")
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  buyer   User    @relation(fields: [buyerId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  buyer     User      @relation(fields: [buyerId], references: [id])
   orderItem OrderItem @relation(fields: [orderItemId], references: [id])
 
   @@unique([productId, buyerId])
@@ -623,11 +733,11 @@ model Review {
 
 // TASK-092: wishlist (PRD §44)
 model Wishlist {
-  id      String @id @default(uuid()) @db.Uuid
-  userId  String @unique @map("user_id") @db.Uuid
+  id     String @id @default(uuid()) @db.Uuid
+  userId String @unique @map("user_id") @db.Uuid
 
-  items  WishlistItem[]
-  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items WishlistItem[]
+  user  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("wishlists")
 }
@@ -733,16 +843,16 @@ model CopyrightDeclaration {
 
 // TASK-052: moderation case — รองรับ product review/copyright/fraud/report/dispute
 model ModerationCase {
-  id          String               @id @default(uuid()) @db.Uuid
-  caseType    ModerationCaseType   @map("case_type")
-  entityType  String               @map("entity_type")
-  entityId    String               @map("entity_id")
-  riskLevel   RiskLevel            @default(LOW) @map("risk_level")
-  status      ModerationCaseStatus @default(OPEN)
-  assignedTo  String?              @map("assigned_to") @db.Uuid
-  resolution  String?
-  createdAt   DateTime             @default(now()) @map("created_at")
-  resolvedAt  DateTime?            @map("resolved_at")
+  id         String               @id @default(uuid()) @db.Uuid
+  caseType   ModerationCaseType   @map("case_type")
+  entityType String               @map("entity_type")
+  entityId   String               @map("entity_id")
+  riskLevel  RiskLevel            @default(LOW) @map("risk_level")
+  status     ModerationCaseStatus @default(OPEN)
+  assignedTo String?              @map("assigned_to") @db.Uuid
+  resolution String?
+  createdAt  DateTime             @default(now()) @map("created_at")
+  resolvedAt DateTime?            @map("resolved_at")
 
   strikes Strike[]
 
@@ -784,15 +894,15 @@ model Strike {
 
 // TASK-057: audit log สำหรับ critical actions (PRD §54)
 model AuditLog {
-  id            String   @id @default(uuid()) @db.Uuid
-  actorId       String?  @map("actor_id") @db.Uuid
-  action        String
-  entityType    String   @map("entity_type")
-  entityId      String   @map("entity_id")
-  beforeJson    Json?    @map("before_json")
-  afterJson     Json?    @map("after_json")
-  metadataJson  Json?    @map("metadata_json")
-  createdAt     DateTime @default(now()) @map("created_at")
+  id           String   @id @default(uuid()) @db.Uuid
+  actorId      String?  @map("actor_id") @db.Uuid
+  action       String
+  entityType   String   @map("entity_type")
+  entityId     String   @map("entity_id")
+  beforeJson   Json?    @map("before_json")
+  afterJson    Json?    @map("after_json")
+  metadataJson Json?    @map("metadata_json")
+  createdAt    DateTime @default(now()) @map("created_at")
 
   @@index([entityType, entityId])
   @@index([actorId])
@@ -816,13 +926,15 @@ model User {
   accounts Account[]
   sessions Session[]
 
-  creatorProfile CreatorProfile?
-  cart           Cart?
-  orders         Order[]
-  entitlements   Entitlement[]
-  reviews        Review[]
-  wishlist       Wishlist?
-  notifications  Notification[]
+  creatorProfile      CreatorProfile?
+  cart                Cart?
+  orders              Order[]
+  entitlements        Entitlement[]
+  reviews             Review[]
+  wishlist            Wishlist?
+  notifications       Notification[]
+  follows             Follow[]
+  referralAttribution ReferralAttribution? @relation(name: "ReferredUser")
 
   @@index([status])
   @@map("users")
@@ -837,7 +949,7 @@ model CreatorProfile {
   profileImageUrl    String?                   @map("profile_image_url")
   bannerUrl          String?                   @map("banner_url")
   subjects           String[]                  @default([])
-  gradeLevels        String[]                  @map("grade_levels") @default([])
+  gradeLevels        String[]                  @default([]) @map("grade_levels")
   specialties        String[]                  @default([])
   socialLinks        Json?                     @map("social_links")
   verificationStatus CreatorVerificationStatus @default(UNVERIFIED) @map("verification_status")
@@ -850,8 +962,11 @@ model CreatorProfile {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  products   Product[]
-  orderItems OrderItem[]
+  products     Product[]
+  orderItems   OrderItem[]
+  bundles      Bundle[]
+  followers    Follow[]
+  referralCode ReferralCode?
 
   @@map("creator_profiles")
 }

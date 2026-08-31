@@ -51,11 +51,23 @@ export async function trackEvent(input: {
     | "PURCHASE"
     | "DOWNLOAD"
     | "REVIEW_SUBMIT"
-    | "WISHLIST_ADD";
+    | "WISHLIST_ADD"
+    | "PREVIEW_OPEN"
+    | "BUNDLE_VIEW"
+    | "BUNDLE_ADD_TO_CART"
+    | "FOLLOW_CREATOR"
+    | "FOLLOW_TOPIC"
+    | "REFERRAL_SIGNUP"
+    | "REFERRAL_CONVERSION"
+    | "CAMPAIGN_VIEW";
   userId?: string | null;
   productId?: string | null;
   creatorId?: string | null;
   properties?: Record<string, unknown>;
+  source?: string | null;
+  utmSource?: string | null;
+  utmMedium?: string | null;
+  utmCampaign?: string | null;
 }) {
   const sessionId = await getSessionId();
   try {
@@ -67,6 +79,10 @@ export async function trackEvent(input: {
         productId: input.productId ?? null,
         creatorId: input.creatorId ?? null,
         properties: input.properties ? (input.properties as Prisma.InputJsonValue) : undefined,
+        source: input.source ?? null,
+        utmSource: input.utmSource ?? null,
+        utmMedium: input.utmMedium ?? null,
+        utmCampaign: input.utmCampaign ?? null,
       },
     });
   } catch (e) {
@@ -115,7 +131,7 @@ export async function getCreatorAnalytics(creatorId: string) {
 /** TASK-109: funnel ภาพรวมสำหรับ founder */
 export async function getFunnelOverview() {
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-  const [searches, zeroResults, impressions, views, addToCarts, checkoutStarts, purchases] = await Promise.all([
+  const [searches, zeroResults, impressions, views, addToCarts, checkoutStarts, purchases, sources, users, creators, publishedProducts, refunded] = await Promise.all([
     prisma.searchEvent.count({ where: { createdAt: { gte: since } } }),
     prisma.searchEvent.count({ where: { createdAt: { gte: since }, resultCount: 0 } }),
     prisma.analyticsEvent.count({ where: { eventType: "PRODUCT_IMPRESSION", createdAt: { gte: since } } }),
@@ -123,6 +139,11 @@ export async function getFunnelOverview() {
     prisma.analyticsEvent.count({ where: { eventType: "ADD_TO_CART", createdAt: { gte: since } } }),
     prisma.analyticsEvent.count({ where: { eventType: "CHECKOUT_START", createdAt: { gte: since } } }),
     prisma.analyticsEvent.count({ where: { eventType: "PURCHASE", createdAt: { gte: since } } }),
+    prisma.analyticsEvent.groupBy({ by: ["source"], where: { createdAt: { gte: since } }, _count: { source: true }, orderBy: { _count: { source: "desc" } }, take: 8 }),
+    prisma.user.count({ where: { createdAt: { gte: since } } }),
+    prisma.creatorProfile.count({ where: { createdAt: { gte: since } } }),
+    prisma.product.count({ where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null } }),
+    prisma.order.count({ where: { status: "REFUNDED", createdAt: { gte: since } } }),
   ]);
 
   const topZeroResults = await prisma.searchEvent.groupBy({
@@ -148,6 +169,12 @@ export async function getFunnelOverview() {
     purchases,
     gmv: gmvAgg._sum.total?.toNumber() ?? 0,
     paidOrders: orderCount,
+    registrations: users,
+    newCreators: creators,
+    publishedProducts,
+    refundRate: orderCount + refunded > 0 ? Math.round((refunded / (orderCount + refunded)) * 1000) / 10 : 0,
+    aov: orderCount ? Math.round((gmvAgg._sum.total?.toNumber() ?? 0) / orderCount * 100) / 100 : 0,
+    sources: sources.map((source) => ({ source: source.source ?? "direct/unknown", events: source._count.source })),
     topZeroResults: topZeroResults.map((t) => ({ query: t.rawQuery, count: t._count.rawQuery })),
   };
 }

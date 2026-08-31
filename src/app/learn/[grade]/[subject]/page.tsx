@@ -1,0 +1,11 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { searchProducts, coverUrlOf } from "@/lib/catalog";
+import { ProductGridCard } from "@/components/product-grid-card";
+
+type Props = { params: Promise<{ grade: string; subject: string }> };
+async function load(params: Props["params"]) { const { grade, subject } = await params; const [g, s] = await Promise.all([prisma.grade.findFirst({ where: { code: grade.toUpperCase(), isActive: true } }), prisma.subject.findFirst({ where: { code: subject.toUpperCase(), isActive: true } })]); if (!g || !s) return null; const result = await searchProducts({ q: "", gradeCode: g.code, subjectCode: s.code, sort: "new", page: 1 }); return result.total ? { g, s, result } : null; }
+export async function generateMetadata({ params }: Props): Promise<Metadata> { const data = await load(params); if (!data) return { robots: { index: false } }; return { title: `สื่อการสอน${data.s.nameTh} ${data.g.nameTh}`, description: `เลือกสื่อการสอน${data.s.nameTh} ${data.g.nameTh} จากผู้สร้างสื่อไทย ${data.result.total} รายการ` }; }
+export default async function LearningLanding({ params }: Props) { const data = await load(params); if (!data) notFound(); const { g, s, result } = data; const jsonLd = { "@context": "https://schema.org", "@type": "CollectionPage", name: `สื่อการสอน${s.nameTh} ${g.nameTh}`, numberOfItems: result.total }; return <div className="max-w-7xl mx-auto px-6 py-10"><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}/><nav className="text-sm text-text-muted"><Link href={`/grades/${g.code}`} className="hover:text-primary">{g.nameTh}</Link> › <Link href={`/subjects/${s.code}`} className="hover:text-primary">{s.nameTh}</Link></nav><h1 className="font-headline text-3xl font-bold mt-4">สื่อการสอน{s.nameTh} {g.nameTh}</h1><p className="text-sm text-text-muted mt-2 mb-8">คัดสรรสื่อที่นำไปใช้สอนได้ทันที · พบ {result.total} รายการ</p><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">{result.products.map((product) => <ProductGridCard key={product.id} id={product.slug} title={product.title} coverUrl={coverUrlOf(product)} storeName={product.creator.displayName} rating={null} reviewCount={0} price={product.price.toNumber()}/>)}</div></div>; }

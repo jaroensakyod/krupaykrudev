@@ -65,12 +65,14 @@ export default async function CartPage({
                 <div className="flex-1 min-w-0">
                   <p className="font-headline font-medium truncate">{item.title}</p>
                   <p className="text-xs text-text-muted mt-0.5">โดย {item.creatorName}</p>
+                  {item.isBundle && <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent/15 text-badge-gold">ชุดสื่อการสอน</span>}
                 </div>
                 <p className="font-headline font-bold text-primary whitespace-nowrap">
                   {item.price === 0 ? "ฟรี" : `฿${item.price.toLocaleString()}`}
                 </p>
                 <form action={removeFromCartAction}>
                   <input name="productId" type="hidden" value={item.productId} />
+                  {item.isBundle && <input name="isBundle" type="hidden" value="1" />}
                   <button className="text-danger text-sm hover:underline" type="submit">
                     ลบ
                   </button>

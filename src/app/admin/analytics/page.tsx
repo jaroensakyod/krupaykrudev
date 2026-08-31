@@ -25,6 +25,10 @@ export default async function FounderAnalyticsPage() {
         North Star: Successful Paid Orders = {f.purchases} · GMV = ฿{f.gmv.toLocaleString()} ({f.paidOrders} ออเดอร์)
       </p>
 
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        {[{ label: "ผู้สมัครใหม่", value: f.registrations }, { label: "Creator ใหม่", value: f.newCreators }, { label: "สินค้าที่เผยแพร่", value: f.publishedProducts }, { label: "AOV / Refund", value: `฿${f.aov.toLocaleString()} · ${f.refundRate}%` }].map((item) => <div key={item.label} className="bg-white rounded-xl border border-gray-100 p-4"><p className="text-xs text-text-muted">{item.label}</p><p className="font-headline text-xl font-bold mt-2">{item.value}</p></div>)}
+      </div>
+
       {/* Funnel */}
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 mb-10">
         {funnel.map((step, i) => {
@@ -40,6 +44,8 @@ export default async function FounderAnalyticsPage() {
           );
         })}
       </div>
+
+      <div className="bg-white border border-gray-100 rounded-xl p-6 mb-8"><h2 className="font-headline font-bold">แหล่งที่มาของ Traffic</h2><p className="text-xs text-text-muted mt-1">ใช้ตัดสินใจเพิ่ม/ลดงบแคมเปญจาก UTM และ referral</p>{f.sources.length ? <div className="mt-4 space-y-3">{f.sources.map((source) => <div key={source.source} className="flex items-center gap-3 text-sm"><span className="w-32 truncate">{source.source}</span><div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden"><div className="h-full bg-primary rounded-full" style={{ width: `${Math.min(100, source.events / f.sources[0].events * 100)}%` }}/></div><b>{source.events}</b></div>)}</div> : <p className="text-sm text-text-muted mt-4">ยังไม่มีข้อมูล source — เริ่มแชร์ลิงก์พร้อม UTM หรือ referral</p>}</div>
 
       {/* Demand gaps */}
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">

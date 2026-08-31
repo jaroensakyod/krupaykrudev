@@ -148,6 +148,22 @@ export async function moderateProduct(
     });
   }
 
+  // Buyer retention: notify users who explicitly follow this subject and grade.
+  if (decision === "APPROVE") {
+    const followers = await prisma.follow.findMany({
+      where: { subjectId: updated.subjectId, gradeId: updated.primaryGradeId, userId: { not: creator?.userId } },
+      select: { userId: true },
+    });
+    const { notify } = await import("@/lib/notifications");
+    await Promise.all(followers.map((follower) => notify({
+      userId: follower.userId,
+      type: "REPORT_UPDATE",
+      title: "มีสื่อใหม่ในหัวข้อที่คุณติดตาม",
+      body: updated.title,
+      linkUrl: `/products/${updated.slug}`,
+    })));
+  }
+
   logger.info("moderation_decision", { adminId, productId, decision });
   return updated;
 }

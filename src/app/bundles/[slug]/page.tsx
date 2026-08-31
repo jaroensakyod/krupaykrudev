@@ -1,0 +1,10 @@
+import { notFound } from "next/navigation";
+import { getPublicBundle } from "@/lib/bundles";
+import { MaterialIcon } from "@/components/material-icon";
+import { addBundleToCartAction } from "@/app/cart/actions";
+
+export default async function BundlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const bundle = await getPublicBundle((await params).slug); if (!bundle) notFound();
+  const normal = bundle.items.reduce((s, i) => s + i.product.price.toNumber(), 0);
+  return <div className="max-w-4xl mx-auto px-6 py-12"><p className="text-xs font-bold text-accent">ชุดสื่อการสอน</p><h1 className="font-headline text-3xl font-bold mt-2">{bundle.title}</h1><p className="text-sm text-text-muted mt-2">โดย {bundle.creator.displayName} · รวม {bundle.items.length} สื่อ</p><div className="mt-8 grid md:grid-cols-[1fr_280px] gap-6"><section className="bg-white border rounded-2xl p-6"><h2 className="font-headline font-bold">ในชุดนี้มีอะไรบ้าง</h2><div className="mt-4 space-y-3">{bundle.items.map((item, i) => <div key={item.productId} className="flex gap-3 text-sm"><span className="text-primary font-bold">{i + 1}</span><span><b>{item.product.title}</b><br/><small className="text-text-muted">{item.product.subject.nameTh} · {item.product.grade.nameTh}</small></span></div>)}</div></section><aside className="bg-primary-50 border border-primary-100 rounded-2xl p-6 h-fit"><p className="text-xs text-text-muted line-through">รวมปกติ ฿{normal.toLocaleString()}</p><p className="font-headline text-3xl font-bold text-primary mt-1">฿{bundle.price.toNumber().toLocaleString()}</p><p className="text-sm text-success mt-1">ประหยัด ฿{Math.max(0, normal - bundle.price.toNumber()).toLocaleString()}</p><form action={addBundleToCartAction}><input type="hidden" name="bundleId" value={bundle.id}/><button className="mt-5 w-full py-3 rounded-xl bg-primary text-white font-medium hover:bg-primary-dark">เพิ่มชุดนี้ลงตะกร้า</button></form><p className="mt-3 text-xs text-text-muted text-center"><MaterialIcon name="verified_user" className="text-sm align-middle"/> ซื้อครั้งเดียว รับสิทธิ์ทุกสื่อในชุด</p></aside></div></div>;
+}
