@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const [products, creators] = await Promise.all([
+    const [products, creators, grades, subjects] = await Promise.all([
       prisma.product.findMany({
         where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
         select: { slug: true, updatedAt: true },
@@ -25,7 +25,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         where: { deletedAt: null },
         select: { slug: true, updatedAt: true },
       }),
+      prisma.grade.findMany({ where: { isActive: true }, select: { code: true } }),
+      prisma.subject.findMany({ where: { isActive: true }, select: { code: true } }),
     ]);
+
+    // /learn/{grade}/{subject} — เฉพาะคู่ที่มีสินค้าจริง (ไม่สร้าง thin pages)
+    const counts = await prisma.product.groupBy({
+      by: ["primaryGradeId", "subjectId"],
+      where: { status: "PUBLISHED", visibility: "PUBLIC", deletedAt: null },
+      _count: { id: true },
+    });
+    const gradeById = new Map(
+      (await prisma.grade.findMany({ select: { id: true, code: true } })).map((g) => [g.id, g.code]),
+    );
+    const subjectById = new Map(
+      (await prisma.subject.findMany({ select: { id: true, code: true } })).map((s) => [s.id, s.code]),
+    );
+    const landingPages: MetadataRoute.Sitemap = counts
+      .filter((c) => c._count.id > 0 && gradeById.has(c.primaryGradeId) && subjectById.has(c.subjectId))
+      .map((c) => ({
+        url: `${base}/learn/${gradeById.get(c.primaryGradeId)}/${subjectById.get(c.subjectId)}`,
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      }));
 
     return [
       ...staticRoutes,
@@ -41,6 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "weekly" as const,
         priority: 0.5,
       })),
+      ...landingPages,
     ];
   } catch {
     // DB ยังไม่พร้อม (เช่น build ไม่มี DATABASE_URL) — คืนเฉพาะหน้า static
