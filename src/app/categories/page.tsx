@@ -3,6 +3,9 @@ import { MaterialIcon } from "@/components/material-icon";
 import { CATEGORIES, GRADE_LEVELS } from "@/lib/mock/home-data";
 import { prisma } from "@/lib/prisma";
 
+// เรนเดอร์ตอน request — หน้าอ่านข้อมูลจาก DB แบบเรียลไทม์
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "หมวดหมู่สื่อการสอน",
   description: "เลือกดูสื่อการเรียนการสอนตามหมวดหมู่และระดับชั้น",

@@ -4,6 +4,9 @@ import { ProductGridCard } from "@/components/product-grid-card";
 import { coverUrlOf } from "@/lib/catalog";
 import { prisma } from "@/lib/prisma";
 
+// เรนเดอร์ตอน request — หน้าอ่านข้อมูลจาก DB แบบเรียลไทม์
+export const dynamic = "force-dynamic";
+
 // หน้าแรก — layout ตาม design เป้าหมาย (hero + right rail) · สถิติ/ยอดขายจาก DB จริง
 // ไม่แสดงสถิติปลอมหรือ feature ที่ยังไม่มี (บทเรียนจาก KruPass banner)
 export default async function HomePage() {
