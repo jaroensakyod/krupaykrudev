@@ -8,6 +8,7 @@ import { addToCartAction } from "@/app/cart/actions";
 import { getProductReviews, getProductRating, toggleWishlist } from "@/lib/reviews";
 import { toggleWishlistAction } from "@/app/account/actions";
 import { ReportFields } from "./report/report-fields";
+import { safeJsonLd } from "@/lib/json-ld";
 import { trackEvent } from "@/lib/analytics";
 import { getSession } from "@/lib/session";
 
@@ -62,7 +63,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-10">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <nav className="text-sm text-text-muted mb-6 flex items-center gap-1.5">
         <Link href="/" className="hover:text-primary">หน้าแรก</Link>
         <MaterialIcon name="chevron_right" className="text-base" />

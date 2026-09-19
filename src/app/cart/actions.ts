@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import { addToCart, removeFromCart, removeBundleFromCart, checkout } from "@/lib/commerce";
 import { trackEvent } from "@/lib/analytics";
 import { addBundleToCart } from "@/lib/bundles";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function addBundleToCartAction(formData: FormData) {
   const session = await auth();
@@ -43,6 +44,9 @@ export async function removeFromCartAction(formData: FormData) {
 export async function checkoutAction(formData: FormData) {
   const session = await auth();
   if (!session?.user) redirect("/login");
+  // SECURITY: กั๊กการเดาโค้ดคูปอง — 10 ครั้ง / 10 นาที / ผู้ใช้
+  const rl = rateLimit(`coupon:${session.user.id}`, 10, 600);
+  if (!rl.allowed) redirect("/cart?error=coupon");
   const couponCode = String(formData.get("couponCode") ?? "").trim() || undefined;
   try {
     const { payment, order } = await checkout(session.user.id, couponCode);

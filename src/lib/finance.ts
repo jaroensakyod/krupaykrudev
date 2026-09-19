@@ -169,12 +169,14 @@ export async function processRefund(
 
   const refund = await prisma.$transaction(async (tx) => {
     const now = new Date();
+    // SECURITY: race guard — อัปเดตแบบมีเงื่อนไข คนเดียวที่ชนะได้ (กัน double refund)
+    const claimed = await tx.order.updateMany({
+      where: { id: orderId, status: "PAID" },
+      data: { status: "REFUNDED", paymentStatus: "REFUNDED" },
+    });
+    if (claimed.count !== 1) throw new Error("ORDER_NOT_REFUNDABLE");
     const refundRow = await tx.refund.create({
       data: { orderId, amount: order.total, reason, requestedBy: order.buyerId, reviewedBy: adminId, status: "COMPLETED", completedAt: now },
-    });
-    await tx.order.update({
-      where: { id: orderId },
-      data: { status: "REFUNDED", paymentStatus: "REFUNDED" },
     });
     // Ledger reversal — กระทบยอดกลับด้วย entry ใหม่ทุกบัญชี
     await tx.ledgerEntry.create({

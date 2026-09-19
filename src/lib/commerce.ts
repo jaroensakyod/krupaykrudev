@@ -9,7 +9,12 @@ import { logger } from "@/lib/logger";
  * - fulfillment idempotent — webhook ยิงซ้ำไม่สร้าง duplicate (PRD §89, §110)
  */
 
-export const PAYMENT_CONFIRM_SECRET = process.env.AUTH_SECRET ?? "dev";
+// SECURITY: ห้าม fallback — ถ้า AUTH_SECRET หาย ระบบต้อง fail ทันที ไม่ใช่เซ็นด้วยกุญแจสาธารณะ
+export const PAYMENT_CONFIRM_SECRET = (() => {
+  const secret = process.env.AUTH_SECRET;
+  if (!secret || secret.length < 16) throw new Error("AUTH_SECRET missing/too short");
+  return secret;
+})();
 
 export function signPaymentConfirm(paymentId: string): string {
   return createHmac("sha256", PAYMENT_CONFIRM_SECRET).update(`confirm:${paymentId}`).digest("hex");

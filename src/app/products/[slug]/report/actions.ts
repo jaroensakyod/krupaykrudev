@@ -3,6 +3,8 @@
 import { z } from "zod";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { rateLimit, ipKey } from "@/lib/rate-limit";
+import { headers } from "next/headers";
 
 const schema = z.object({
   productId: z.string().uuid(),
@@ -16,6 +18,10 @@ export async function reportProductAction(
   formData: FormData,
 ): Promise<{ error?: string; sent?: boolean }> {
   const session = await auth();
+  // SECURITY: กันสแปมรายงาน — 5 ครั้ง / ชั่วโมง / IP
+  const h = await headers();
+  const rl = rateLimit(ipKey({ headers: h }, "report"), 5, 3600);
+  if (!rl.allowed) return { error: "ส่งรายงานบ่อยเกินไป ลองใหม่ภายหลัง" };
   const parsed = schema.safeParse({
     productId: formData.get("productId"),
     reason: formData.get("reason"),

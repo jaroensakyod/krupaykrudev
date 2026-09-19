@@ -23,7 +23,16 @@ export async function PUT(request: Request) {
   }
 
   const base = `https://api.cloudflare.com/client/v4/accounts/${process.env.R2_ACCOUNT_ID}/r2/buckets/${process.env.R2_BUCKET}/objects`;
+  // SECURITY: บังคับขนาดตามที่ ticket ขอ — กันลำลองยัดไฟล์ใหญ่เกิน
+  const MAX = 100 * 1024 * 1024;
+  const declared = Number(request.headers.get("content-length") ?? "0");
+  if (!declared || declared > MAX) {
+    return NextResponse.json({ error: "TOO_LARGE" }, { status: 413 });
+  }
   const body = Buffer.from(await request.arrayBuffer());
+  if (body.length > MAX) {
+    return NextResponse.json({ error: "TOO_LARGE" }, { status: 413 });
+  }
   const res = await fetch(`${base}/${key}`, {
     method: "PUT",
     headers: { Authorization: `Bearer ${process.env.R2_API_TOKEN}`, "Content-Type": contentType },

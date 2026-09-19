@@ -31,7 +31,15 @@ export async function PUT(request: Request) {
   const ROOT = path.join(process.cwd(), ".storage");
   const full = path.join(ROOT, key);
   await mkdir(path.dirname(full), { recursive: true });
+  const MAX = 100 * 1024 * 1024;
+  const declared = Number(request.headers.get("content-length") ?? "0");
+  if (!declared || declared > MAX) {
+    return NextResponse.json({ error: "TOO_LARGE" }, { status: 413 });
+  }
   const body = Buffer.from(await request.arrayBuffer());
+  if (body.length > MAX) {
+    return NextResponse.json({ error: "TOO_LARGE" }, { status: 413 });
+  }
   await writeFile(full, body);
   return NextResponse.json({ ok: true, size: body.length });
 }

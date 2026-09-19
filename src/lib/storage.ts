@@ -47,7 +47,9 @@ function cfHeaders(): Record<string, string> {
 }
 
 function tokenFor(key: string, contentType: string, exp: number): string {
-  return createHmac("sha256", process.env.AUTH_SECRET ?? "dev")
+  const secret = process.env.AUTH_SECRET;
+  if (!secret || secret.length < 16) throw new Error("AUTH_SECRET missing/too short");
+  return createHmac("sha256", secret)
     .update(`${key}:${contentType}:${exp}`)
     .digest("hex");
 }
