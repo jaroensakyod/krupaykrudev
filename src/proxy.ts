@@ -69,7 +69,8 @@ export async function proxy(request: NextRequest) {
     pathname === "/icon.svg" ||
     pathname.startsWith("/images") ||
     pathname.startsWith("/_next") ||
-    pathname === "/favicon.ico";
+    pathname === "/favicon.ico" ||
+    pathname.endsWith(".pdf");
 
   if (!exempt && !pathname.startsWith("/coming-soon")) {
     if (!request.cookies.get("launch_admin")) {
