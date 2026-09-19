@@ -577,6 +577,16 @@ model Coupon {
 }
 
 
+// สวิตช์เปิดเว็บ (พิธีเปิดตัว)
+model LaunchFlag {
+  id         String    @id @default(uuid()) @db.Uuid
+  key        String    @unique
+  live       Boolean   @default(false)
+  launchedAt DateTime? @map("launched_at")
+
+  @@map("launch_flags")
+}
+
 // TASK-086/087
 enum PayoutStatus {
   REQUESTED

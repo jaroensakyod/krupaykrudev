@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useRef } from "react";
+
 import { useEffect, useState } from "react";
 import { MaterialIcon } from "@/components/material-icon";
 
@@ -19,6 +22,20 @@ function left() {
 
 export default function ComingSoonPage() {
   const [t, setT] = useState(left());
+  const router = useRouter();
+  const taps = useRef(0);
+  const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // ทางเข้าลับ: แตะโลโก้ 5 ครั้ง → ไปหน้า /launch (ใส่รหัสเปิดเว็บ)
+  function secretTap() {
+    taps.current += 1;
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    if (taps.current >= 5) {
+      taps.current = 0;
+      router.push("/launch");
+      return;
+    }
+    tapTimer.current = setTimeout(() => { taps.current = 0; }, 1500);
+  }
   useEffect(() => {
     const timer = setInterval(() => setT(left()), 1000);
     return () => clearInterval(timer);
@@ -36,7 +53,9 @@ export default function ComingSoonPage() {
       {/* โลโก้ */}
       <div className="mb-6">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img alt="ครูเปย์ครู" src="/images/logo-mark.svg" className="h-20 w-20 mx-auto drop-shadow-xl" />
+        <button type="button" onClick={secretTap} aria-label="ครูเปย์ครู" className="cursor-default">
+          <img alt="ครูเปย์ครู" src="/images/logo-mark.svg" className="h-20 w-20 mx-auto drop-shadow-xl" />
+        </button>
       </div>
       <h1 className="font-headline text-4xl md:text-6xl font-black tracking-wide mb-3">
         ครูเปย์ครู
