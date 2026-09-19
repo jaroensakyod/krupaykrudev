@@ -577,6 +577,16 @@ model Coupon {
 }
 
 
+// V1.5: waitlist ก่อนเปิดตัว — เก็บ leads ครู/ผู้ซื้อรุ่นแรก
+model WaitlistEntry {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  role      String   @default("teacher") // teacher | buyer
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("waitlist_entries")
+}
+
 // สวิตช์เปิดเว็บ (พิธีเปิดตัว)
 model LaunchFlag {
   id         String    @id @default(uuid()) @db.Uuid

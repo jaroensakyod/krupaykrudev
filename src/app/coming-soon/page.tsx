@@ -23,6 +23,10 @@ function left() {
 
 export default function ComingSoonPage() {
   const [t, setT] = useState(left());
+  const [wlEmail, setWlEmail] = useState("");
+  const [wlRole, setWlRole] = useState<"teacher" | "buyer">("teacher");
+  const [wlState, setWlState] = useState<"idle" | "sending" | "done">("idle");
+  const [wlCount, setWlCount] = useState<number | null>(null);
   const router = useRouter();
   const taps = useRef(0);
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -39,8 +43,30 @@ export default function ComingSoonPage() {
   }
   useEffect(() => {
     const timer = setInterval(() => setT(left()), 1000);
+    fetch("/api/waitlist").then((r) => r.json()).then((d) => setWlCount(d.count ?? 0)).catch(() => {});
     return () => clearInterval(timer);
   }, []);
+
+  async function joinWaitlist() {
+    if (!wlEmail.includes("@") || wlState === "sending") return;
+    setWlState("sending");
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: wlEmail, role: wlRole }),
+      });
+      const data = await res.json();
+      if (data.ok) {
+        setWlState("done");
+        setWlCount(data.count ?? null);
+      } else {
+        setWlState("idle");
+      }
+    } catch {
+      setWlState("idle");
+    }
+  }
 
   const boxes = [
     { v: t.days, label: "วัน" },
@@ -101,7 +127,58 @@ export default function ComingSoonPage() {
         </p>
       )}
 
-      <div className="mt-16 flex items-center gap-2 text-white/50 text-sm">
+      {/* Waitlist — เก็บ leads ครู/ผู้ซื้อรุ่นแรก (PRD §91) */}
+      <div className="w-full max-w-xl bg-white/10 backdrop-blur rounded-2xl border border-white/15 p-6 mb-12">
+        <p className="font-headline font-bold text-lg mb-1">
+          อยากใช้ก่อนใคร? ลงทะเบียนรอเลย
+        </p>
+        {wlCount != null && wlCount > 0 && (
+          <p className="text-xs text-accent-light mb-3">
+            🔥 มีผู้ลงทะเบียนรอแล้ว {wlCount.toLocaleString()} คน
+          </p>
+        )}
+        {wlState === "done" ? (
+          <p className="text-sm text-accent-light">
+            ✓ ลงทะเบียนสำเร็จ — เราจะอีเมลแจ้งตอนเปิดใช้งานจริง
+          </p>
+        ) : (
+          <div className="space-y-3">
+            <div className="flex gap-2 justify-center text-xs">
+              {([["teacher", "ฉันเป็นครู/อยากขายสื่อ"], ["buyer", "ฉันอยากซื้อสื่อ"]] as const).map(([v, label]) => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => setWlRole(v)}
+                  className={`px-4 py-1.5 rounded-full border transition-colors ${
+                    wlRole === v ? "bg-white text-primary border-white font-bold" : "border-white/40 text-white/80"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <input
+                className="flex-1 px-4 py-2.5 rounded-lg text-sm text-text-main"
+                onChange={(e) => setWlEmail(e.target.value)}
+                placeholder="อีเมลของคุณ"
+                type="email"
+                value={wlEmail}
+              />
+              <button
+                className="bg-accent hover:bg-accent/90 text-white text-sm font-bold px-5 py-2.5 rounded-lg whitespace-nowrap disabled:opacity-60"
+                disabled={wlState === "sending"}
+                onClick={() => void joinWaitlist()}
+                type="button"
+              >
+                ลงทะเบียน
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-4 flex items-center gap-2 text-white/50 text-sm">
         <MaterialIcon name="school" className="text-xl" filled />
         ครูซื้อจากครู — สื่อการสอนคุณภาพจากครูตัวจริง
       </div>

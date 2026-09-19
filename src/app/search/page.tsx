@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { MaterialIcon } from "@/components/material-icon";
-import { searchProducts } from "@/lib/catalog";
+import { searchProducts, getRatingsMap } from "@/lib/catalog";
 import { normalizeQuery } from "@/lib/search/normalize";
 import { prisma } from "@/lib/prisma";
 import { ProductGridCard } from "@/components/product-grid-card";
@@ -85,6 +85,8 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
   for (const p of result.products) {
     void trackEvent({ eventType: "PRODUCT_IMPRESSION", userId: session?.user?.id, productId: p.id, creatorId: p.creatorId });
   }
+
+  const ratings = await getRatingsMap(result.products.map((p) => p.id));
 
   const activeSubject = subjects.find((s) => s.code === subjectCode);
   const activeGrade = grades.find((g) => g.code === gradeCode);
@@ -173,8 +175,8 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                         : null
                     }
                     storeName={p.creator.displayName}
-                    rating={null}
-                    reviewCount={0}
+                    rating={ratings.get(p.id)?.avg ?? null}
+                    reviewCount={ratings.get(p.id)?.count ?? 0}
                     price={p.price.toNumber()}
                   />
                 ))}

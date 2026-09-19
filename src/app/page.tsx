@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MaterialIcon } from "@/components/material-icon";
 import { ProductGridCard } from "@/components/product-grid-card";
-import { coverUrlOf } from "@/lib/catalog";
+import { coverUrlOf, getRatingsMap } from "@/lib/catalog";
 import { prisma } from "@/lib/prisma";
 
 // เรนเดอร์ตอน request — หน้าอ่านข้อมูลจาก DB แบบเรียลไทม์
@@ -51,6 +51,8 @@ export default async function HomePage() {
   const popularCreators = creatorProfiles
     .map((c) => ({ ...c, sales: salesByUser.get(c.userId) ?? 0 }))
     .sort((a, b) => b.sales - a.sales);
+
+  const ratings = await getRatingsMap(latest.map((p) => p.id));
 
   const stats = [
     { icon: "description", label: "สื่อการสอน", value: productCount.toLocaleString() + " ชิ้น" },

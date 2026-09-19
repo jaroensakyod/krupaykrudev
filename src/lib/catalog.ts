@@ -142,3 +142,21 @@ export function coverUrlOf(product: { files: Array<{ id: string; fileRole: strin
   const withPreview = product.files.find((f) => f.preview);
   return withPreview?.preview ? `/api/files/${withPreview.id}/preview` : null;
 }
+
+/** Social proof: คะแนนเฉลี่ยต่อชุดสินค้า (ใช้กับการ์ดทุกหน้า) */
+export async function getRatingsMap(productIds: string[]): Promise<Map<string, { avg: number; count: number }>> {
+  if (productIds.length === 0) return new Map();
+  const rows = await prisma.review.groupBy({
+    by: ["productId"],
+    where: { productId: { in: productIds } },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+  const map = new Map<string, { avg: number; count: number }>();
+  for (const r of rows) {
+    if (r._avg.rating != null) {
+      map.set(r.productId, { avg: Math.round(r._avg.rating * 10) / 10, count: r._count.rating });
+    }
+  }
+  return map;
+}

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { MaterialIcon } from "@/components/material-icon";
 import { getCreatorBySlug } from "@/lib/creators";
 import { prisma } from "@/lib/prisma";
-import { coverUrlOf } from "@/lib/catalog";
+import { coverUrlOf, getRatingsMap } from "@/lib/catalog";
 import { ProductGridCard } from "@/components/product-grid-card";
 import { countStoreFollowers } from "@/lib/coupons";
 import { getSession } from "@/lib/session";
@@ -30,6 +30,7 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
 
   const verified = profile.verificationStatus === "VERIFIED";
   const followers = await countStoreFollowers(profile.id);
+  const ratings = await getRatingsMap(products.map((p) => p.id));
   const session = await getSession();
   const following = session?.user
     ? await prisma.follow.findUnique({ where: { userId_creatorId: { userId: session.user.id, creatorId: profile.id } } })
@@ -124,8 +125,8 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
                   title={p.title}
                   coverUrl={coverUrlOf(p)}
                   storeName={profile.displayName}
-                  rating={null}
-                  reviewCount={0}
+                  rating={ratings.get(p.id)?.avg ?? null}
+                  reviewCount={ratings.get(p.id)?.count ?? 0}
                   price={p.price.toNumber()}
                 />
               ))}
