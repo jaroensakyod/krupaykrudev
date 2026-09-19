@@ -3,6 +3,8 @@ import { MaterialIcon } from "@/components/material-icon";
 import { getSession } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { signPaymentConfirm } from "@/lib/commerce";
+import { omiseEnabled } from "@/lib/payments/omise";
+import { PayClient } from "./pay-client";
 import { mockPayConfirmAction } from "./actions";
 
 export const metadata = { title: "ชำระเงิน" };
@@ -25,6 +27,7 @@ export default async function PayPage({ params }: PageProps<"/checkout/pay/[id]"
   }
 
   const signature = signPaymentConfirm(payment.id);
+  const useOmise = omiseEnabled();
 
   return (
     <div className="max-w-xl mx-auto px-6 py-12">
@@ -56,16 +59,20 @@ export default async function PayPage({ params }: PageProps<"/checkout/pay/[id]"
         </div>
       </div>
 
-      <form action={mockPayConfirmAction} className="space-y-3">
-        <input name="paymentId" type="hidden" value={payment.id} />
-        <input name="signature" type="hidden" value={signature} />
-        <button
-          className="w-full bg-success hover:bg-success/90 text-white font-headline font-bold text-lg py-4 rounded-xl transition-colors shadow-md"
-          type="submit"
-        >
-          ยืนยันการชำระเงิน (จำลอง)
-        </button>
-      </form>
+      {useOmise ? (
+        <PayClient paymentId={payment.id} amount={payment.amount.toNumber()} omisePublicKey={process.env.OMISE_PUBLIC_KEY ?? ""} />
+      ) : (
+        <form action={mockPayConfirmAction} className="space-y-3">
+          <input name="paymentId" type="hidden" value={payment.id} />
+          <input name="signature" type="hidden" value={signature} />
+          <button
+            className="w-full bg-success hover:bg-success/90 text-white font-headline font-bold text-lg py-4 rounded-xl transition-colors shadow-md"
+            type="submit"
+          >
+            ยืนยันการชำระเงิน (จำลอง)
+          </button>
+        </form>
+      )}
       <p className="mt-4 text-xs text-text-muted text-center">
         เมื่อชำระสำเร็จ ระบบจะปลดล็อกดาวน์โหลดทันทีและบันทึกสิทธิ์ถาวรในบัญชีของคุณ
       </p>
