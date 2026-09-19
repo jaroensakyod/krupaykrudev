@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import { MaterialIcon } from "@/components/material-icon";
@@ -104,6 +105,16 @@ export default function ComingSoonPage() {
         <MaterialIcon name="school" className="text-xl" filled />
         ครูซื้อจากครู — สื่อการสอนคุณภาพจากครูตัวจริง
       </div>
+
+      {/* ทางเข้าเจ้าของเว็บ */}
+      <Link
+        href="/launch"
+        aria-label="จัดการระบบ"
+        className="fixed bottom-3 right-3 w-6 h-6 rounded-full border border-white/20 text-white/30 hover:text-white hover:border-white text-[10px] flex items-center justify-center transition-colors"
+        title="จัดการระบบ"
+      >
+        •
+      </Link>
     </div>
   );
 }
