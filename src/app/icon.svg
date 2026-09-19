@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0F766E"/>
+  <path d="M32 12c-8.8 0-16 6.4-16 14.3 0 4.6 2.4 8.7 6.1 11.3v6.9c0 1 .8 1.8 1.8 1.8h2.4v3.2c0 .8.7 1.5 1.5 1.5h8.4c.8 0 1.5-.7 1.5-1.5v-3.2h2.4c1 0 1.8-.8 1.8-1.8v-6.9C45.6 35 48 30.9 48 26.3 48 18.4 40.8 12 32 12zm-7.4 14.1c.9-.9 2.4-.9 3.3 0l4.1 4.1 4.1-4.1c.9-.9 2.4-.9 3.3 0s.9 2.4 0 3.3l-5.7 5.7c-.9.9-2.4.9-3.3 0l-5.7-5.7c-.9-.9-.9-2.4-.1-3.3z" fill="#fff"/>
+  <circle cx="46" cy="16" r="7" fill="#F59E0B"/>
+  <text x="46" y="19.5" text-anchor="middle" font-size="9" font-weight="bold" fill="#fff" font-family="sans-serif">฿</text>
+</svg>

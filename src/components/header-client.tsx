@@ -27,8 +27,10 @@ export function HeaderClient({
       <div className="flex justify-between items-center w-full px-6 py-3 max-w-7xl mx-auto">
         {/* Logo & Brand */}
         <div className="flex items-center gap-2">
-          <Link href="/" className="text-2xl font-headline font-black text-primary">
-            ครูเปย์ครู
+          <Link href="/" className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img alt="โลโก้ ครูเปย์ครู" src="/images/logo-mark.svg" className="h-9 w-9" />
+            <span className="text-2xl font-headline font-black text-primary">ครูเปย์ครู</span>
           </Link>
         </div>
 
