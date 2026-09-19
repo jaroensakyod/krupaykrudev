@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { MaterialIcon } from "@/components/material-icon";
 import { getSession } from "@/lib/session";
@@ -74,7 +75,10 @@ export default async function PayPage({ params }: PageProps<"/checkout/pay/[id]"
         </form>
       )}
       <p className="mt-4 text-xs text-text-muted text-center">
-        เมื่อชำระสำเร็จ ระบบจะปลดล็อกดาวน์โหลดทันทีและบันทึกสิทธิ์ถาวรในบัญชีของคุณ
+        เมื่อชำระสำเร็จ ระบบจะปลดล็อกดาวน์โหลดทันทีและบันทึกสิทธิ์ถาวรในบัญชีของคุณ ·{" "}
+        <Link href="/terms" className="text-primary hover:underline">
+          นโยบายการคืนเงิน
+        </Link>
       </p>
     </div>
   );
