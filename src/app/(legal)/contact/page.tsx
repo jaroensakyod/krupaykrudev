@@ -35,7 +35,7 @@ export default function Page() {
         <p className="mb-6">
           เลือกหัวข้อที่ตรงกับเรื่องของท่าน เพื่อให้ทีมที่รับผิดชอบตอบกลับได้เร็วที่สุด
           <span className="block text-xs text-text-muted mt-1">
-            * อีเมลจะเปิดใช้งานพร้อมโดเมนจริง — ระหว่างรอ กรุณาส่งข้อความผ่านช่องทาง social ของเรา
+            * เปิดใช้งานผ่าน Cloudflare Email Routing — ส่งต่อเข้า Gmail ของทีมงาน (ตั้งค่าครั้งเดียวใน dashboard)
           </span>
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
