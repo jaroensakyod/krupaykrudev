@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
   return (
@@ -8,6 +9,12 @@ export function SiteFooter() {
         <div className="col-span-1">
           <div className="text-xl font-headline font-bold text-primary mb-4">ครูเปย์ครู</div>
           <p className="mb-4">© 2026 KruPayKru. แพลตฟอร์มเพื่อครูไทยโดยครูไทย</p>
+          {siteConfig.ecomRegistrationNumber ? (
+            <p className="text-xs">
+              จดแจ้งพาณิชย์อิเล็กทรอนิกส์ เลขที่ {siteConfig.ecomRegistrationNumber}
+              {siteConfig.ecomRegisteredDate ? ` · วันที่ ${siteConfig.ecomRegisteredDate}` : ""}
+            </p>
+          ) : null}
         </div>
 
         {/* Links Columns */}
