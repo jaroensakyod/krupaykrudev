@@ -40,16 +40,20 @@ export async function removeFromCartAction(formData: FormData) {
   redirect("/cart");
 }
 
-export async function checkoutAction() {
+export async function checkoutAction(formData: FormData) {
   const session = await auth();
   if (!session?.user) redirect("/login");
+  const couponCode = String(formData.get("couponCode") ?? "").trim() || undefined;
   try {
-    const { payment, order } = await checkout(session.user.id);
+    const { payment, order } = await checkout(session.user.id, couponCode);
     void trackEvent({ eventType: "CHECKOUT_START", userId: session.user.id, properties: { orderId: order.id } }); // TASK-106
     redirect(`/checkout/pay/${payment.id}`);
   } catch (error) {
     if (String(error).includes("EMPTY_CART") || String(error).includes("PRODUCT_UNAVAILABLE")) {
       redirect("/cart?error=unavailable");
+    }
+    if (String(error).includes("COUPON_INVALID")) {
+      redirect("/cart?error=coupon");
     }
     throw error;
   }

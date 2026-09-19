@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { MaterialIcon } from "@/components/material-icon";
 import { getSession } from "@/lib/session";
 import { getCreatorByUserId } from "@/lib/creators";
+import { listFollowedStores } from "@/lib/coupons";
 
 export const metadata = { title: "บัญชีของฉัน" };
 
@@ -16,6 +17,7 @@ export default async function AccountPage({
   const session = await getSession();
   if (!session?.user) redirect("/login");
   const creator = await getCreatorByUserId(session.user.id);
+  const followed = await listFollowedStores(session.user.id);
 
   const links = [
     { href: "/orders", icon: "receipt_long", label: "คำสั่งซื้อของฉัน" },
@@ -52,6 +54,24 @@ export default async function AccountPage({
           </Link>
         ))}
       </div>
+
+      {/* Followed stores */}
+      {followed.length > 0 && (
+        <div className="mt-6 bg-white rounded-xl border border-gray-100 shadow-sm p-6">
+          <h2 className="font-headline font-bold mb-3">ร้านที่คุณติดตาม</h2>
+          <div className="flex flex-wrap gap-2">
+            {followed.map((f) => (
+              <Link
+                key={f.id}
+                href={`/creator/${f.creator?.slug}`}
+                className="px-4 py-2 bg-primary-50 text-primary rounded-full text-sm hover:bg-primary-100"
+              >
+                {f.creator?.displayName}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Creator section */}
       <div className="mt-6 bg-white rounded-xl border border-gray-100 shadow-sm p-6">

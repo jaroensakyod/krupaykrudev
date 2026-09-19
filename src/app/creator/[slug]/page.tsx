@@ -5,6 +5,7 @@ import { getCreatorBySlug } from "@/lib/creators";
 import { prisma } from "@/lib/prisma";
 import { coverUrlOf } from "@/lib/catalog";
 import { ProductGridCard } from "@/components/product-grid-card";
+import { countStoreFollowers } from "@/lib/coupons";
 import { getSession } from "@/lib/session";
 import { toggleCreatorFollowAction } from "@/app/account/growth-actions";
 
@@ -28,6 +29,7 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
   });
 
   const verified = profile.verificationStatus === "VERIFIED";
+  const followers = await countStoreFollowers(profile.id);
   const session = await getSession();
   const following = session?.user
     ? await prisma.follow.findUnique({ where: { userId_creatorId: { userId: session.user.id, creatorId: profile.id } } })
@@ -60,7 +62,9 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
                 </span>
               )}
             </div>
-            <p className="text-sm text-text-muted">@{profile.slug}</p>
+            <p className="text-sm text-text-muted">
+              @{profile.slug} · ผู้ติดตาม {followers.toLocaleString()} คน
+            </p>
             {profile.bio && <p className="mt-2 text-sm max-w-xl">{profile.bio}</p>}
           </div>
           <form action={toggleCreatorFollowAction} className="shrink-0">
@@ -71,6 +75,17 @@ export default async function CreatorPage({ params }: PageProps<"/creator/[slug]
             </button>
           </form>
         </div>
+
+        {!session?.user && (
+          <div className="mb-8">
+            <Link
+              href="/login"
+              className="inline-block bg-primary text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-primary-dark"
+            >
+              เข้าสู่ระบบเพื่อติดตามร้าน
+            </Link>
+          </div>
+        )}
 
         {/* Meta chips */}
         <div className="flex flex-wrap gap-2 mb-10">

@@ -5,16 +5,16 @@ import { getSession } from "@/lib/session";
 import { listOrders } from "@/lib/commerce";
 import { getBuyerReviewableItems } from "@/lib/reviews";
 import { prisma } from "@/lib/prisma";
-import { createReviewAction } from "@/app/account/actions";
+import { createReviewAction, requestRefundAction } from "@/app/account/actions";
 
 export const metadata = { title: "คำสั่งซื้อของฉัน" };
 
 export default async function OrdersPage({
   searchParams,
 }: {
-  searchParams: Promise<{ paid?: string; error?: string; reviewed?: string }>;
+  searchParams: Promise<{ paid?: string; error?: string; reviewed?: string; refund_requested?: string }>;
 }) {
-  const { paid, error, reviewed } = await searchParams;
+  const { paid, error, reviewed, refund_requested } = await searchParams;
   const session = await getSession();
   if (!session?.user) redirect("/login");
   const orders = await listOrders(session.user.id);
@@ -53,6 +53,19 @@ export default async function OrdersPage({
       )}
       {error === "review_failed" && (
         <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">ส่งรีวิวไม่สำเร็จ</p>
+      )}
+      {refund_requested && (
+        <p className="mb-4 rounded-lg bg-blue-50 px-4 py-3 text-sm text-blue-700">
+          ได้รับคำขอคืนเงินแล้ว — ทีมงานจะตรวจสอบและแจ้งผลภายใน 1-2 วันทำการ
+        </p>
+      )}
+      {error === "refund_reason" && (
+        <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">กรุณาระบุเหตุผลการขอคืนเงิน</p>
+      )}
+      {error === "refund_not_allowed" && (
+        <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+          ขอคืนเงินได้เฉพาะภายใน 7 วันหลังซื้อ และคำขอต้องไม่ซ้ำ
+        </p>
       )}
 
       {/* TASK-091: review prompts — verified purchase only */}
@@ -110,6 +123,26 @@ export default async function OrdersPage({
         <div className="space-y-4">
           {orders.map((order) => (
             <div key={order.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+              {order.status === "PAID" && Date.now() - order.createdAt.getTime() < 7 * 24 * 60 * 60 * 1000 && (
+                <details className="mb-3">
+                  <summary className="text-xs text-text-muted cursor-pointer hover:text-danger">
+                    มีปัญหากับคำสั่งซื้อนี้? ขอคืนเงิน (ภายใน 7 วัน)
+                  </summary>
+                  <form action={requestRefundAction} className="mt-2 flex flex-wrap gap-2">
+                    <input name="orderId" type="hidden" value={order.id} />
+                    <input
+                      className="flex-1 min-w-48 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      name="reason"
+                      placeholder="เหตุผล เช่น ไฟล์เปิดไม่ได้ / ไม่ตรงคำอธิบาย"
+                      required
+                      type="text"
+                    />
+                    <button className="border border-danger text-danger text-xs font-medium px-4 py-2 rounded-lg hover:bg-red-50" type="submit">
+                      ส่งคำขอคืนเงิน
+                    </button>
+                  </form>
+                </details>
+              )}
               <div className="flex items-center justify-between mb-3">
                 <div>
                   <p className="font-headline font-bold">

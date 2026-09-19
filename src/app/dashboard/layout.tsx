@@ -9,6 +9,7 @@ const NAV = [
   { href: "/dashboard/products/new", icon: "add_circle", label: "เพิ่มสื่อใหม่" },
   { href: "/dashboard/bundles", icon: "inventory_2", label: "สร้างชุดสื่อ" },
   { href: "/dashboard/earnings", icon: "payments", label: "รายได้" },
+  { href: "/dashboard/coupons", icon: "confirmation_number", label: "คูปอง" },
   { href: "/dashboard/analytics", icon: "query_stats", label: "สถิติ" },
   { href: "/dashboard/referrals", icon: "group_add", label: "แนะนำเพื่อน" },
   { href: "/dashboard/settings", icon: "storefront", label: "ตั้งค่าร้านค้า" },

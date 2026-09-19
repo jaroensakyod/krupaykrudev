@@ -14,9 +14,10 @@ export default async function AdminFinancePage({
   await requirePermission("payout:process");
   const { payout, refund, error, reconcile } = await searchParams;
 
-  const [payoutQueue, paidOrders, recon] = await Promise.all([
+  const [payoutQueue, paidOrders, refundQueue, recon] = await Promise.all([
     prisma.payout.findMany({ where: { status: "REQUESTED" }, orderBy: { requestedAt: "asc" } }),
     prisma.order.findMany({ where: { status: "PAID" }, orderBy: { createdAt: "desc" }, include: { items: true } }),
+    prisma.refund.findMany({ where: { status: "REQUESTED" }, orderBy: { createdAt: "asc" } }),
     reconcilePlatform(),
   ]);
 
@@ -53,6 +54,30 @@ export default async function AdminFinancePage({
           </form>
         </div>
       </div>
+
+      {/* Refund requests */}
+      {refundQueue.length > 0 && (
+        <div className="mb-8">
+          <h2 className="font-headline font-bold text-lg mb-3 text-danger">คำขอคืนเงินรอดำเนินการ ({refundQueue.length})</h2>
+          <div className="space-y-3">
+            {refundQueue.map((r) => (
+              <div key={r.id} className="bg-red-50 border border-red-200 rounded-xl p-5 flex flex-wrap items-center gap-3">
+                <div className="flex-1 min-w-48">
+                  <p className="font-headline font-bold text-sm">#{r.orderId.slice(0, 8).toUpperCase()} — ฿{r.amount.toNumber().toLocaleString()}</p>
+                  <p className="text-xs text-text-muted">เหตุผล: {r.reason} · แจ้งเมื่อ {r.createdAt.toLocaleDateString("th-TH")}</p>
+                </div>
+                <form action={refundAction}>
+                  <input name="orderId" type="hidden" value={r.orderId} />
+                  <input name="reason" type="hidden" value={r.reason} />
+                  <button className="bg-danger text-white text-xs font-medium px-4 py-2 rounded-lg hover:bg-danger/90" type="submit">
+                    อนุมัติคืนเงิน
+                  </button>
+                </form>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Payout queue */}
       <h2 className="font-headline font-bold text-lg mb-3">คิวถอนเงิน ({payoutQueue.length})</h2>

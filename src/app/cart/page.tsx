@@ -48,6 +48,9 @@ export default async function CartPage({
       {error === "unavailable" && (
         <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">มีสินค้าบางรายการไม่พร้อมขาย — ตะกร้าถูกอัปเดตแล้ว</p>
       )}
+      {error === "coupon" && (
+        <p className="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">โค้ดคูปองไม่ถูกต้องหรือหมดอายุ</p>
+      )}
 
       {items.length === 0 ? (
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-12 text-center">
@@ -91,7 +94,15 @@ export default async function CartPage({
             <p className="text-xs text-text-muted mb-4">
               ราคาจะถูกตรวจสอบใหม่ตอนชำระเงิน · ไฟล์พร้อมดาวน์โหลดทันทีหลังชำระเงิน
             </p>
-            <form action={checkoutAction}>
+            <form action={checkoutAction} className="space-y-3">
+              <div className="flex gap-2">
+                <input
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm uppercase"
+                  name="couponCode"
+                  placeholder="มีโค้ดคูปอง? กรอกที่นี่ (ถ้ามี)"
+                  type="text"
+                />
+              </div>
               <button
                 className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-3 rounded-lg transition-colors shadow-sm"
                 type="submit"

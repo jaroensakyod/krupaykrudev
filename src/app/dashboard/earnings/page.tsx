@@ -79,7 +79,16 @@ export default async function EarningsPage({
       )}
 
       {/* Sales */}
-      <h2 className="font-headline font-bold text-lg mb-3">รายการรับเงิน</h2>
+      <div className="flex items-center justify-between mb-3">
+        <h2 className="font-headline font-bold text-lg">รายการรับเงิน</h2>
+        {earnings.length > 0 && (
+          <a className="text-xs text-primary hover:underline flex items-center gap-1" href="/dashboard/earnings/export">
+            <MaterialIcon name="download" className="text-sm" />
+            ส่งออก CSV
+          </a>
+        )}
+      </div>
+      {false && <h2 className="font-headline font-bold text-lg mb-3">รายการรับเงิน</h2>}
       {earnings.length === 0 ? (
         <p className="text-sm text-text-muted bg-white rounded-xl border border-gray-100 p-6 text-center mb-8">
           ยังไม่มีรายการ — ยอดขายจะแสดงที่นี่ทันทีที่ขายได้

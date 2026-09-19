@@ -89,7 +89,7 @@ export async function cartPriced(userId: string) {
 /**
  * TASK-071/072/073: checkout — สร้าง order พร้อม snapshot + payment session
  */
-export async function checkout(userId: string) {
+export async function checkout(userId: string, couponCode?: string) {
   const { items, subtotal } = await cartPriced(userId);
   if (items.length === 0) throw new Error("EMPTY_CART");
 
@@ -109,6 +109,15 @@ export async function checkout(userId: string) {
 
   const feeRate = await activeFeeRate();
 
+  // V1.5: คูปองรายร้าน — ส่วนลดใช้เฉพาะสินค้าของร้านนั้น คิดฝั่ง server เสมอ
+  let coupon: { code: string; creatorId: string; discountPct: number } | null = null;
+  if (couponCode?.trim()) {
+    const { validateCoupon } = await import("@/lib/coupons");
+    coupon = await validateCoupon(couponCode);
+    if (!coupon) throw new Error("COUPON_INVALID");
+  }
+  let discountTotal = 0;
+
   const order = await prisma.order.create({
     data: {
       buyerId: userId,
@@ -118,7 +127,11 @@ export async function checkout(userId: string) {
         create: published.map((p) => {
           const bundle = bundles.find((b) => b.items.some((i) => i.productId === p.id));
           const regularTotal = bundle ? bundle.items.reduce((sum, i) => sum + i.product.price.toNumber(), 0) : 0;
-          const unitPrice = bundle && regularTotal > 0 ? Math.round((bundle.price.toNumber() * p.price.toNumber() / regularTotal) * 100) / 100 : p.price.toNumber();
+          const bundlePrice = bundle && regularTotal > 0 ? Math.round((bundle.price.toNumber() * p.price.toNumber() / regularTotal) * 100) / 100 : p.price.toNumber();
+          const unitPrice = coupon && coupon.creatorId === p.creatorId
+            ? Math.round(bundlePrice * (1 - coupon.discountPct / 100) * 100) / 100
+            : bundlePrice;
+          if (unitPrice < bundlePrice) discountTotal += Math.round((bundlePrice - unitPrice) * 100) / 100;
           const fee = Math.round(unitPrice * feeRate * 100) / 100;
           return {
             productId: p.id,
@@ -136,6 +149,16 @@ export async function checkout(userId: string) {
     include: { items: true },
   });
 
+  if (discountTotal > 0) {
+    const newTotal = Math.round((subtotal - discountTotal) * 100) / 100;
+    await prisma.order.update({
+      where: { id: order.id },
+      data: { discountTotal, total: newTotal },
+    });
+    order.discountTotal = new (await import("@prisma/client")).Prisma.Decimal(discountTotal);
+    order.total = new (await import("@prisma/client")).Prisma.Decimal(newTotal);
+  }
+
   // TASK-075: payment session (mock provider)
   const payment = await prisma.payment.create({
     data: {
@@ -148,8 +171,8 @@ export async function checkout(userId: string) {
 
   await prisma.cartItem.deleteMany({ where: { cartId: (await getOrCreateCart(userId)).id } });
 
-  logger.info("order_created", { orderId: order.id, total: order.total.toNumber(), items: order.items.length });
-  return { order, payment };
+  logger.info("order_created", { orderId: order.id, total: order.total.toNumber(), discount: discountTotal, coupon: coupon?.code, items: order.items.length });
+  return { order, payment, discountTotal, couponCode: coupon?.code ?? null };
 }
 
 /**
