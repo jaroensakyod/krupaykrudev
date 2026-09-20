@@ -5,6 +5,7 @@ import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
+import { siteConfig } from "@/lib/site";
 
 /**
  * §6: password reset + email verification flows
@@ -40,8 +41,11 @@ export async function requestPasswordResetAction(
   const user = await prisma.user.findUnique({ where: { email } });
   if (user) {
     const token = await issueToken(email, "reset");
-    const link = `/reset-password?token=${token}`;
-    logger.info("password_reset_link (dev — แทนด้วย email ใน Phase 13)", { email, link });
+    const link = `${siteConfig.url}/reset-password?token=${token}`;
+    // TASK-13x: ส่งอีเมลจริง (no-op ถ้ายังไม่ตั้ง RESEND_API_KEY) + in-app notification สำรอง
+    const { sendPasswordResetEmail } = await import("@/lib/email");
+    await sendPasswordResetEmail(email, link);
+    logger.info("password_reset_link", { email, viaEmail: true });
     await prisma.notification.create({
       data: {
         userId: user.id,
@@ -94,8 +98,10 @@ export async function requestEmailVerificationAction(
   const user = await prisma.user.findUnique({ where: { email } });
   if (user && !user.emailVerified) {
     const token = await issueToken(email, "verify");
-    const link = `/verify-email?token=${token}`;
-    logger.info("email_verification_link (dev)", { email, link });
+    const link = `${siteConfig.url}/verify-email?token=${token}`;
+    const { sendEmailVerificationEmail } = await import("@/lib/email");
+    await sendEmailVerificationEmail(email, link);
+    logger.info("email_verification_link", { email, viaEmail: true });
     await prisma.notification.create({
       data: {
         userId: user.id,

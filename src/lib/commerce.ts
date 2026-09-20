@@ -245,11 +245,13 @@ export async function fulfillPaidPayment(providerPaymentId: string) {
 
   // TASK-094: แจ้งเตือน — new sale ให้ creator + payment success ให้ buyer
   const notifiedCreators = new Set<string>();
+  const notifiedCreatorUserIds = new Set<string>();
   for (const item of payment.order.items) {
     if (!notifiedCreators.has(item.creatorId)) {
       notifiedCreators.add(item.creatorId);
       const creatorProfile = await prisma.creatorProfile.findUnique({ where: { id: item.creatorId }, select: { userId: true } });
       if (creatorProfile) {
+        notifiedCreatorUserIds.add(creatorProfile.userId);
         const { notify } = await import("@/lib/notifications");
         await notify({
           userId: creatorProfile.userId,
@@ -271,6 +273,33 @@ export async function fulfillPaidPayment(providerPaymentId: string) {
       linkUrl: "/account/downloads",
     });
   }
+
+  // TASK-13x: email receipts — ใบเสร็จให้ผู้ซื้อ + แจ้งขายให้ผู้ขาย (no-op ถ้ายังไม่ตั้ง RESEND_API_KEY)
+  void (async () => {
+    try {
+      const { sendOrderReceiptEmail, sendSaleNotificationEmail } = await import("@/lib/email");
+      const buyer = await prisma.user.findUnique({
+        where: { id: payment.order.buyerId },
+        select: { email: true },
+      });
+      if (buyer?.email) {
+        await sendOrderReceiptEmail(
+          buyer.email,
+          payment.orderId,
+          payment.order.items.map((i) => ({ title: i.title, price: i.unitPrice.toNumber() })),
+          payment.amount.toNumber(),
+        );
+      }
+      for (const creatorUserId of notifiedCreatorUserIds) {
+        const creator = await prisma.user.findUnique({ where: { id: creatorUserId }, select: { email: true } });
+        if (creator?.email) {
+          await sendSaleNotificationEmail(creator.email, payment.order.items[0]?.title ?? "สื่อของคุณ", payment.orderId);
+        }
+      }
+    } catch (error) {
+      logger.error("fulfillment_email_error", { orderId: payment.orderId, error: String(error) });
+    }
+  })();
 
   // TASK-107: purchase attribution — ต่อ creator/product เพื่อ funnel analytics
   const { trackEvent } = await import("@/lib/analytics");

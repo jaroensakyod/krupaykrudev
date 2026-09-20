@@ -37,7 +37,7 @@ export function LoginFields() {
           <label className="block text-sm font-medium text-text-main" htmlFor="login-password">
             รหัสผ่าน
           </label>
-          <a className="text-xs font-medium text-primary hover:underline" href="/help">
+          <a className="text-xs font-medium text-primary hover:underline" href="/forgot-password">
             ลืมรหัสผ่าน?
           </a>
         </div>
