@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 /**
  * Next.js 16 request boundary (proxy):
@@ -7,20 +8,20 @@ import { NextResponse, type NextRequest } from "next/server";
  * - อุปกรณ์พิธี (cookie launch_admin) เห็นเว็บจริงทันที
  */
 
-// cache สถานะสั้น ๆ กันยิง status API ทุก request
+// cache สถานะสั้น ๆ กันยิง DB ทุก request
+// อ่าน LaunchFlag จาก DB ตรง ๆ (proxy รันบน Node.js runtime ใน Next 16)
+// เดิม fetch `${origin}/api/launch-status` วิ่งออกเน็ตแล้ววนกลับผ่าน Cloudflare
+// ทำให้เกิด request "node" หลายร้อยครั้ง/วัน และเสี่ยงโดน Bot Fight Mode บล็อก
+// จนทุกคนถูกส่งไป /coming-soon
 let cached: { live: boolean; at: number } | null = null;
-const CACHE_MS = 5000;
+const CACHE_MS = 30_000;
 
-async function isLive(origin: string): Promise<boolean> {
+async function isLive(): Promise<boolean> {
   const now = Date.now();
   if (cached && now - cached.at < CACHE_MS) return cached.live;
   try {
-    const res = await fetch(`${origin}/api/launch-status`, {
-      cache: "no-store",
-      signal: AbortSignal.timeout(2500),
-    });
-    const data = (await res.json()) as { live: boolean };
-    cached = { live: Boolean(data.live), at: now };
+    const flag = await prisma.launchFlag.findUnique({ where: { key: "site" } });
+    cached = { live: flag?.live ?? false, at: now };
   } catch {
     if (cached) return cached.live;
     cached = { live: false, at: now };
@@ -74,7 +75,7 @@ export async function proxy(request: NextRequest) {
 
   if (!exempt && !pathname.startsWith("/coming-soon")) {
     if (!request.cookies.get("launch_admin")) {
-      const live = await isLive(request.nextUrl.origin);
+      const live = await isLive();
       if (!live) {
         const launchUrl = request.nextUrl.clone();
         launchUrl.pathname = "/coming-soon";
